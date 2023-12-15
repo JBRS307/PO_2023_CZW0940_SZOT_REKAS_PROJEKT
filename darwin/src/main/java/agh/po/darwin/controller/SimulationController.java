@@ -28,17 +28,16 @@ public class SimulationController implements MapChangeListener {
      * This method will be invoked after simulation object is assign to this simulation controller
      */
     protected void lateInitialize() {
+        drawMap();
+    }
 
+    private synchronized void drawMap() {
         for (int i = 0; i < getSimulation().width; i++) {
             mapGrid.addColumn(i);
         }
         for (int i = 0; i < getSimulation().height; i++) {
             mapGrid.addRow(i);
         }
-        drawMap();
-    }
-
-    private synchronized void drawMap() {
         Image dirt = new Image(Objects.requireNonNull(getClass().getResource("/bg.png")).toExternalForm(), 100, 100, false, false);
         Image grass = new Image(Objects.requireNonNull(getClass().getResource("/grass.png")).toExternalForm(), 100, 100, false, false);
         Image animal = new Image(Objects.requireNonNull(getClass().getResource("/animal.png")).toExternalForm(), 100, 100, false, false);
@@ -62,16 +61,14 @@ public class SimulationController implements MapChangeListener {
     }
 
     private void clearGrid() {
-        mapGrid.getChildren().retainAll(mapGrid.getChildren().get(0)); // hack to retain visible grid lines
-        mapGrid.getColumnConstraints().clear();
-        mapGrid.getRowConstraints().clear();
+        mapGrid.getChildren().clear();
     }
 
     @Override
     public synchronized void mapChanged(WorldMap worldMap, String message) {
         if (worldMap != null) {
-            drawMap();
             clearGrid();
+            drawMap();
         }
     }
 }

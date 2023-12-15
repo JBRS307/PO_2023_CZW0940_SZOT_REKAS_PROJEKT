@@ -5,6 +5,7 @@ import java.util.UUID;
 
 public class Animal implements WorldElement {
     private final UUID uuid;
+    private final int genomeLength;
     private Vector2d position;
     private int energy;
     private Genome genome;
@@ -16,6 +17,7 @@ public class Animal implements WorldElement {
     public Animal(Vector2d position, int genomeLength) {
         this.uuid = UUID.randomUUID();
         this.position = position;
+        this.genomeLength = genomeLength;
         genome = new Genome(genomeLength);
     }
 
@@ -67,8 +69,18 @@ public class Animal implements WorldElement {
         this.amountOfChildren = amountOfChildren;
     }
 
-    public void update() {
-    //new day
+    public void update(AbstractMap map) {
+        //new day
+        int nextGene = genome.nextInt();
+        int newDirectionIndex = (direction.toInt() + nextGene) % 8;
+        this.direction = MapDirection.fromInt(newDirectionIndex);
+        var newPos = this.position.add(this.direction.toUnitVector());
+
+        if (map.canMoveTo(newPos)) {
+            map.move(this.position, newPos);
+            this.position = newPos;
+        }
+
     }
 
     @Override

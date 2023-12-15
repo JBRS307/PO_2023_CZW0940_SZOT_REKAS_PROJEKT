@@ -2,7 +2,7 @@ package agh.po.darwin.model;
 
 import agh.po.darwin.exception.PositionAlreadyOccupiedException;
 
-public interface WorldMap {
+public interface WorldMap extends MoveValidator{
     void place(Animal animal) throws PositionAlreadyOccupiedException;
 
     Boundary getCurrentBounds();

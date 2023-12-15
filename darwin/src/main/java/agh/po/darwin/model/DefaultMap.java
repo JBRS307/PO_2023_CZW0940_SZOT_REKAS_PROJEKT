@@ -1,5 +1,8 @@
 package agh.po.darwin.model;
 
+import java.util.Iterator;
+import java.util.Map;
+
 public class DefaultMap extends AbstractMap {
 
     final int width;
@@ -12,9 +15,14 @@ public class DefaultMap extends AbstractMap {
 
     @Override
     public void update() {
-        animals.forEach((pos, animal) -> {
-            animal.update();
-        });
+        Iterator<Map.Entry<Vector2d, Animal>> it = animals.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry<Vector2d, Animal> entry = it.next();
+            var animal = entry.getValue();
+            animal.update(this);
+        }
+
+        mapChanged("");
     }
 
     @Override
@@ -23,4 +31,8 @@ public class DefaultMap extends AbstractMap {
     }
 
 
+    @Override
+    public boolean canMoveTo(Vector2d position) {
+        return true;
+    }
 }

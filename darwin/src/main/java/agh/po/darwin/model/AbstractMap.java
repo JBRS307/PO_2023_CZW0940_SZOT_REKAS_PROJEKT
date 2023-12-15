@@ -2,14 +2,16 @@ package agh.po.darwin.model;
 
 
 import agh.po.darwin.exception.PositionAlreadyOccupiedException;
+import javafx.application.Platform;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public abstract class AbstractMap implements WorldMap {
-    protected Map<Vector2d, Animal> animals = new HashMap<>();
-    protected Map<Vector2d, Grass> grassFields = new HashMap<>();
+    protected Map<Vector2d, Animal> animals = new ConcurrentHashMap<>();
+    protected Map<Vector2d, Grass> grassFields = new ConcurrentHashMap<>();
     protected LinkedList<MapChangeListener> subscribers = new LinkedList<>();
 
     public void registerSubscriber(MapChangeListener mapChangeListener) {
@@ -21,9 +23,16 @@ public abstract class AbstractMap implements WorldMap {
     }
 
     protected void mapChanged(String msg) {
-        for (var subscriber : subscribers) {
-            subscriber.mapChanged(this, msg);
-        }
+        var map = this;
+        Platform.runLater(new Runnable() {
+            @Override
+            public void run() {
+                for (var subscriber : subscribers) {
+                    subscriber.mapChanged(map, msg);
+                }
+            }
+        });
+
     }
 
     public boolean isOccupied(Vector2d position) {
@@ -42,4 +51,8 @@ public abstract class AbstractMap implements WorldMap {
     }
 
 
+    public synchronized void move(Vector2d position, Vector2d newPos) {
+        this.animals.put(newPos, this.animals.get(position));
+        this.animals.remove(position);
+    }
 }

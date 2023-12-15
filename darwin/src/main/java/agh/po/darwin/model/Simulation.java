@@ -19,7 +19,7 @@ public class Simulation {
     public final int genomeLength;
 
     protected long day = 0L;
-    protected float speed = 1;
+    protected float speed = .5f;
 
     protected boolean shouldClose = false;
     protected AbstractMap worldMap;
