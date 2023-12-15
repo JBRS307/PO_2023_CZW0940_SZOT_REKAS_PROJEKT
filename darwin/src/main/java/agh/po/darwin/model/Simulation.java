@@ -19,7 +19,7 @@ public class Simulation {
     public final int genomeLength;
 
     protected long day = 0L;
-    protected float speed = .5f;
+    protected float speed = 1;
 
     protected boolean shouldClose = false;
     protected AbstractMap worldMap;
@@ -83,7 +83,6 @@ public class Simulation {
     }
 
     public synchronized void update() {
-        System.out.println("Simulation: " + this.uuid + " Day: " + day);
         worldMap.update();
         day += 1;
     }

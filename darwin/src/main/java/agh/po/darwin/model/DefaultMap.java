@@ -27,12 +27,17 @@ public class DefaultMap extends AbstractMap {
 
     @Override
     public Boundary getCurrentBounds() {
-        return new Boundary(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
+        return new Boundary(new Vector2d(0, 0), new Vector2d(width - 1, height-1));
     }
-
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return true;
+        return position.getX() >= getCurrentBounds().leftDownBoundary().getX() &&
+                position.getX() <= getCurrentBounds().rightUpperBoundary().getX() &&
+                position.getY() >= getCurrentBounds().leftDownBoundary().getY() &&
+                position.getY() <= getCurrentBounds().rightUpperBoundary().getY();
+
     }
+
+
 }
