@@ -70,6 +70,7 @@ public class AppController {
             @Override
             public void handle(WindowEvent event) {
                 try {
+                    simulation.stop();
                     simulationThread.join();
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);

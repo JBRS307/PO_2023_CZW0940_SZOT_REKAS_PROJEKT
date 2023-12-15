@@ -16,6 +16,7 @@ public class Simulation {
     public final int minMutations;
     public final int maxMutations;
     public final int genomeLength;
+    protected boolean shouldClose = false;
 
 
     public Simulation(int width, int height, int startingGrassAmount, int grassEatingEnergy, int grassGrowthPerDay, int animalsStartAmount, int animalsStartEnergy, int fedEnergy, int breedEnergyCost, int minMutations, int maxMutations, int genomeLength) {
@@ -32,7 +33,7 @@ public class Simulation {
         this.minMutations = minMutations;
         this.maxMutations = maxMutations;
         this.genomeLength = genomeLength;
-        initializeSimulation();
+
     }
 
     private void initializeSimulation() {
@@ -40,5 +41,17 @@ public class Simulation {
     }
 
     public void run() {
+        initializeSimulation();
+        while (!shouldClose) {
+            update();
+        }
+    }
+
+    public void update() {
+        System.out.println(this.uuid);
+    }
+
+    public void stop() {
+        shouldClose = true;
     }
 }
