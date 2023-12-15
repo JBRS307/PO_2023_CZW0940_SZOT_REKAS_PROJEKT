@@ -69,9 +69,16 @@ public class Simulation {
         }
     }
 
-    public void run() {
+    public void run()  {
         while (!shouldClose) {
             update();
+            //base speed is to update once per second
+            try {
+                Thread.sleep((long) (speed * 1000));
+            } catch (InterruptedException e) {
+                //when InterruptedException we cannot do anything ;(, i will just pass it upper then.
+                throw new RuntimeException(e);
+            }
         }
     }
 
