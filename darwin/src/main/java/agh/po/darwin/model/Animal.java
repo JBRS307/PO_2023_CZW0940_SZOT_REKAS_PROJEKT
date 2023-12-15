@@ -7,7 +7,7 @@ public class Animal implements WorldElement{
     private final UUID uuid;
     private Vector2d position;
     private int energy;
-    private String genome;
+    private Genome genome;
     private int lifeTime;
     private int amountOfChildren;
 
@@ -15,9 +15,10 @@ public class Animal implements WorldElement{
         this.uuid = UUID.randomUUID();
     }
 
-    public Animal(Vector2d position) {
+    public Animal(Vector2d position, int genomeLength) {
         this.uuid = UUID.randomUUID();
         this.position = position;
+        genome = new Genome(genomeLength);
     }
 
     /**
@@ -44,11 +45,11 @@ public class Animal implements WorldElement{
         this.energy = energy;
     }
 
-    public String getGenome() {
+    public Genome getGenome() {
         return genome;
     }
 
-    public void setGenome(String genome) {
+    public void setGenome(Genome genome) {
         this.genome = genome;
     }
 
@@ -67,7 +68,7 @@ public class Animal implements WorldElement{
     public void setAmountOfChildren(int amountOfChildren) {
         this.amountOfChildren = amountOfChildren;
     }
-
+    public void update(){}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

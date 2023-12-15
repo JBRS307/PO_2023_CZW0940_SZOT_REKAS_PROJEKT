@@ -65,11 +65,11 @@ public class Simulation {
                 i--;
                 continue;
             }
-            worldMap.place(new Animal(randomPos));
+            worldMap.place(new Animal(randomPos, genomeLength));
         }
     }
 
-    public void run()  {
+    public void run() {
         while (!shouldClose) {
             update();
             //base speed is to update once per second
@@ -83,6 +83,7 @@ public class Simulation {
     }
 
     public synchronized void update() {
+        System.out.println("Simulation: " + this.uuid + " Day: " + day);
         worldMap.update();
         day += 1;
     }

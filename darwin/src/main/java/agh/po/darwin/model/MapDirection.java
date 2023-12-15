@@ -10,9 +10,10 @@ public enum MapDirection {
     WEST,
     NORTH_WEST;
 
+
     @Override
     public String toString() {
-        return switch (this){
+        return switch (this) {
             case EAST -> "Wschód";
             case WEST -> "Zachód";
             case NORTH -> "Północ";
@@ -24,8 +25,8 @@ public enum MapDirection {
         };
     }
 
-    public MapDirection next(){
-        return switch (this){
+    public MapDirection next() {
+        return switch (this) {
             case EAST -> SOUTH_EAST;
             case WEST -> NORTH_WEST;
             case NORTH -> NORTH_EAST;
@@ -37,8 +38,8 @@ public enum MapDirection {
         };
     }
 
-    public MapDirection previous(){
-        return switch (this){
+    public MapDirection previous() {
+        return switch (this) {
             case EAST -> NORTH_EAST;
             case WEST -> SOUTH_WEST;
             case NORTH -> NORTH_WEST;
@@ -50,16 +51,43 @@ public enum MapDirection {
         };
     }
 
-    public Vector2d toUnitVector (){
+    public Vector2d toUnitVector() {
         return switch (this) {
-            case EAST -> new Vector2d(1,0);
-            case WEST -> new Vector2d(-1,0);
-            case NORTH -> new Vector2d(0,1);
-            case SOUTH -> new Vector2d(0,-1);
-            case NORTH_EAST -> new Vector2d(1,1);
-            case SOUTH_EAST -> new Vector2d(1,-1);
-            case NORTH_WEST -> new Vector2d(-1,1);
-            case SOUTH_WEST -> new Vector2d(-1,-1);
+            case EAST -> new Vector2d(1, 0);
+            case WEST -> new Vector2d(-1, 0);
+            case NORTH -> new Vector2d(0, 1);
+            case SOUTH -> new Vector2d(0, -1);
+            case NORTH_EAST -> new Vector2d(1, 1);
+            case SOUTH_EAST -> new Vector2d(1, -1);
+            case NORTH_WEST -> new Vector2d(-1, 1);
+            case SOUTH_WEST -> new Vector2d(-1, -1);
+        };
+    }
+
+    public int toInt() {
+        return switch (this) {
+            case EAST -> 1;
+            case WEST -> 2;
+            case NORTH -> 3;
+            case SOUTH -> 4;
+            case NORTH_EAST -> 5;
+            case SOUTH_EAST -> 6;
+            case NORTH_WEST -> 7;
+            case SOUTH_WEST -> 8;
+        };
+    }
+
+    public static MapDirection fromInt(int i) {
+        return switch (i) {
+            case 1 -> NORTH_EAST;
+            case 2 -> SOUTH_WEST;
+            case 3 -> NORTH_WEST;
+            case 4 -> SOUTH_EAST;
+            case 5 -> NORTH;
+            case 6 -> EAST;
+            case 7 -> WEST;
+            case 8 -> SOUTH;
+            default -> throw new IllegalStateException("Unexpected value: " + i);
         };
     }
 }

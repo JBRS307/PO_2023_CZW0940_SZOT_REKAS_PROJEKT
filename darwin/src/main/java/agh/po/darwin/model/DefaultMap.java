@@ -12,7 +12,9 @@ public class DefaultMap extends AbstractMap {
 
     @Override
     public void update() {
-
+        animals.forEach((pos, animal) -> {
+            animal.update();
+        });
     }
 
     @Override
