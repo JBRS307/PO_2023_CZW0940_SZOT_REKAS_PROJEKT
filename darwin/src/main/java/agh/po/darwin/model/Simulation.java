@@ -65,10 +65,9 @@ public class Simulation {
                 i--;
                 continue;
             }
-            worldMap.place(new Animal(randomPos, genomeLength));
+            worldMap.place(new Animal(randomPos, genomeLength, animalsStartEnergy, fedEnergy));
         }
     }
-
     public void run() {
         while (!shouldClose) {
             update();

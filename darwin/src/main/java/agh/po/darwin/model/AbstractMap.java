@@ -55,4 +55,8 @@ public abstract class AbstractMap implements WorldMap {
         this.animals.put(newPos, this.animals.get(position));
         this.animals.remove(position);
     }
+
+    public void killAnimal(Vector2d position) {
+        this.animals.remove(position);
+    }
 }
