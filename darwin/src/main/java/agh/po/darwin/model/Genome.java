@@ -3,7 +3,7 @@ package agh.po.darwin.model;
 import java.util.Iterator;
 import java.util.Random;
 
-public class Genome implements Iterator<MapDirection> {
+public class Genome {
     private String code;
     private int current = 0;
 
@@ -21,16 +21,21 @@ public class Genome implements Iterator<MapDirection> {
         this.code = code;
     }
 
-    @Override
+
     public boolean hasNext() {
         return true;
     }
 
-    @Override
-    public MapDirection next() {
+    public MapDirection nextDirection() {
         int index = Integer.parseInt(String.valueOf(code.charAt((current) % code.length())));
         current += 1;
         return MapDirection.fromInt(index);
+    }
+
+    public int nextInt() {
+        int index = Integer.parseInt(String.valueOf(code.charAt((current) % code.length())));
+        current += 1;
+        return index;
     }
 
     private String generateRandomDigits(int length) {

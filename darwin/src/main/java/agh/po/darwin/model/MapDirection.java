@@ -80,14 +80,27 @@ public enum MapDirection {
     public static MapDirection fromInt(int i) {
         return switch (i) {
             case 1 -> NORTH_EAST;
-            case 2 -> SOUTH_WEST;
-            case 3 -> NORTH_WEST;
-            case 4 -> SOUTH_EAST;
-            case 5 -> NORTH;
-            case 6 -> EAST;
-            case 7 -> WEST;
-            case 8 -> SOUTH;
+            case 5 -> SOUTH_WEST;
+            case 7 -> NORTH_WEST;
+            case 3 -> SOUTH_EAST;
+            case 0 -> NORTH;
+            case 2 -> EAST;
+            case 6 -> WEST;
+            case 4 -> SOUTH;
             default -> throw new IllegalStateException("Unexpected value: " + i);
+        };
+    }
+
+    public static int toInt(MapDirection direction) {
+        return switch (direction) {
+            case NORTH_EAST -> 1;
+            case SOUTH_WEST -> 5;
+            case NORTH_WEST -> 7;
+            case SOUTH_EAST -> 3;
+            case NORTH -> 0;
+            case EAST -> 2;
+            case WEST -> 6;
+            case SOUTH -> 4;
         };
     }
 }

@@ -3,7 +3,7 @@ package agh.po.darwin.model;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Animal implements WorldElement{
+public class Animal implements WorldElement {
     private final UUID uuid;
     private Vector2d position;
     private int energy;
@@ -11,9 +11,7 @@ public class Animal implements WorldElement{
     private int lifeTime;
     private int amountOfChildren;
 
-    public Animal() {
-        this.uuid = UUID.randomUUID();
-    }
+    private MapDirection direction = MapDirection.NORTH;
 
     public Animal(Vector2d position, int genomeLength) {
         this.uuid = UUID.randomUUID();
@@ -68,7 +66,11 @@ public class Animal implements WorldElement{
     public void setAmountOfChildren(int amountOfChildren) {
         this.amountOfChildren = amountOfChildren;
     }
-    public void update(){}
+
+    public void update() {
+    //new day
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
