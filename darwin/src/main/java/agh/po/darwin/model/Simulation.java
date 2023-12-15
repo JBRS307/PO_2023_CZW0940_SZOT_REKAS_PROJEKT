@@ -10,7 +10,7 @@ public class Simulation {
     public final int startingGrassAmount;
     public final int grassGrowthPerDay;
     public final int grassEatingEnergy;
-    public final int animalsStartAmount;
+    public final int startingAnimalsAmount;
     public final int animalsStartEnergy;
     public final int fedEnergy;
     public final int breedEnergyCost;
@@ -25,14 +25,14 @@ public class Simulation {
     protected AbstractMap worldMap;
 
 
-    public Simulation(int width, int height, int startingGrassAmount, int grassEatingEnergy, int grassGrowthPerDay, int animalsStartAmount, int animalsStartEnergy, int fedEnergy, int breedEnergyCost, int minMutations, int maxMutations, int genomeLength) {
+    public Simulation(int width, int height, int startingGrassAmount, int grassEatingEnergy, int grassGrowthPerDay, int startingAnimalsAmount, int animalsStartEnergy, int fedEnergy, int breedEnergyCost, int minMutations, int maxMutations, int genomeLength) {
         this.uuid = UUID.randomUUID();
         this.width = width;
         this.height = height;
         this.startingGrassAmount = startingGrassAmount;
         this.grassEatingEnergy = grassEatingEnergy;
         this.grassGrowthPerDay = grassGrowthPerDay;
-        this.animalsStartAmount = animalsStartAmount;
+        this.startingAnimalsAmount = startingAnimalsAmount;
         this.animalsStartEnergy = animalsStartEnergy;
         this.fedEnergy = fedEnergy;
         this.breedEnergyCost = breedEnergyCost;
@@ -59,7 +59,7 @@ public class Simulation {
 
         }
         //then spawn animals
-        for (int i = 0; i < animalsStartAmount; i++) {
+        for (int i = 0; i < startingAnimalsAmount; i++) {
             var randomPos = new Vector2d(random.nextInt(0, width), random.nextInt(0, height));
             if (worldMap.isOccupied(randomPos)) {
                 i--;
