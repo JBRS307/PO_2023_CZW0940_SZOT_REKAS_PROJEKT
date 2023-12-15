@@ -1,31 +1,24 @@
 package agh.po.darwin.model;
 
-import agh.po.darwin.exception.PositionAlreadyOccupiedException;
+public class DefaultMap extends AbstractMap {
 
-public class DefaultMap implements WorldMap {
+    final int width;
+    final int height;
+
+    public DefaultMap(int width, int height) {
+        this.width = width;
+        this.height = height;
+    }
 
     @Override
-    public void place(Animal animal) throws PositionAlreadyOccupiedException {
+    public void update() {
 
     }
 
     @Override
     public Boundary getCurrentBounds() {
-        return null;
+        return new Boundary(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
     }
 
-    @Override
-    public void move(Animal animal, MapDirection direction) {
 
-    }
-
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        return false;
-    }
-
-    @Override
-    public WorldElement objectAt(Vector2d position) {
-        return null;
-    }
 }

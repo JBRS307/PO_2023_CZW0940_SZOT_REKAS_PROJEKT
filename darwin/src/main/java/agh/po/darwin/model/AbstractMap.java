@@ -37,7 +37,9 @@ public abstract class AbstractMap implements WorldMap {
 
     public abstract void update();
 
-    public abstract void place(Animal animal);
+    public void place(Animal animal) {
+        this.animals.put(animal.getPosition(), animal);
+    }
 
 
 }

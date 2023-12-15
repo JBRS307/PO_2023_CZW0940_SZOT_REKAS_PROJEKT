@@ -1,5 +1,6 @@
 package agh.po.darwin.model;
 
+import java.util.Random;
 import java.util.UUID;
 
 public class Simulation {
@@ -16,7 +17,12 @@ public class Simulation {
     public final int minMutations;
     public final int maxMutations;
     public final int genomeLength;
+
+    protected long day = 0L;
+    protected float speed = 1;
+
     protected boolean shouldClose = false;
+    protected AbstractMap worldMap;
 
 
     public Simulation(int width, int height, int startingGrassAmount, int grassEatingEnergy, int grassGrowthPerDay, int animalsStartAmount, int animalsStartEnergy, int fedEnergy, int breedEnergyCost, int minMutations, int maxMutations, int genomeLength) {
@@ -33,25 +39,53 @@ public class Simulation {
         this.minMutations = minMutations;
         this.maxMutations = maxMutations;
         this.genomeLength = genomeLength;
+        initializeSimulation();
 
     }
 
     private void initializeSimulation() {
+        worldMap = new DefaultMap(width, height);
+        var random = new Random();
 
+        //first lets spawn grass
+        for (int i = 0; i < startingGrassAmount; i++) {
+
+            var randomPos = new Vector2d(random.nextInt(0, width), random.nextInt(0, height));
+            if (worldMap.grassFields.get(randomPos) != null) {
+                i--;
+                continue;
+            }
+            worldMap.grassFields.put(randomPos, new Grass());
+
+        }
+        //then spawn animals
+        for (int i = 0; i < animalsStartAmount; i++) {
+            var randomPos = new Vector2d(random.nextInt(0, width), random.nextInt(0, height));
+            if (worldMap.isOccupied(randomPos)) {
+                i--;
+                continue;
+            }
+            worldMap.place(new Animal(randomPos));
+        }
     }
 
     public void run() {
-        initializeSimulation();
         while (!shouldClose) {
             update();
         }
     }
 
-    public void update() {
-        System.out.println(this.uuid);
+    public synchronized void update() {
+        worldMap.update();
+        day += 1;
     }
 
     public void stop() {
         shouldClose = true;
     }
+
+    public AbstractMap getWorldMap() {
+        return worldMap;
+    }
+
 }

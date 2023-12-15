@@ -8,12 +8,6 @@ public interface WorldMap {
     Boundary getCurrentBounds();
 
     /**
-     * Moves an animal (if it is present on the map) according to specified direction.
-     * If the move is not possible, this method has no effect.
-     */
-    void move(Animal animal, MapDirection direction);
-
-    /**
      * Return true if given position on the map is occupied. Should not be
      * confused with canMove since there might be empty positions where the animal
      * cannot move.

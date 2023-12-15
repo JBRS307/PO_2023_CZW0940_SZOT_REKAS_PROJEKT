@@ -10,10 +10,10 @@
       fx:controller="agh.po.darwin.controller.AppController">
 
     <Label text="Szerokość Mapy"/>
-    <TextField fx:id="width" promptText="Szerokość Mapy" text="100"/>
+    <TextField fx:id="width" promptText="Szerokość Mapy" text="30"/>
 
     <Label text="Wysokość Mapy"/>
-    <TextField fx:id="height" promptText="Wysokość Mapy" text="100"/>
+    <TextField fx:id="height" promptText="Wysokość Mapy" text="20"/>
 
     <!-- MAP VARIANT -->
     <Label text="Startowa liczba roślin"/>
@@ -27,7 +27,7 @@
 
     <!-- GROWTH VARIANT -->
     <Label text="Startowa liczba zwierzaków"/>
-    <TextField fx:id="animalsStartAmount" promptText="Startowa liczba zwierzaków" text="20"/>
+    <TextField fx:id="animalsStartAmount" promptText="Startowa liczba zwierzaków" text="5"/>
 
     <Label text="Startowa energia zwierzaków"/>
     <TextField fx:id="animalsStartEnergy" promptText="Startowa energia zwierzaków" text="100"/>

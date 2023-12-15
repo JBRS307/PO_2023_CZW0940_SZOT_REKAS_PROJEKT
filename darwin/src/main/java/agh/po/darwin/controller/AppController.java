@@ -53,6 +53,7 @@ public class AppController {
         //OPEN simulation window
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getClassLoader().getResource("simulation.fxml"));
+
         Stage newStage = new Stage();
         try {
             Parent root = loader.load();
@@ -62,6 +63,9 @@ public class AppController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        SimulationController simulationController = loader.getController();
+        simulationController.setSimulation(simulation);
 
         //Create new Thread and start new simulation inside
         Thread simulationThread = new Thread(simulation::run);
