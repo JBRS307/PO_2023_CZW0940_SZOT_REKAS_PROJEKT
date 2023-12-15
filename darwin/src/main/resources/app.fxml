@@ -1,8 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.BorderPane?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            minHeight="550.0" minWidth="850.0"
-            fx:controller="agh.po.darwin.controller.AppController">
-</BorderPane>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      minHeight="800.0" minWidth="400.0"
+      fx:controller="agh.po.darwin.controller.AppController">
+
+    <Label text="Szerokość Mapy"/>
+    <TextField fx:id="width" promptText="Szerokość Mapy" text="100"/>
+
+    <Label text="Wysokość Mapy"/>
+    <TextField fx:id="height" promptText="Wysokość Mapy" text="100"/>
+
+    <!-- MAP VARIANT -->
+    <Label text="Startowa liczba roślin"/>
+    <TextField fx:id="startingGrassAmount" promptText="Startowa liczba roślin" text="20"/>
+
+    <Label text="Energia zapewniana przez zjedzenie jednej rośliny"/>
+    <TextField fx:id="grassEatingEnergy" promptText="Energia zapewniana przez zjedzenie jednej rośliny" text="20"/>
+
+    <Label text="Liczba roślin wyrastających każdego dnia"/>
+    <TextField fx:id="grassGrowthPerDay" promptText="Liczba roślin wyrastających każdego dnia" text="10"/>
+
+    <!-- GROWTH VARIANT -->
+    <Label text="Startowa liczba zwierzaków"/>
+    <TextField fx:id="animalsStartAmount" promptText="Startowa liczba zwierzaków" text="20"/>
+
+    <Label text="Startowa energia zwierzaków"/>
+    <TextField fx:id="animalsStartEnergy" promptText="Startowa energia zwierzaków" text="100"/>
+
+    <Label text="Energia konieczna, by uznać zwierzaka za najedzonego (i gotowego do rozmnażania)"/>
+    <TextField fx:id="fedEnergy"
+               promptText="Energia konieczna, by uznać zwierzaka za najedzonego (i gotowego do rozmnażania)"
+               text="60"/>
+
+    <Label text="Energia rodziców zużywana by stworzyć potomka"/>
+    <TextField fx:id="breedEnergyCost" promptText="Energia rodziców zużywana by stworzyć potomka" text="30"/>
+
+    <Label text="Minimalna liczba mutacji u potomków"/>
+    <TextField fx:id="minMutations" promptText="Minimalna liczba mutacji u potomków" text="0"/>
+
+    <Label text="Maksymalna liczba mutacji u potomków"/>
+    <TextField fx:id="maxMutations" promptText="Maksymalna liczba mutacji u potomków" text="2"/>
+
+    <Label text="Długość genomu zwierzaków"/>
+    <TextField fx:id="genomeLength" promptText="Długość genomu zwierzaków" text="20"/>
+
+    <!--ANIMAL BEHAVIOR VARIANT-->
+
+</VBox>
