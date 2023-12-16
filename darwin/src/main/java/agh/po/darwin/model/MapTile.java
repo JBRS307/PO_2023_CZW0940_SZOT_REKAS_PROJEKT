@@ -71,4 +71,19 @@ public class MapTile {
         if (!animals.isEmpty()) return "animal";
         return isThereGrass ? "grass" : "dirt";
     }
+
+    public void grow(AbstractMap map) {
+    }
+
+    public void breed(AbstractMap map) {
+    }
+
+    public void eat(AbstractMap map) {
+    }
+
+    public void move(AbstractMap map) {
+    }
+
+    public void deleteDead(AbstractMap map) {
+    }
 }
