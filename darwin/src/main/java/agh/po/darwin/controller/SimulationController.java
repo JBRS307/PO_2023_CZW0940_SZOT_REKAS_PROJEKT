@@ -1,9 +1,7 @@
 package agh.po.darwin.controller;
 
 import agh.po.darwin.model.*;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -38,6 +36,7 @@ public class SimulationController implements MapChangeListener {
         for (int i = 0; i < getSimulation().height; i++) {
             mapGrid.addRow(i);
         }
+
         Image dirt = new Image(Objects.requireNonNull(getClass().getResource("/bg.png")).toExternalForm(), 100, 100, false, false);
         Image grass = new Image(Objects.requireNonNull(getClass().getResource("/grass.png")).toExternalForm(), 100, 100, false, false);
         Image animal = new Image(Objects.requireNonNull(getClass().getResource("/animal.png")).toExternalForm(), 100, 100, false, false);
@@ -45,10 +44,10 @@ public class SimulationController implements MapChangeListener {
         for (int row = 0; row < getSimulation().height; row++) {
             for (int col = 0; col < getSimulation().width; col++) {
                 ImageView imageView = new ImageView(dirt);
-                WorldElement element = (getSimulation().getWorldMap().objectAt(new Vector2d(col, row)));
+                MapTile element = (getSimulation().getWorldMap().at(new Vector2d(col, row)));
 
-                if (element != null && element.getClass() == Grass.class) imageView = new ImageView(grass);
-                if (element != null && element.getClass() == Animal.class) imageView = new ImageView(animal);
+                if (element.toString().equals("grass")) imageView = new ImageView(grass);
+                if (element.toString().equals("animal")) imageView = new ImageView(animal);
 
                 imageView.setFitWidth(CELL_SIZE);
                 imageView.setFitHeight(CELL_SIZE);

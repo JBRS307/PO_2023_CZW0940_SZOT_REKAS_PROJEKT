@@ -73,7 +73,7 @@ public class Animal implements WorldElement {
         this.amountOfChildren = amountOfChildren;
     }
 
-    public void update(AbstractMap map) {
+    public synchronized void update(AbstractMap map) {
         //new day
         int nextGene = genome.nextInt();
         int newDirectionIndex = (direction.toInt() + nextGene) % 8;
@@ -81,15 +81,15 @@ public class Animal implements WorldElement {
         var newPos = this.position.add(this.direction.toUnitVector());
 
         if (map.canMoveTo(newPos)) {
-            if (map.grassFields.get(newPos) != null) {
+            if (map.tiles.get(newPos).isThereGrass()) {
                 this.energy += fedEnergy;
-                map.grassFields.remove(newPos);
+                map.tiles.get(newPos).setThereGrass(false);
             }
-            map.move(this.position, newPos);
+            map.move(this, newPos);
             this.position = newPos;
         }
         energy -= 1;
-        if (energy <= 0) map.killAnimal(position);
+        if (energy <= 0) map.killAnimal(this);
 
     }
 

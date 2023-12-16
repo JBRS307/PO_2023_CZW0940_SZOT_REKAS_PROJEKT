@@ -11,23 +11,29 @@ public class DefaultMap extends AbstractMap {
     public DefaultMap(int width, int height) {
         this.width = width;
         this.height = height;
+        for (int row = 0; row < width; row++) {
+            for (int col = 0; col < height; col++) {
+                var pos = new Vector2d(row, col);
+                tiles.put(pos, new MapTile(pos, this));
+            }
+        }
     }
 
     @Override
     public void update() {
-        Iterator<Map.Entry<Vector2d, Animal>> it = animals.entrySet().iterator();
+        Iterator<Map.Entry<Vector2d, MapTile>> it = tiles.entrySet().iterator();
         while (it.hasNext()) {
-            Map.Entry<Vector2d, Animal> entry = it.next();
-            var animal = entry.getValue();
-            animal.update(this);
+            Map.Entry<Vector2d, MapTile> entry = it.next();
+            var tile = entry.getValue();
+            tile.update(this);
         }
 
-        mapChanged("");
+        mapChanged("next day");
     }
 
     @Override
     public Boundary getCurrentBounds() {
-        return new Boundary(new Vector2d(0, 0), new Vector2d(width - 1, height-1));
+        return new Boundary(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
     }
 
     @Override

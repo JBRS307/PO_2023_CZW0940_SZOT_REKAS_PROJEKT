@@ -5,11 +5,13 @@ import java.util.Random;
 
 public class Genome {
     private String code;
-    private int current = 0;
+    private int current;
 
-    public Genome(int lenght) {
+    public Genome(int length) {
         //random genome
-        this.code = generateRandomDigits(lenght);
+        this.code = generateRandomDigits(length);
+        var random = new Random();
+        this.current = random.nextInt(0, 8);
     }
 
 

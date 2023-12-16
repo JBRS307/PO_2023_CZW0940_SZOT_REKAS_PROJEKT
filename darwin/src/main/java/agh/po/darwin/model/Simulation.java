@@ -49,14 +49,12 @@ public class Simulation {
 
         //first lets spawn grass
         for (int i = 0; i < startingGrassAmount; i++) {
-
             var randomPos = new Vector2d(random.nextInt(0, width), random.nextInt(0, height));
-            if (worldMap.grassFields.get(randomPos) != null) {
+            if (worldMap.tiles.get(randomPos).isThereGrass()) {
                 i--;
                 continue;
             }
-            worldMap.grassFields.put(randomPos, new Grass());
-
+            worldMap.tiles.get(randomPos).setThereGrass(true);
         }
         //then spawn animals
         for (int i = 0; i < startingAnimalsAmount; i++) {
@@ -68,6 +66,7 @@ public class Simulation {
             worldMap.place(new Animal(randomPos, genomeLength, animalsStartEnergy, fedEnergy));
         }
     }
+
     public void run() {
         while (!shouldClose) {
             update();
