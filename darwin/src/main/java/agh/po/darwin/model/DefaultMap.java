@@ -1,11 +1,15 @@
 package agh.po.darwin.model;
 
+import java.util.*;
+import java.util.stream.Collectors;
+
 public class DefaultMap extends AbstractMap {
 
     final int width;
     final int height;
 
-    public DefaultMap(int width, int height) {
+    public DefaultMap(int width, int height, Simulation simulation) {
+        super(simulation);
         this.width = width;
         this.height = height;
 
@@ -33,12 +37,20 @@ public class DefaultMap extends AbstractMap {
         performActionOnAllTiles(this::move);
         performActionOnAllTiles(this::eat);
         performActionOnAllTiles(this::breed);
-        performActionOnAllTiles(this::grow);
+        growGrass();
         mapChanged("next day");
     }
 
-    private void grow(MapTile mapTile, AbstractMap map) {
-        mapTile.grow(map);
+    private void growGrass() {
+        List<MapTile> growable = new ArrayList<>(tiles.values().stream().filter(tile -> !tile.isThereGrass()).toList());
+        Collections.shuffle(growable);
+        for (int i = 0; i < getSimulation().grassGrowthPerDay; i++) {
+            try {
+                growable.get(i).grow();
+            } catch (Exception e) {
+                break;
+            }
+        }
     }
 
     private void breed(MapTile mapTile, AbstractMap map) {
@@ -50,7 +62,7 @@ public class DefaultMap extends AbstractMap {
     }
 
     private void move(MapTile mapTile, AbstractMap map) {
-        mapTile.update((DefaultMap) map);
+        mapTile.move((DefaultMap) map);
     }
 
     private void deleteDead(MapTile mapTile, AbstractMap map) {

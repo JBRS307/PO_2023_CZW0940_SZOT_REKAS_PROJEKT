@@ -1,10 +1,8 @@
 package agh.po.darwin.model;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Collectors;
 
 import static java.lang.Math.abs;
 
@@ -59,11 +57,6 @@ public class MapTile {
                 this.setThereGrass(true);
             }
         }
-        var iter = animals.iterator();
-        while (iter.hasNext()) {
-            var animal = iter.next();
-            animal.update(map);
-        }
     }
 
     @Override
@@ -72,18 +65,42 @@ public class MapTile {
         return isThereGrass ? "grass" : "dirt";
     }
 
-    public void grow(AbstractMap map) {
+    public synchronized void grow() {
+        this.setThereGrass(true);
     }
 
     public void breed(AbstractMap map) {
+
+        List<Animal> toBreed = animals.stream()
+                .filter(animal -> animal.getEnergy() >= map.getSimulation().breedEnergyCost)
+                .sorted(Comparator.reverseOrder())
+                .toList();
+        for (int i = 1; i < toBreed.size(); i += 2) {
+            //TODO spawn more grass on equator
+            toBreed.get(i - 1).breed(toBreed.get(i));
+        }
     }
 
     public void eat(AbstractMap map) {
+        if (isThereGrass) animals.stream().max(Comparator.naturalOrder()).ifPresent(animal -> {
+            animal.setEnergy(animal.getFedEnergy() + animal.getEnergy());
+            this.setThereGrass(false);
+        });
     }
 
     public void move(AbstractMap map) {
+        var iter = animals.iterator();
+        while (iter.hasNext()) {
+            var animal = iter.next();
+            animal.move(map);
+        }
     }
 
     public void deleteDead(AbstractMap map) {
+        var iter = animals.iterator();
+        while (iter.hasNext()) {
+            var animal = iter.next();
+            if (animal.getEnergy() <= 0) remove(animal);
+        }
     }
 }

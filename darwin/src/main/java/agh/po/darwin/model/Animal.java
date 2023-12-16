@@ -1,6 +1,7 @@
 package agh.po.darwin.model;
 
 import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
 public class Animal implements WorldElement, Comparable<Animal> {
@@ -13,7 +14,7 @@ public class Animal implements WorldElement, Comparable<Animal> {
     private int lifeTime;
     private int amountOfChildren;
     private int animalsStartEnergy;
-
+    private int age;
     private MapDirection direction = MapDirection.NORTH;
 
     public Animal(Vector2d position, int genomeLength, int animalsStartEnergy, int fedEnergy) {
@@ -73,24 +74,28 @@ public class Animal implements WorldElement, Comparable<Animal> {
         this.amountOfChildren = amountOfChildren;
     }
 
-    public synchronized void update(AbstractMap map) {
-        //new day
+    public int getFedEnergy() {
+        return fedEnergy;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public synchronized void move(AbstractMap map) {
         int nextGene = genome.nextInt();
         int newDirectionIndex = (direction.toInt() + nextGene) % 8;
         this.direction = MapDirection.fromInt(newDirectionIndex);
         var newPos = this.position.add(this.direction.toUnitVector());
-
         if (map.canMoveTo(newPos)) {
-            if (map.tiles.get(newPos).isThereGrass()) {
-                this.energy += fedEnergy;
-                map.tiles.get(newPos).setThereGrass(false);
-            }
             map.move(this, newPos);
             this.position = newPos;
         }
         energy -= 1;
-        if (energy <= 0) map.killAnimal(this);
-
     }
 
     @Override
@@ -106,8 +111,22 @@ public class Animal implements WorldElement, Comparable<Animal> {
         return Objects.hash(uuid, position, energy, genome, lifeTime, amountOfChildren);
     }
 
+
     @Override
-    public int compareTo(Animal o) {
-        return 0;
+    public int compareTo(Animal other) {
+        if (this.energy != other.energy) {
+            return Integer.compare(other.energy, this.energy);
+        } else if (this.age != other.age) {
+            return Integer.compare(other.age, this.age);
+        } else if (this.amountOfChildren != other.amountOfChildren) {
+            return Integer.compare(other.amountOfChildren, this.amountOfChildren);
+        } else {
+            // Random selection among animals
+            return new Random().nextInt(2) == 0 ? -1 : 1;
+        }
+    }
+
+
+    public void breed(Animal animal) {
     }
 }

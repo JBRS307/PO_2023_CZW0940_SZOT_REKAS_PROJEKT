@@ -11,6 +11,10 @@ public abstract class AbstractMap implements WorldMap {
     protected Map<Vector2d, MapTile> tiles = new ConcurrentHashMap<>();
     protected LinkedList<MapChangeListener> subscribers = new LinkedList<>();
 
+    protected AbstractMap(Simulation simulation) {
+        this.simulation = simulation;
+    }
+
     public void registerSubscriber(MapChangeListener mapChangeListener) {
         subscribers.add(mapChangeListener);
     }
@@ -19,6 +23,7 @@ public abstract class AbstractMap implements WorldMap {
         subscribers.remove(mapChangeListener);
     }
 
+    private final Simulation simulation;
 
     protected void mapChanged(String msg) {
         var map = this;
@@ -56,5 +61,9 @@ public abstract class AbstractMap implements WorldMap {
 
     public void killAnimal(Animal animal) {
         this.tiles.get(animal.getPosition()).remove(animal);
+    }
+
+    public Simulation getSimulation() {
+        return simulation;
     }
 }

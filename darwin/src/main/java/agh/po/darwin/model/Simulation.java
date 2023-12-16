@@ -45,7 +45,7 @@ public class Simulation {
     }
 
     private void initializeSimulation() {
-        worldMap = new DefaultMap(width, height);
+        worldMap = new DefaultMap(width, height, this);
         var random = new Random();
 
         //first lets spawn grass
