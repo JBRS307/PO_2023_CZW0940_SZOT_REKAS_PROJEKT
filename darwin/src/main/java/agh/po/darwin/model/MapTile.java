@@ -3,7 +3,10 @@ package agh.po.darwin.model;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ConcurrentLinkedQueue;
+
+import static java.lang.Math.abs;
 
 public class MapTile {
     private final Vector2d position;
@@ -43,7 +46,19 @@ public class MapTile {
         animals.remove(animal);
     }
 
-    public synchronized void update(AbstractMap map) {
+    public synchronized void update(DefaultMap map) {
+        var equaitor = map.height / 2;
+        var random = new Random();
+        if (abs(equaitor - this.position.getY()) <= 2) {
+            //5% chance for growth
+            if (random.nextFloat() <= 0.05f) {
+                this.setThereGrass(true);
+            }
+        } else {
+            if (random.nextFloat() <= 0.005f) { //.5% chance for growth
+                this.setThereGrass(true);
+            }
+        }
         var iter = animals.iterator();
         while (iter.hasNext()) {
             var animal = iter.next();

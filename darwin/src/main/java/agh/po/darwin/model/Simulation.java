@@ -19,7 +19,7 @@ public class Simulation {
     public final int genomeLength;
 
     protected long day = 0L;
-    protected float speed = 1;
+    protected float speed = 2;
 
     protected boolean shouldClose = false;
     protected AbstractMap worldMap;
@@ -72,7 +72,7 @@ public class Simulation {
             update();
             //base speed is to update once per second
             try {
-                Thread.sleep((long) (speed * 1000));
+                Thread.sleep((long) ((1/speed) * 1000));
             } catch (InterruptedException e) {
                 //when InterruptedException we cannot do anything ;(, i will just pass it upper then.
                 throw new RuntimeException(e);
