@@ -7,7 +7,6 @@ import java.util.UUID;
 public class Animal implements WorldElement, Comparable<Animal> {
     private final UUID uuid;
     private final int genomeLength;
-    private final int fedEnergy;
     private Vector2d position;
     private int energy;
     private Genome genome;
@@ -17,12 +16,11 @@ public class Animal implements WorldElement, Comparable<Animal> {
     private int age;
     private MapDirection direction = MapDirection.NORTH;
 
-    public Animal(Vector2d position, int genomeLength, int animalsStartEnergy, int fedEnergy) {
+    public Animal(Vector2d position, int genomeLength, int animalsStartEnergy) {
         this.uuid = UUID.randomUUID();
         this.position = position;
         this.genomeLength = genomeLength;
         this.energy = animalsStartEnergy;
-        this.fedEnergy = fedEnergy;
         genome = new Genome(genomeLength);
     }
 
@@ -74,9 +72,6 @@ public class Animal implements WorldElement, Comparable<Animal> {
         this.amountOfChildren = amountOfChildren;
     }
 
-    public int getFedEnergy() {
-        return fedEnergy;
-    }
 
     public void setAge(int age) {
         this.age = age;
@@ -127,6 +122,15 @@ public class Animal implements WorldElement, Comparable<Animal> {
     }
 
 
-    public void breed(Animal animal) {
+    public void breed(Animal other, AbstractMap map) {
+        Animal child = new Animal(new Vector2d(this.position.getX(), this.position.getY()), genomeLength, map.getSimulation().breedEnergyCost*2);
+        child.setGenome(new Genome(this, other, map.getSimulation()));
+
+        this.amountOfChildren++;
+        other.amountOfChildren++;
+        this.energy -= map.getSimulation().breedEnergyCost;
+        other.energy -= map.getSimulation().breedEnergyCost;
+        map.place(child);
+
     }
 }

@@ -64,7 +64,7 @@ public class Simulation {
                 i--;
                 continue;
             }
-            worldMap.place(new Animal(randomPos, genomeLength, animalsStartEnergy, fedEnergy));
+            worldMap.place(new Animal(randomPos, genomeLength, animalsStartEnergy));
         }
     }
 
