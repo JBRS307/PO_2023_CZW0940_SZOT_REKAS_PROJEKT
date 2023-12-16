@@ -1,6 +1,10 @@
 package agh.po.darwin.controller;
 
 import agh.po.darwin.model.*;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,6 +14,9 @@ import java.util.Objects;
 public class SimulationController implements MapChangeListener {
     public static final int CELL_SIZE = 25;
     public GridPane mapGrid;
+    public Button play;
+    public Button pause;
+    public Slider speed;
     private Simulation simulation;
 
     public Simulation getSimulation() {
@@ -27,6 +34,21 @@ public class SimulationController implements MapChangeListener {
      */
     protected void lateInitialize() {
         drawMap();
+        speed.valueProperty().addListener(
+                new ChangeListener<Number>() {
+
+                    public void changed(ObservableValue<? extends Number>
+                                                observable, Number oldValue, Number newValue) {
+
+                        simulation.setSpeed(newValue.floatValue());
+                    }
+                });
+        pause.setOnAction(event -> {
+            simulation.setPause(true);
+        });
+        play.setOnAction(event -> {
+            simulation.setPause(false);
+        });
     }
 
     private synchronized void drawMap() {

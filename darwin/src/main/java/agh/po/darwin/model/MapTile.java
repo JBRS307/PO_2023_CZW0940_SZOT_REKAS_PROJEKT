@@ -47,9 +47,9 @@ public class MapTile {
     }
 
     public synchronized void update(DefaultMap map) {
-        var equaitor = map.height / 2;
+        var equator = map.height / 2;
         var random = new Random();
-        if (abs(equaitor - this.position.getY()) <= 2) {
+        if (abs(equator - this.position.getY()) <= 2) {
             //5% chance for growth
             if (random.nextFloat() <= 0.05f) {
                 this.setThereGrass(true);

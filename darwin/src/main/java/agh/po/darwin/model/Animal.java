@@ -3,7 +3,7 @@ package agh.po.darwin.model;
 import java.util.Objects;
 import java.util.UUID;
 
-public class Animal implements WorldElement {
+public class Animal implements WorldElement, Comparable<Animal> {
     private final UUID uuid;
     private final int genomeLength;
     private final int fedEnergy;
@@ -104,5 +104,10 @@ public class Animal implements WorldElement {
     @Override
     public int hashCode() {
         return Objects.hash(uuid, position, energy, genome, lifeTime, amountOfChildren);
+    }
+
+    @Override
+    public int compareTo(Animal o) {
+        return 0;
     }
 }

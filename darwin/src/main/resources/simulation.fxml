@@ -10,10 +10,17 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="agh.po.darwin.controller.SimulationController"
             prefHeight="600.0" prefWidth="800.0">
+    <top>
+        <HBox>
+            <Button fx:id="pause" text="pause"/>
+            <Button fx:id="play" text="play"/>
+            <Slider fx:id="speed" min="1" max="100" blockIncrement="1" showTickLabels="true" showTickMarks="true"
+                    value="1"/>
+        </HBox>
+    </top>
     <center>
-
-    <GridPane
-            fx:id="mapGrid"
-    />
+        <GridPane
+                fx:id="mapGrid"
+        />
     </center>
 </BorderPane>

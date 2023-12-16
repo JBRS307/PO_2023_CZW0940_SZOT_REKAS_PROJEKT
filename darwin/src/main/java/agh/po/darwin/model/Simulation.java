@@ -23,6 +23,7 @@ public class Simulation {
 
     protected boolean shouldClose = false;
     protected AbstractMap worldMap;
+    private boolean pause;
 
 
     public Simulation(int width, int height, int startingGrassAmount, int grassEatingEnergy, int grassGrowthPerDay, int startingAnimalsAmount, int animalsStartEnergy, int fedEnergy, int breedEnergyCost, int minMutations, int maxMutations, int genomeLength) {
@@ -69,10 +70,10 @@ public class Simulation {
 
     public void run() {
         while (!shouldClose) {
-            update();
+            if (!pause) update();
             //base speed is to update once per second
             try {
-                Thread.sleep((long) ((1/speed) * 1000));
+                Thread.sleep((long) ((1 / speed) * 1000));
             } catch (InterruptedException e) {
                 //when InterruptedException we cannot do anything ;(, i will just pass it upper then.
                 throw new RuntimeException(e);
@@ -91,6 +92,22 @@ public class Simulation {
 
     public AbstractMap getWorldMap() {
         return worldMap;
+    }
+
+    public float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(float speed) {
+        this.speed = speed;
+    }
+
+    public void setPause(boolean b) {
+        this.pause = b;
+    }
+
+    public long getDay() {
+        return day;
     }
 
 }
