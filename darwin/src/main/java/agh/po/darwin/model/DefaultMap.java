@@ -3,6 +3,9 @@ package agh.po.darwin.model;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.random;
+
 public class DefaultMap extends AbstractMap {
 
     final int width;
@@ -42,11 +45,35 @@ public class DefaultMap extends AbstractMap {
     }
 
     private void growGrass() {
+        var equatorLineY = getSimulation().height / 2;
+        var random = new Random();
         List<MapTile> growable = new ArrayList<>(tiles.values().stream().filter(tile -> !tile.isThereGrass()).toList());
+
+        List<MapTile> growableOnEquator = new ArrayList<>(growable.stream().filter(tile -> abs(tile.getPosition().getY() - equatorLineY) <= 2).toList());
+        List<MapTile> growableNotOnEquator = new ArrayList<>(growable.stream().filter(tile -> abs(tile.getPosition().getY() - equatorLineY) > 2).toList());
+
+        Collections.shuffle(growableOnEquator);
+        Collections.shuffle(growableNotOnEquator);
         Collections.shuffle(growable);
+
+        int goei = 0;
+        int gonei = 0;
+        int gi = 0;
+
         for (int i = 0; i < getSimulation().grassGrowthPerDay; i++) {
             try {
-                growable.get(i).grow();
+                if (!growableOnEquator.isEmpty() && !growableNotOnEquator.isEmpty()) {
+                    if (random.nextFloat() <= .7f) {
+                        growableOnEquator.get(goei).grow();
+                        goei++;
+                    } else {
+                        growableNotOnEquator.get(gonei).grow();
+                        gonei++;
+                    }
+                } else {
+                    growable.get(gi).grow();
+                    gi++;
+                }
             } catch (Exception e) {
                 break;
             }
