@@ -4,23 +4,35 @@
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.layout.*?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="agh.po.darwin.controller.SimulationController"
-            prefHeight="600.0" prefWidth="800.0">
-    <top>
-        <HBox>
-            <Button fx:id="pause" text="pause"/>
-            <Button fx:id="play" text="play"/>
-            <Slider fx:id="speed" min="1" max="100" blockIncrement="1" showTickLabels="true" showTickMarks="true"
-                    value="1"/>
-        </HBox>
-    </top>
+            prefHeight="800.0" prefWidth="1200.0">
+
     <center>
-        <GridPane
-                fx:id="mapGrid"
-        />
+        <VBox>
+            <GridPane fx:id="mapGrid"/>
+            <HBox>
+                <Button fx:id="pause" text="pause"/>
+                <Button fx:id="play" text="play"/>
+                <Slider fx:id="speed" min="1" max="100" blockIncrement="1" showTickLabels="true" showTickMarks="true"
+                        value="1"/>
+            </HBox>
+        </VBox>
     </center>
+    <right>
+        <LineChart fx:id="animalsCount"
+        >
+            <xAxis>
+                <NumberAxis label="day"/>
+            </xAxis>
+            <yAxis>
+                <NumberAxis label="animalsCount"/>
+            </yAxis>
+        </LineChart>
+    </right>
 </BorderPane>

@@ -3,6 +3,8 @@ package agh.po.darwin.controller;
 import agh.po.darwin.model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
@@ -17,6 +19,8 @@ public class SimulationController implements MapChangeListener {
     public Button play;
     public Button pause;
     public Slider speed;
+    public LineChart<Long, Integer> animalsCount;
+    private XYChart.Series<Long, Integer> series;
     private Simulation simulation;
 
     public Simulation getSimulation() {
@@ -49,6 +53,10 @@ public class SimulationController implements MapChangeListener {
         play.setOnAction(event -> {
             simulation.setPause(false);
         });
+        series = new XYChart.Series<>();
+        series.setName("Data Series");
+        animalsCount.setCreateSymbols(false);
+        animalsCount.getData().add(series);
     }
 
     private synchronized void drawMap() {
@@ -71,8 +79,8 @@ public class SimulationController implements MapChangeListener {
                 if (element.toString().equals("grass")) imageView = new ImageView(grass);
                 if (element.toString().equals("animal")) imageView = new ImageView(animal);
 
-                imageView.setFitWidth(CELL_SIZE);
-                imageView.setFitHeight(CELL_SIZE);
+                imageView.setFitWidth(30 / simulation.width * CELL_SIZE);
+                imageView.setFitHeight(30 / simulation.width * CELL_SIZE);
                 GridPane.setRowIndex(imageView, row);
                 GridPane.setColumnIndex(imageView, col);
                 mapGrid.getChildren().add(imageView);
@@ -90,6 +98,7 @@ public class SimulationController implements MapChangeListener {
         if (worldMap != null) {
             clearGrid();
             drawMap();
+            series.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.animalsCount));
         }
     }
 }

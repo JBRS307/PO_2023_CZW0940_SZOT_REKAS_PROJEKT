@@ -89,7 +89,7 @@ public class DefaultMap extends AbstractMap {
     }
 
     private void move(MapTile mapTile, AbstractMap map) {
-        mapTile.move((DefaultMap) map);
+        mapTile.move(map);
     }
 
     private void deleteDead(MapTile mapTile, AbstractMap map) {

@@ -17,6 +17,7 @@ public class Simulation {
     public final int minMutations;
     public final int maxMutations;
     public final int genomeLength;
+    public int animalsCount = 0;
 
     protected long day = 0L;
     protected float speed = 2;
@@ -65,6 +66,7 @@ public class Simulation {
                 continue;
             }
             worldMap.place(new Animal(randomPos, genomeLength, animalsStartEnergy));
+            animalsCount++;
         }
     }
 

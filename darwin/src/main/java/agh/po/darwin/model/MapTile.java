@@ -100,7 +100,10 @@ public class MapTile {
         var iter = animals.iterator();
         while (iter.hasNext()) {
             var animal = iter.next();
-            if (animal.getEnergy() <= 0) remove(animal);
+            if (animal.getEnergy() <= 0) {
+                remove(animal);
+                map.getSimulation().animalsCount--;
+            }
         }
     }
 }

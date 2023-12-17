@@ -1,8 +1,6 @@
 package agh.po.darwin.model;
 
-import java.util.Objects;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class Animal implements WorldElement, Comparable<Animal> {
     private final UUID uuid;
@@ -15,6 +13,8 @@ public class Animal implements WorldElement, Comparable<Animal> {
     private int animalsStartEnergy;
     private int age;
     private MapDirection direction = MapDirection.NORTH;
+
+    private final List<Animal> children = new ArrayList<>();
 
     public Animal(Vector2d position, int genomeLength, int animalsStartEnergy) {
         this.uuid = UUID.randomUUID();
@@ -123,7 +123,7 @@ public class Animal implements WorldElement, Comparable<Animal> {
 
 
     public void breed(Animal other, AbstractMap map) {
-        Animal child = new Animal(new Vector2d(this.position.getX(), this.position.getY()), genomeLength, map.getSimulation().breedEnergyCost*2);
+        Animal child = new Animal(new Vector2d(this.position.getX(), this.position.getY()), genomeLength, map.getSimulation().breedEnergyCost * 2);
         child.setGenome(new Genome(this, other, map.getSimulation()));
 
         this.amountOfChildren++;
@@ -131,6 +131,10 @@ public class Animal implements WorldElement, Comparable<Animal> {
         this.energy -= map.getSimulation().breedEnergyCost;
         other.energy -= map.getSimulation().breedEnergyCost;
         map.place(child);
+
+        map.getSimulation().animalsCount++;
+        children.add(child);
+        other.children.add(child);
 
     }
 }
