@@ -2,7 +2,7 @@ package agh.po.darwin.model;
 
 import java.util.*;
 
-public class Animal implements WorldElement, Comparable<Animal> {
+public class Animal implements Comparable<Animal> {
     private final UUID uuid;
     private final int genomeLength;
     private Vector2d position;
