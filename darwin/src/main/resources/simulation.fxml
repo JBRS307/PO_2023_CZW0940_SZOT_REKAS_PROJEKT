@@ -28,10 +28,10 @@
         <LineChart fx:id="animalsCount"
         >
             <xAxis>
-                <NumberAxis label="day"/>
+                <NumberAxis label="day" lowerBound="1" focusTraversable="true"/>
             </xAxis>
             <yAxis>
-                <NumberAxis label="animalsCount"/>
+                <NumberAxis label="animals"/>
             </yAxis>
         </LineChart>
     </right>

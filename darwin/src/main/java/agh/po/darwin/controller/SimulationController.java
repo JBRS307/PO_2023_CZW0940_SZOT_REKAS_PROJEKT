@@ -55,6 +55,7 @@ public class SimulationController implements MapChangeListener {
         });
         series = new XYChart.Series<>();
         series.setName("Data Series");
+        animalsCount.setLegendVisible(false);
         animalsCount.setCreateSymbols(false);
         animalsCount.getData().add(series);
     }
@@ -79,8 +80,8 @@ public class SimulationController implements MapChangeListener {
                 if (element.toString().equals("grass")) imageView = new ImageView(grass);
                 if (element.toString().equals("animal")) imageView = new ImageView(animal);
 
-                imageView.setFitWidth(30 / simulation.width * CELL_SIZE);
-                imageView.setFitHeight(30 / simulation.width * CELL_SIZE);
+                imageView.setFitWidth(750/simulation.width);
+                imageView.setFitHeight(500/simulation.height);
                 GridPane.setRowIndex(imageView, row);
                 GridPane.setColumnIndex(imageView, col);
                 mapGrid.getChildren().add(imageView);

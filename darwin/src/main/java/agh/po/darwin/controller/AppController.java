@@ -59,6 +59,7 @@ public class AppController {
             Parent root = loader.load();
             newStage.setTitle("Simulation " + simulation.uuid);
             newStage.setScene(new Scene(root));
+            newStage.setResizable(false);
             newStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
