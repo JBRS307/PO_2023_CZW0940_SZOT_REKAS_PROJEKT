@@ -1,5 +1,7 @@
 package agh.po.darwin.model;
 
+import java.util.HashMap;
+
 public enum MapDirection {
     NORTH,
     NORTH_EAST,
@@ -9,6 +11,19 @@ public enum MapDirection {
     SOUTH_WEST,
     WEST,
     NORTH_WEST;
+
+    private static final HashMap<Vector2d, MapDirection> directionMap = new HashMap<>();
+
+    static {
+        directionMap.put(new Vector2d(1, 0), EAST);
+        directionMap.put(new Vector2d(-1, 0), WEST);
+        directionMap.put(new Vector2d(0, 1), NORTH);
+        directionMap.put(new Vector2d(0, -1), SOUTH);
+        directionMap.put(new Vector2d(1, 1), NORTH_EAST);
+        directionMap.put(new Vector2d(1, -1), SOUTH_EAST);
+        directionMap.put(new Vector2d(-1, 1), NORTH_WEST);
+        directionMap.put(new Vector2d(-1, -1), SOUTH_WEST);
+    }
 
 
     @Override
@@ -23,6 +38,9 @@ public enum MapDirection {
             case NORTH_WEST -> "Północny-Zachód";
             case SOUTH_WEST -> "Południowy-Zachód";
         };
+    }
+    public static MapDirection fromVector(Vector2d vector) {
+        return directionMap.get(vector);
     }
 
     public MapDirection next() {

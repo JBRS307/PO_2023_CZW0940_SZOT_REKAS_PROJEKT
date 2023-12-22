@@ -118,11 +118,7 @@ public class DefaultMap extends AbstractMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        return position.getX() >= getCurrentBounds().leftDownBoundary().getX() &&
-                position.getX() <= getCurrentBounds().rightUpperBoundary().getX() &&
-                position.getY() >= getCurrentBounds().leftDownBoundary().getY() &&
-                position.getY() <= getCurrentBounds().rightUpperBoundary().getY();
-
+        return true;
     }
 
 

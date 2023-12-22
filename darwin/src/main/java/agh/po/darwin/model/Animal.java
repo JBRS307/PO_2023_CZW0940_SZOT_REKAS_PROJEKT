@@ -85,7 +85,21 @@ public class Animal implements Comparable<Animal> {
         int nextGene = genome.nextInt();
         int newDirectionIndex = (direction.toInt() + nextGene) % 8;
         this.direction = MapDirection.fromInt(newDirectionIndex);
+
         var newPos = this.position.add(this.direction.toUnitVector());
+
+        if (newPos.getY() < 0 || newPos.getY() > map.getCurrentBounds().rightUpperBoundary().getY()) {
+            this.direction = MapDirection.fromVector(new Vector2d(this.direction.toUnitVector().getX(), -1 * this.direction.toUnitVector().getY()));
+            newPos = this.position.add(this.direction.toUnitVector());
+        }
+
+        if (newPos.getX() < 0) {
+            newPos = new Vector2d(map.getCurrentBounds().rightUpperBoundary().getX(), newPos.getY());
+        }
+        if (newPos.getX() > map.getCurrentBounds().rightUpperBoundary().getX()) {
+            newPos = new Vector2d(0, newPos.getY());
+        }
+
         if (map.canMoveTo(newPos)) {
             map.move(this, newPos);
             this.position = newPos;
