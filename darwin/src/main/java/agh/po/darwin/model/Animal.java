@@ -81,31 +81,47 @@ public class Animal implements Comparable<Animal> {
         return age;
     }
 
-    public synchronized void move(AbstractMap map) {
+    public void move(AbstractMap map) {
         int nextGene = genome.nextInt();
         int newDirectionIndex = (direction.toInt() + nextGene) % 8;
         this.direction = MapDirection.fromInt(newDirectionIndex);
 
-        var newPos = this.position.add(this.direction.toUnitVector());
+        Vector2d newPos = this.position.add(this.direction.toUnitVector());
 
-        if (newPos.getY() < 0 || newPos.getY() > map.getCurrentBounds().rightUpperBoundary().getY()) {
-            this.direction = MapDirection.fromVector(new Vector2d(this.direction.toUnitVector().getX(), -1 * this.direction.toUnitVector().getY()));
+        // Handling boundary conditions
+        if (isOutOfBoundsVertical(newPos, map)) {
+            this.direction = reflectVertical(this.direction);
             newPos = this.position.add(this.direction.toUnitVector());
         }
+        newPos = adjustHorizontalBoundary(newPos, map);
 
-        if (newPos.getX() < 0) {
-            newPos = new Vector2d(map.getCurrentBounds().rightUpperBoundary().getX(), newPos.getY());
-        }
-        if (newPos.getX() > map.getCurrentBounds().rightUpperBoundary().getX()) {
-            newPos = new Vector2d(0, newPos.getY());
-        }
-
+        // Move if the new position is valid
         if (map.canMoveTo(newPos)) {
             map.move(this, newPos);
             this.position = newPos;
         }
         energy -= 1;
     }
+
+    private boolean isOutOfBoundsVertical(Vector2d pos, AbstractMap map) {
+        int upperYBoundary = map.getCurrentBounds().rightUpperBoundary().getY();
+        return pos.getY() < 0 || pos.getY() > upperYBoundary;
+    }
+
+    private MapDirection reflectVertical(MapDirection direction) {
+        return MapDirection.fromVector(new Vector2d(direction.toUnitVector().getX(), -1 * direction.toUnitVector().getY()));
+    }
+
+    private Vector2d adjustHorizontalBoundary(Vector2d pos, AbstractMap map) {
+        int upperXBoundary = map.getCurrentBounds().rightUpperBoundary().getX();
+        if (pos.getX() < 0) {
+            return new Vector2d(upperXBoundary, pos.getY());
+        } else if (pos.getX() > upperXBoundary) {
+            return new Vector2d(0, pos.getY());
+        }
+        return pos;
+    }
+
 
     @Override
     public boolean equals(Object o) {
