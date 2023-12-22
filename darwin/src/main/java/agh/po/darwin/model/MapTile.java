@@ -107,4 +107,8 @@ public class MapTile {
             }
         }
     }
+
+    public void onClick() {
+        System.out.println(position);
+    }
 }

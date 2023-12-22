@@ -89,8 +89,13 @@ public class SimulationController implements MapChangeListener {
                 ImageView imageView = new ImageView(dirt);
                 MapTile element = (getSimulation().getWorldMap().at(new Vector2d(col, row)));
 
+
                 if (element.toString().equals("grass")) imageView = new ImageView(grass);
                 if (element.toString().equals("animal")) imageView = new ImageView(animal);
+
+                imageView.setOnMouseClicked(event -> {
+                    element.onClick();
+                });
 
                 imageView.setFitWidth(750 / simulation.width);
                 imageView.setFitHeight(500 / simulation.height);
