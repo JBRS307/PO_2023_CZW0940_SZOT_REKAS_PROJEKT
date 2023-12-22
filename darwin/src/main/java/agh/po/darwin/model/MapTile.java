@@ -44,21 +44,6 @@ public class MapTile {
         animals.remove(animal);
     }
 
-    public synchronized void update(DefaultMap map) {
-        var equator = map.height / 2;
-        var random = new Random();
-        if (abs(equator - this.position.getY()) <= 2) {
-            //5% chance for growth
-            if (random.nextFloat() <= 0.05f) {
-                this.setThereGrass(true);
-            }
-        } else {
-            if (random.nextFloat() <= 0.005f) { //.5% chance for growth
-                this.setThereGrass(true);
-            }
-        }
-    }
-
     @Override
     public String toString() {
         if (!animals.isEmpty()) return "animal";
