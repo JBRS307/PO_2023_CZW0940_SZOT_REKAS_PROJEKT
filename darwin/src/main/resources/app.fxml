@@ -23,11 +23,11 @@
     <TextField fx:id="grassEatingEnergy" promptText="Energia zapewniana przez zjedzenie jednej rośliny" text="1"/>
 
     <Label text="Liczba roślin wyrastających każdego dnia"/>
-    <TextField fx:id="grassGrowthPerDay" promptText="Liczba roślin wyrastających każdego dnia" text="2"/>
+    <TextField fx:id="grassGrowthPerDay" promptText="Liczba roślin wyrastających każdego dnia" text="1"/>
 
     <!-- GROWTH VARIANT -->
     <Label text="Startowa liczba zwierzaków"/>
-    <TextField fx:id="animalsStartAmount" promptText="Startowa liczba zwierzaków" text="15"/>
+    <TextField fx:id="animalsStartAmount" promptText="Startowa liczba zwierzaków" text="50"/>
 
     <Label text="Startowa energia zwierzaków"/>
     <TextField fx:id="animalsStartEnergy" promptText="Startowa energia zwierzaków" text="20"/>
@@ -38,7 +38,7 @@
                text="120"/>
 
     <Label text="Energia rodziców zużywana by stworzyć potomka"/>
-    <TextField fx:id="breedEnergyCost" promptText="Energia rodziców zużywana by stworzyć potomka" text="40"/>
+    <TextField fx:id="breedEnergyCost" promptText="Energia rodziców zużywana by stworzyć potomka" text="20"/>
 
     <Label text="Minimalna liczba mutacji u potomków"/>
     <TextField fx:id="minMutations" promptText="Minimalna liczba mutacji u potomków" text="0"/>

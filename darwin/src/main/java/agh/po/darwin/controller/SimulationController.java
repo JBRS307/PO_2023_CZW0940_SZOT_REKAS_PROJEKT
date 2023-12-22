@@ -19,8 +19,9 @@ public class SimulationController implements MapChangeListener {
     public Button play;
     public Button pause;
     public Slider speed;
-    public LineChart<Long, Integer> animalsCount;
-    private XYChart.Series<Long, Integer> series;
+    public LineChart<Long, Integer> statisticsChart;
+    private XYChart.Series<Long, Integer> animalSeries;
+    private XYChart.Series<Long, Integer> grassSeries;
     private Simulation simulation;
 
     public Simulation getSimulation() {
@@ -53,11 +54,22 @@ public class SimulationController implements MapChangeListener {
         play.setOnAction(event -> {
             simulation.setPause(false);
         });
-        series = new XYChart.Series<>();
-        series.setName("Data Series");
-        animalsCount.setLegendVisible(false);
-        animalsCount.setCreateSymbols(false);
-        animalsCount.getData().add(series);
+        animalSeries = new XYChart.Series<>();
+        animalSeries.setName("animals");
+
+        grassSeries = new XYChart.Series<>();
+        grassSeries.setName("grass");
+
+        statisticsChart.setCreateSymbols(false);
+        statisticsChart.getData().add(animalSeries);
+        statisticsChart.getData().add(grassSeries);
+
+        formatSeries();
+    }
+
+    private void formatSeries() {
+        animalSeries.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: #ec0095;");
+        grassSeries.getNode().lookup(".chart-series-line").setStyle("-fx-stroke: green;");
     }
 
     private synchronized void drawMap() {
@@ -80,8 +92,8 @@ public class SimulationController implements MapChangeListener {
                 if (element.toString().equals("grass")) imageView = new ImageView(grass);
                 if (element.toString().equals("animal")) imageView = new ImageView(animal);
 
-                imageView.setFitWidth(750/simulation.width);
-                imageView.setFitHeight(500/simulation.height);
+                imageView.setFitWidth(750 / simulation.width);
+                imageView.setFitHeight(500 / simulation.height);
                 GridPane.setRowIndex(imageView, row);
                 GridPane.setColumnIndex(imageView, col);
                 mapGrid.getChildren().add(imageView);
@@ -99,7 +111,8 @@ public class SimulationController implements MapChangeListener {
         if (worldMap != null) {
             clearGrid();
             drawMap();
-            series.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.animalsCount));
+            animalSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.animalsCount));
+            grassSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.grassCount));
         }
     }
 }

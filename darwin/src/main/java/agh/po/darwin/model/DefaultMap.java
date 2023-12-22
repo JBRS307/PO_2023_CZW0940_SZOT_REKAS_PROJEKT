@@ -66,13 +66,16 @@ public class DefaultMap extends AbstractMap {
                     if (random.nextFloat() <= .7f) {
                         growableOnEquator.get(goei).grow();
                         goei++;
+                        getSimulation().grassCount++;
                     } else {
                         growableNotOnEquator.get(gonei).grow();
                         gonei++;
+                        getSimulation().grassCount++;
                     }
                 } else {
                     growable.get(gi).grow();
                     gi++;
+                    getSimulation().grassCount++;
                 }
             } catch (Exception e) {
                 break;

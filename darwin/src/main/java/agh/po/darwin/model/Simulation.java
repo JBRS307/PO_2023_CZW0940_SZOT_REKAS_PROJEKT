@@ -18,6 +18,7 @@ public class Simulation {
     public final int maxMutations;
     public final int genomeLength;
     public int animalsCount = 0;
+    public int grassCount = 0;
 
     protected long day = 0L;
     protected float speed = 2;
@@ -57,6 +58,7 @@ public class Simulation {
                 continue;
             }
             worldMap.tiles.get(randomPos).setThereGrass(true);
+            grassCount++;
         }
         //then spawn animals
         for (int i = 0; i < startingAnimalsAmount; i++) {
