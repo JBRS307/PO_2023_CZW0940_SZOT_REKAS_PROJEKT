@@ -61,7 +61,6 @@ public class MapTile {
                 .sorted(Comparator.reverseOrder())
                 .toList();
         for (int i = 1; i < toBreed.size(); i += 2) {
-            //TODO spawn more grass on equator
             toBreed.get(i - 1).breed(toBreed.get(i), map);
         }
     }
