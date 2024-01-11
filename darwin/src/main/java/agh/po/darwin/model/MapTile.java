@@ -67,7 +67,7 @@ public class MapTile {
 
     public void eat(AbstractMap map) {
         if (isThereGrass) animals.stream().max(Comparator.naturalOrder()).ifPresent(animal -> {
-            animal.setEnergy(map.getSimulation().fedEnergy + animal.getEnergy());
+            animal.setEnergy(map.getSimulation().grassEatingEnergy + animal.getEnergy());
             this.setThereGrass(false);
             map.getSimulation().grassCount--;
         });
