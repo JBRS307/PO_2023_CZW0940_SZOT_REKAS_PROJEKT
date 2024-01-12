@@ -1,7 +1,6 @@
 package agh.po.darwin.model;
 
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 public class Simulation {
     public final UUID uuid;
@@ -17,9 +16,11 @@ public class Simulation {
     public final int minMutations;
     public final int maxMutations;
     public final int genomeLength;
+
+    //Statistics
     public int animalsCount = 0;
     public int grassCount = 0;
-
+    protected final Map<String, Integer> genomeCount = new HashMap<>();
     protected long day = 0L;
     protected float speed = 2;
 
@@ -67,7 +68,9 @@ public class Simulation {
                 i--;
                 continue;
             }
-            worldMap.place(new Animal(randomPos, genomeLength, animalsStartEnergy));
+            var animal = new Animal(randomPos, genomeLength, animalsStartEnergy);
+            worldMap.place(animal);
+            addGenome(animal.getGenome().getCode());
             animalsCount++;
         }
     }
@@ -114,4 +117,12 @@ public class Simulation {
         return day;
     }
 
+    public Map<String, Integer> getGenomeCount() {
+        return genomeCount;
+    }
+
+    public void addGenome(String genome) {
+
+        genomeCount.put(genome, genomeCount.getOrDefault(genome, 0)+1);
+    }
 }

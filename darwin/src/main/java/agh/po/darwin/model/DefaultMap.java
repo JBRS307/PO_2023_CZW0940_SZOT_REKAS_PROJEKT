@@ -56,28 +56,27 @@ public class DefaultMap extends AbstractMap {
         Collections.shuffle(growableNotOnEquator);
         Collections.shuffle(growable);
 
-        int goei = 0;
-        int gonei = 0;
-        int gi = 0;
+        int growOnEquaoriterator = 0;
+        int growNotOnEquatorIterator = 0;
+        int growIterator = 0;
 
         for (int i = 0; i < getSimulation().grassGrowthPerDay; i++) {
             try {
                 if (!growableOnEquator.isEmpty() && !growableNotOnEquator.isEmpty()) {
-                    if (random.nextFloat() <= .7f) {
-                        growableOnEquator.get(goei).grow();
-                        goei++;
-                        getSimulation().grassCount++;
+                    if (random.nextFloat() <= .8f) {// 80-20 rule
+                        growableOnEquator.get(growOnEquaoriterator).grow();
+                        growOnEquaoriterator++;
                     } else {
-                        growableNotOnEquator.get(gonei).grow();
-                        gonei++;
-                        getSimulation().grassCount++;
+                        growableNotOnEquator.get(growNotOnEquatorIterator).grow();
+                        growNotOnEquatorIterator++;
                     }
                 } else {
-                    growable.get(gi).grow();
-                    gi++;
-                    getSimulation().grassCount++;
+                    growable.get(growIterator).grow();
+                    growIterator++;
                 }
+                getSimulation().grassCount++;
             } catch (Exception e) {
+                //xD
                 break;
             }
         }

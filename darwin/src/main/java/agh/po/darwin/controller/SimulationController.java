@@ -3,6 +3,7 @@ package agh.po.darwin.controller;
 import agh.po.darwin.model.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
@@ -11,7 +12,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.Comparator;
+import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class SimulationController implements MapChangeListener {
     public static final int CELL_SIZE = 25;
@@ -20,8 +25,10 @@ public class SimulationController implements MapChangeListener {
     public Button pause;
     public Slider speed;
     public LineChart<Long, Integer> statisticsChart;
+    public BarChart genomeBarChart;
     private XYChart.Series<Long, Integer> animalSeries;
     private XYChart.Series<Long, Integer> grassSeries;
+    private XYChart.Series<String, Number> genomeSeries;
     private Simulation simulation;
 
     public Simulation getSimulation() {
@@ -49,6 +56,7 @@ public class SimulationController implements MapChangeListener {
                     }
                 });
         pause.setOnAction(event -> {
+            drawBarChartOfGenomes();
             simulation.setPause(true);
         });
         play.setOnAction(event -> {
@@ -60,9 +68,14 @@ public class SimulationController implements MapChangeListener {
         grassSeries = new XYChart.Series<>();
         grassSeries.setName("grass");
 
+        genomeSeries = new XYChart.Series<>();
+        genomeSeries.setName("Genome");
+
         statisticsChart.setCreateSymbols(false);
         statisticsChart.getData().add(animalSeries);
         statisticsChart.getData().add(grassSeries);
+
+        genomeBarChart.getData().add(genomeSeries);
 
         formatSeries();
     }
@@ -83,6 +96,7 @@ public class SimulationController implements MapChangeListener {
         Image dirt = new Image(Objects.requireNonNull(getClass().getResource("/bg.png")).toExternalForm(), 100, 100, false, false);
         Image grass = new Image(Objects.requireNonNull(getClass().getResource("/grass.png")).toExternalForm(), 100, 100, false, false);
         Image animal = new Image(Objects.requireNonNull(getClass().getResource("/animal.png")).toExternalForm(), 100, 100, false, false);
+        Image fatAnimal = new Image(Objects.requireNonNull(getClass().getResource("/fat_animal.png")).toExternalForm(), 100, 100, false, false);
 
         for (int row = 0; row < getSimulation().height; row++) {
             for (int col = 0; col < getSimulation().width; col++) {
@@ -91,7 +105,12 @@ public class SimulationController implements MapChangeListener {
 
 
                 if (element.toString().equals("grass")) imageView = new ImageView(grass);
-                if (element.toString().equals("animal")) imageView = new ImageView(animal);
+                if (element.toString().equals("animal")) {
+                    imageView = new ImageView(animal);
+                    if(element.getAnimals().peek().getEnergy() >= getSimulation().fedEnergy){
+                    imageView = new ImageView(fatAnimal);
+                    }
+                }
 
                 imageView.setOnMouseClicked(event -> {
                     element.onClick();
@@ -109,6 +128,24 @@ public class SimulationController implements MapChangeListener {
 
     private void clearGrid() {
         mapGrid.getChildren().clear();
+    }
+
+    private void drawBarChartOfGenomes() {
+        var genomes = simulation.getGenomeCount();
+        int MAX_CHART_CATEGORIES_COUNT = 10;
+
+        Map<String, Integer> genomesToDisplay = genomes.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .limit(MAX_CHART_CATEGORIES_COUNT)
+                .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue(), (e1, e2) -> e1, LinkedHashMap::new));
+
+
+        genomeSeries.getData().clear();
+        genomesToDisplay.forEach((key, value) -> {
+            genomeSeries.getData().add(new XYChart.Data<>(key, value));
+        });
+
     }
 
     @Override

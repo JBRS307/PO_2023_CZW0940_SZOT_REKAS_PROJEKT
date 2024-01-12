@@ -6,15 +6,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.scene.chart.CategoryAxis?>
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="agh.po.darwin.controller.SimulationController"
-            prefHeight="800.0" prefWidth="1200.0">
+            prefHeight="800.0" prefWidth="1500.0"
+>
 
-    <center>
-        <VBox>
+    <left>
+        <VBox fillWidth="true">
             <GridPane fx:id="mapGrid"/>
             <HBox>
                 <Button fx:id="pause" text="pause"/>
@@ -23,8 +26,9 @@
                         value="1"/>
             </HBox>
         </VBox>
-    </center>
-    <right>
+    </left>
+    <center>
+        <VBox fillWidth="true">
         <LineChart fx:id="statisticsChart"
         >
             <xAxis>
@@ -34,5 +38,17 @@
                 <NumberAxis label="animals"/>
             </yAxis>
         </LineChart>
-    </right>
+            <BarChart fx:id="genomeBarChart">
+                <xAxis>
+                    <CategoryAxis side="BOTTOM"/>
+                </xAxis>
+                <yAxis>
+                    <NumberAxis />
+                </yAxis>
+            </BarChart>
+        </VBox>
+    </center>
+    <bottom>
+
+    </bottom>
 </BorderPane>

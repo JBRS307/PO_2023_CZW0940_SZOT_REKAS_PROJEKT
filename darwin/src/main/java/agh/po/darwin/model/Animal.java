@@ -162,7 +162,11 @@ public class Animal implements Comparable<Animal> {
         other.energy -= map.getSimulation().breedEnergyCost;
         map.place(child);
 
+        //Update Statistics
+        //TODO rewrite statiscs keeping system to something more clean, maybe some kind of singleton?
         map.getSimulation().animalsCount++;
+        map.getSimulation().addGenome(child.genome.getCode());
+
         children.add(child);
         other.children.add(child);
 

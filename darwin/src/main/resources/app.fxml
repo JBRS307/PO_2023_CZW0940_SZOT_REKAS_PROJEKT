@@ -20,25 +20,25 @@
     <TextField fx:id="startingGrassAmount" promptText="Startowa liczba roślin" text="15"/>
 
     <Label text="Energia zapewniana przez zjedzenie jednej rośliny"/>
-    <TextField fx:id="grassEatingEnergy" promptText="Energia zapewniana przez zjedzenie jednej rośliny" text="1"/>
+    <TextField fx:id="grassEatingEnergy" promptText="Energia zapewniana przez zjedzenie jednej rośliny" text="5"/>
 
     <Label text="Liczba roślin wyrastających każdego dnia"/>
-    <TextField fx:id="grassGrowthPerDay" promptText="Liczba roślin wyrastających każdego dnia" text="1"/>
+    <TextField fx:id="grassGrowthPerDay" promptText="Liczba roślin wyrastających każdego dnia" text="10"/>
 
     <!-- GROWTH VARIANT -->
     <Label text="Startowa liczba zwierzaków"/>
     <TextField fx:id="animalsStartAmount" promptText="Startowa liczba zwierzaków" text="50"/>
 
     <Label text="Startowa energia zwierzaków"/>
-    <TextField fx:id="animalsStartEnergy" promptText="Startowa energia zwierzaków" text="20"/>
+    <TextField fx:id="animalsStartEnergy" promptText="Startowa energia zwierzaków" text="50"/>
 
     <Label text="Energia konieczna, by uznać zwierzaka za najedzonego (i gotowego do rozmnażania)"/>
     <TextField fx:id="fedEnergy"
                promptText="Energia konieczna, by uznać zwierzaka za najedzonego (i gotowego do rozmnażania)"
-               text="120"/>
+               text="70"/>
 
     <Label text="Energia rodziców zużywana by stworzyć potomka"/>
-    <TextField fx:id="breedEnergyCost" promptText="Energia rodziców zużywana by stworzyć potomka" text="20"/>
+    <TextField fx:id="breedEnergyCost" promptText="Energia rodziców zużywana by stworzyć potomka" text="25"/>
 
     <Label text="Minimalna liczba mutacji u potomków"/>
     <TextField fx:id="minMutations" promptText="Minimalna liczba mutacji u potomków" text="0"/>
@@ -47,7 +47,7 @@
     <TextField fx:id="maxMutations" promptText="Maksymalna liczba mutacji u potomków" text="5"/>
 
     <Label text="Długość genomu zwierzaków"/>
-    <TextField fx:id="genomeLength" promptText="Długość genomu zwierzaków" text="20"/>
+    <TextField fx:id="genomeLength" promptText="Długość genomu zwierzaków" text="5"/>
 
     <!--ANIMAL BEHAVIOR VARIANT-->
 
