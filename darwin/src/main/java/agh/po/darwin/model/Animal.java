@@ -96,7 +96,6 @@ public class Animal implements Comparable<Animal> {
 
 
     public void move(AbstractMap map) {
-        lifeTime++;
         int nextGene = genome.nextInt();
         activeGen = String.valueOf(nextGene);
         int newDirectionIndex = (direction.toInt() + nextGene) % 8;
@@ -117,6 +116,7 @@ public class Animal implements Comparable<Animal> {
             this.position = newPos;
         }
         energy -= 1;
+        lifeTime+=1;
     }
 
     private boolean isOutOfBoundsVertical(Vector2d pos, AbstractMap map) {
@@ -181,6 +181,7 @@ public class Animal implements Comparable<Animal> {
         //Update Statistics
         map.getSimulation().animalsCount++;
         map.getSimulation().addGenome(child.genome.getCode());
+        map.getSimulation().animals.add(child);
 
         children.add(child);
         other.children.add(child);

@@ -22,8 +22,17 @@ public class Simulation {
     public int grassCount = 0;
     protected final Map<String, Integer> genomeCount = new HashMap<>();
     protected long day = 0L;
+
+
+    protected final List<Animal> animals = new LinkedList<Animal>();
+    private int averageLifeSpan;
+    private int averageEnergy;
+    private int averageCountOfChildren;
+
     protected float speed = 2;
     protected Animal trackedAnimal;
+
+
     protected boolean shouldClose = false;
     protected AbstractMap worldMap;
     private boolean pause;
@@ -71,6 +80,7 @@ public class Simulation {
             var animal = new Animal(randomPos, genomeLength, animalsStartEnergy);
             worldMap.place(animal);
             addGenome(animal.getGenome().getCode());
+            animals.add(animal);
             animalsCount++;
         }
     }
@@ -131,5 +141,17 @@ public class Simulation {
 
     public void setTrackedAnimal(Animal trackedAnimal) {
         this.trackedAnimal = trackedAnimal;
+    }
+
+    public double getAverageLifeSpan() {
+        return  animals.stream().filter(animal->animal.getEnergy()<=0).mapToInt(animal->animal.getLifeTime()).average().orElse(0);
+    }
+
+    public double getAverageEnergy() {
+        return  animals.stream().filter(animal->animal.getEnergy()>=0).mapToInt(animal->animal.getEnergy()).average().orElse(0);
+    }
+
+    public double getAverageCountOfChildren() {
+        return animals.stream().filter(animal->animal.getEnergy()>=0).mapToInt(animal->animal.getAmountOfChildren()).average().orElse(0);
     }
 }

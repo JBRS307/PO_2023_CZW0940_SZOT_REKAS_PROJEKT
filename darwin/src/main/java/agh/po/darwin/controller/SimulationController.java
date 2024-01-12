@@ -34,6 +34,9 @@ public class SimulationController implements MapChangeListener {
     public Label tracked_amount_children;
     public Label tracked_grass_eaten;
     public Label tracked_lifespan;
+    public Label avg_lifespan;
+    public Label avg_energy;
+    public Label avg_children_count;
     private XYChart.Series<Long, Integer> animalSeries;
     private XYChart.Series<Long, Integer> grassSeries;
     private XYChart.Series<String, Number> genomeSeries;
@@ -172,9 +175,16 @@ public class SimulationController implements MapChangeListener {
         if (worldMap != null) {
             clearGrid();
             updateTrackedAnimalStatistics();
+            updateSimulationStatistics();
             drawMap();
             animalSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.animalsCount));
             grassSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.grassCount));
         }
+    }
+
+    private void updateSimulationStatistics() {
+        avg_lifespan.setText(String.valueOf(simulation.getAverageLifeSpan()));
+        avg_energy.setText(String.valueOf(simulation.getAverageEnergy()));
+        avg_children_count.setText(String.valueOf(simulation.getAverageCountOfChildren()));
     }
 }
