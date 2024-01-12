@@ -23,7 +23,7 @@ public class Simulation {
     protected final Map<String, Integer> genomeCount = new HashMap<>();
     protected long day = 0L;
     protected float speed = 2;
-
+    protected Animal trackedAnimal;
     protected boolean shouldClose = false;
     protected AbstractMap worldMap;
     private boolean pause;
@@ -122,7 +122,14 @@ public class Simulation {
     }
 
     public void addGenome(String genome) {
-
         genomeCount.put(genome, genomeCount.getOrDefault(genome, 0)+1);
+    }
+
+    public Animal getTrackedAnimal() {
+        return trackedAnimal;
+    }
+
+    public void setTrackedAnimal(Animal trackedAnimal) {
+        this.trackedAnimal = trackedAnimal;
     }
 }

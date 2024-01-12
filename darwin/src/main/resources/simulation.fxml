@@ -25,6 +25,41 @@
                 <Slider fx:id="speed" min="1" max="100" blockIncrement="1" showTickLabels="true" showTickMarks="true"
                         value="1"/>
             </HBox>
+            <Label>ŚLEDZONE ZWIERZĘ</Label>
+            <HBox>
+                <Label>Energia:</Label>
+                <Label fx:id="tracked_energy">-</Label>
+            </HBox>
+
+            <HBox>
+                <Label>Genom:</Label>
+                <Label fx:id="tracked_genome">-</Label>
+            </HBox>
+
+            <HBox>
+                <Label>Aktywny Gen:</Label>
+                <Label fx:id="tracked_active_genome">-</Label>
+            </HBox>
+
+            <HBox>
+                <Label>Ile zjadł roślin</Label>
+                <Label fx:id="tracked_grass_eaten">-</Label>
+            </HBox>
+
+            <HBox>
+                <Label>Ile Posiada dzieci</Label>
+                <Label fx:id="tracked_amount_children">-</Label>
+            </HBox>
+
+            <HBox>
+                <Label>Ile Posiada potomków</Label>
+                <Label fx:id="tracked_amount_descendant">-</Label>
+            </HBox>
+
+            <HBox>
+                <Label>Ile żyje</Label>
+                <Label fx:id="tracked_lifespan">-</Label>
+            </HBox>
         </VBox>
     </left>
     <center>

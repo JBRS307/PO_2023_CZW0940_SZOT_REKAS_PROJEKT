@@ -68,6 +68,7 @@ public class MapTile {
     public void eat(AbstractMap map) {
         if (isThereGrass) animals.stream().max(Comparator.naturalOrder()).ifPresent(animal -> {
             animal.setEnergy(map.getSimulation().grassEatingEnergy + animal.getEnergy());
+            animal.setGrassEaten(animal.getGrassEaten()+1);
             this.setThereGrass(false);
             map.getSimulation().grassCount--;
         });
@@ -92,7 +93,11 @@ public class MapTile {
         }
     }
 
-    public void onClick() {
-        System.out.println(position);
+    public void onClick(Simulation simulation) {
+        var animal = animals.peek();
+        if(animal != null){
+            simulation.setTrackedAnimal(animal);
+        }
+        simulation.worldMap.mapChanged("update");
     }
 }

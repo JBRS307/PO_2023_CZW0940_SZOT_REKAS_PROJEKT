@@ -9,9 +9,9 @@ public class Animal implements Comparable<Animal> {
     private int energy;
     private Genome genome;
     private int lifeTime;
+    private int grassEaten;
     private int amountOfChildren;
-    private int animalsStartEnergy;
-    private int age;
+    private String activeGen;
     private MapDirection direction = MapDirection.NORTH;
 
     private final List<Animal> children = new ArrayList<>();
@@ -21,6 +21,8 @@ public class Animal implements Comparable<Animal> {
         this.position = position;
         this.genomeLength = genomeLength;
         this.energy = animalsStartEnergy;
+        this.lifeTime = 0;
+        this.grassEaten = 0;
         genome = new Genome(genomeLength);
     }
 
@@ -67,22 +69,36 @@ public class Animal implements Comparable<Animal> {
     public int getAmountOfChildren() {
         return amountOfChildren;
     }
+    public int getAmountOfDecadence(){
+        Queue<Animal> toVisit = new ArrayDeque<>();
+        Map<Animal, Boolean> visited = new HashMap<>();
+        int decadence = 0;
+        children.forEach(child->{
+            toVisit.add(child);
+        });
+        while (!toVisit.isEmpty()){
+            var animal = toVisit.poll();
+            if(visited.containsKey(animal)){
+                continue;
+            }
+            animal.children.forEach(child->{
+                toVisit.add(child);
+            });
+            visited.put(animal,true);
+            decadence++;
+        }
+        return decadence;
+    }
 
     public void setAmountOfChildren(int amountOfChildren) {
         this.amountOfChildren = amountOfChildren;
     }
 
 
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
     public void move(AbstractMap map) {
+        lifeTime++;
         int nextGene = genome.nextInt();
+        activeGen = String.valueOf(nextGene);
         int newDirectionIndex = (direction.toInt() + nextGene) % 8;
         this.direction = MapDirection.fromInt(newDirectionIndex);
 
@@ -141,8 +157,8 @@ public class Animal implements Comparable<Animal> {
     public int compareTo(Animal other) {
         if (this.energy != other.energy) {
             return Integer.compare(other.energy, this.energy);
-        } else if (this.age != other.age) {
-            return Integer.compare(other.age, this.age);
+        } else if (this.lifeTime != other.lifeTime) {
+            return Integer.compare(other.lifeTime, this.lifeTime);
         } else if (this.amountOfChildren != other.amountOfChildren) {
             return Integer.compare(other.amountOfChildren, this.amountOfChildren);
         } else {
@@ -163,12 +179,23 @@ public class Animal implements Comparable<Animal> {
         map.place(child);
 
         //Update Statistics
-        //TODO rewrite statiscs keeping system to something more clean, maybe some kind of singleton?
         map.getSimulation().animalsCount++;
         map.getSimulation().addGenome(child.genome.getCode());
 
         children.add(child);
         other.children.add(child);
 
+    }
+
+    public int getGrassEaten() {
+        return grassEaten;
+    }
+
+    public void setGrassEaten(int grassEaten) {
+        this.grassEaten = grassEaten;
+    }
+
+    public String getActiveGen() {
+        return activeGen;
     }
 }

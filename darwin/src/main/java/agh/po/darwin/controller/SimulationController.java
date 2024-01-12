@@ -7,6 +7,7 @@ import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.layout.GridPane;
 import javafx.scene.image.Image;
@@ -26,6 +27,13 @@ public class SimulationController implements MapChangeListener {
     public Slider speed;
     public LineChart<Long, Integer> statisticsChart;
     public BarChart genomeBarChart;
+    public Label tracked_energy;
+    public Label tracked_genome;
+    public Label tracked_active_genome;
+    public Label tracked_amount_descendant;
+    public Label tracked_amount_children;
+    public Label tracked_grass_eaten;
+    public Label tracked_lifespan;
     private XYChart.Series<Long, Integer> animalSeries;
     private XYChart.Series<Long, Integer> grassSeries;
     private XYChart.Series<String, Number> genomeSeries;
@@ -113,7 +121,7 @@ public class SimulationController implements MapChangeListener {
                 }
 
                 imageView.setOnMouseClicked(event -> {
-                    element.onClick();
+                    element.onClick(simulation);
                 });
 
                 imageView.setFitWidth(750 / simulation.width);
@@ -147,11 +155,23 @@ public class SimulationController implements MapChangeListener {
         });
 
     }
+    private void updateTrackedAnimalStatistics(){
+        var animal = simulation.getTrackedAnimal();
+        if(animal == null) return;
+        tracked_energy.setText(String.valueOf(animal.getEnergy()));
+        tracked_genome.setText(String.valueOf(animal.getGenome().getCode()));
+        tracked_amount_children.setText(String.valueOf(animal.getAmountOfChildren()));
+        tracked_amount_descendant.setText(String.valueOf(animal.getAmountOfDecadence()));
+        tracked_lifespan.setText(String.valueOf(animal.getLifeTime()));
+        tracked_active_genome.setText(animal.getActiveGen());
+        tracked_grass_eaten.setText(String.valueOf(animal.getGrassEaten()));
+    }
 
     @Override
     public synchronized void mapChanged(WorldMap worldMap, String message) {
         if (worldMap != null) {
             clearGrid();
+            updateTrackedAnimalStatistics();
             drawMap();
             animalSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.animalsCount));
             grassSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.grassCount));
