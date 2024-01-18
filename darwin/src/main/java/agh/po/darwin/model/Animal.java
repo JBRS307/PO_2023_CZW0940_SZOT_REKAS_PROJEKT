@@ -117,13 +117,13 @@ public class Animal implements Comparable<Animal> {
             int upperYBound = map.getCurrentBounds().rightUpperBoundary().getY();
 
             Random random = new Random();
-            newPos = new Vector2d(random.nextInt(0, upperXBound+1),
-                                  random.nextInt(0, upperYBound+1));
+            newPos = new Vector2d(random.nextInt(upperXBound+1),
+                                  random.nextInt(upperYBound+1));
             energy -= map.getSimulation().breedEnergyCost;
         } else {
             energy -= 1;
         }
-        map.move(this, newPos);
+        map.moveOnMap(this, newPos);
         this.position = newPos;
         lifeTime += 1;
     }
@@ -145,7 +145,7 @@ public class Animal implements Comparable<Animal> {
 
         // There are no situations where move would be illegal
         // so usage of MapValidator is needless
-        map.move(this, newPos);
+        map.moveOnMap(this, newPos);
         this.position = newPos;
         energy -= 1;
         lifeTime+=1;

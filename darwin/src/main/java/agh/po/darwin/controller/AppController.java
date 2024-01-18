@@ -7,10 +7,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import javax.swing.*;
 import java.io.IOException;
 
 public class AppController {
@@ -26,15 +28,23 @@ public class AppController {
     public TextField minMutations;
     public TextField maxMutations;
     public TextField genomeLength;
+    public ComboBox<String> pickMap;
     public Button startBtn;
 
     public void initialize() {
+        pickMap.getSelectionModel().selectFirst();
+        System.out.println(pickMap.getItems());
         startBtn.setOnAction(event -> {
             SpawnNewSimulation();
         });
     }
 
     private void SpawnNewSimulation() {
+        boolean hell = switch (pickMap.getValue()) {
+            case "Mapa domyślna" -> false;
+            case "Portal do piekła" -> true;
+            default -> throw new IllegalStateException("Unexpected value: " + pickMap.getValue()); // średnio to potrzebne, bo da się wybrać tylko te wartości, ale na mnie krzyczy
+        };                                                                                         // więc niech ma
         Simulation simulation = new Simulation(
                 Integer.parseInt(width.getText()),
                 Integer.parseInt(height.getText()),
@@ -48,7 +58,7 @@ public class AppController {
                 Integer.parseInt(minMutations.getText()),
                 Integer.parseInt(maxMutations.getText()),
                 Integer.parseInt(genomeLength.getText()),
-                false
+                hell
         );
         System.out.println("Started new simulation with UUID:" + simulation.uuid);
         //OPEN simulation window

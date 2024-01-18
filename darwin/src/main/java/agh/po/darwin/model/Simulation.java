@@ -75,7 +75,7 @@ public class Simulation {
 
         //first lets spawn grass
         for (int i = 0; i < startingGrassAmount; i++) {
-            var randomPos = new Vector2d(random.nextInt(0, width), random.nextInt(0, height));
+            var randomPos = new Vector2d(random.nextInt(width), random.nextInt(height));
             if (worldMap.tiles.get(randomPos).isThereGrass()) {
                 i--;
                 continue;
@@ -85,7 +85,7 @@ public class Simulation {
         }
         //then spawn animals
         for (int i = 0; i < startingAnimalsAmount; i++) {
-            var randomPos = new Vector2d(random.nextInt(0, width), random.nextInt(0, height));
+            var randomPos = new Vector2d(random.nextInt(width), random.nextInt(height));
             if (worldMap.isOccupied(randomPos)) {
                 i--;
                 continue;

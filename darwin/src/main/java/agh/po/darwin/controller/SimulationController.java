@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 public class SimulationController implements MapChangeListener {
     public static final int CELL_SIZE = 25;
     public GridPane mapGrid;
+    public Label mapVariant;
     public Button play;
     public Button pause;
     public Slider speed;
@@ -56,6 +57,11 @@ public class SimulationController implements MapChangeListener {
      * This method will be invoked after simulation object is assign to this simulation controller
      */
     protected void lateInitialize() {
+        if(!simulation.hell) {
+            mapVariant.setText(mapVariant.getText() + "MAPA DOMYŚLNA");
+        } else {
+            mapVariant.setText(mapVariant.getText() + "PORTAL DO PIEKŁA");
+        }
         drawMap();
         speed.valueProperty().addListener(
                 new ChangeListener<Number>() {
