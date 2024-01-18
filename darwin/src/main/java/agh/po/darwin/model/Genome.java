@@ -54,15 +54,15 @@ public class Genome {
     }
 
 
-    public boolean hasNext() {
-        return true;
-    }
+//    public boolean hasNext() {
+//        return true;
+//    }
 
-    public MapDirection nextDirection() {
-        int index = Integer.parseInt(String.valueOf(code.charAt((current) % code.length())));
-        current += 1;
-        return MapDirection.fromInt(index);
-    }
+//    public MapDirection nextDirection() {
+//        int index = Integer.parseInt(String.valueOf(code.charAt((current) % code.length())));
+//        current += 1;
+//        return MapDirection.fromInt(index);
+//    }
 
     public int nextInt() {
         int index = Integer.parseInt(String.valueOf(code.charAt((current) % code.length())));
