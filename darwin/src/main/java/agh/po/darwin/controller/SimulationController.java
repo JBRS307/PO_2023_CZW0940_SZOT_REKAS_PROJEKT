@@ -177,8 +177,8 @@ public class SimulationController implements MapChangeListener {
             updateTrackedAnimalStatistics();
             updateSimulationStatistics();
             drawMap();
-            animalSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.animalsCount));
-            grassSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.grassCount));
+            animalSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.getAnimalsCount()));
+            grassSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.getGrassCount()));
         }
     }
 

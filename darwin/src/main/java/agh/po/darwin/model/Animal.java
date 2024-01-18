@@ -94,8 +94,41 @@ public class Animal implements Comparable<Animal> {
         this.amountOfChildren = amountOfChildren;
     }
 
+    public void move(AbstractMap map, boolean hell) {
+        if (hell) {
+            hellMove(map);
+        } else {
+            defaultMove(map);
+        }
+    }
 
-    public void move(AbstractMap map) {
+    private void hellMove(AbstractMap map) {
+        int nextGene = genome.nextInt();
+        activeGen = String.valueOf(nextGene);
+        int newDirectionIndex = (direction.toInt() + nextGene) % 8;
+        this.direction  = MapDirection.fromInt(newDirectionIndex);
+
+        Vector2d newPos = this.position.add(this.direction.toUnitVector());
+
+        //Hellish boundary conditions
+        if (isOutOfBoundsHorizontal(newPos, map) ||
+            isOutOfBoundsVertical(newPos, map)) {
+            int upperXBound = map.getCurrentBounds().rightUpperBoundary().getX();
+            int upperYBound = map.getCurrentBounds().rightUpperBoundary().getY();
+
+            Random random = new Random();
+            newPos = new Vector2d(random.nextInt(0, upperXBound+1),
+                                  random.nextInt(0, upperYBound+1));
+            energy -= map.getSimulation().breedEnergyCost;
+        } else {
+            energy -= 1;
+        }
+        map.move(this, newPos);
+        this.position = newPos;
+        lifeTime += 1;
+    }
+
+    private void defaultMove(AbstractMap map) {
         int nextGene = genome.nextInt();
         activeGen = String.valueOf(nextGene);
         int newDirectionIndex = (direction.toInt() + nextGene) % 8;
@@ -110,11 +143,10 @@ public class Animal implements Comparable<Animal> {
         }
         newPos = adjustHorizontalBoundary(newPos, map);
 
-        // Move if the new position is valid
-        if (map.canMoveTo(newPos)) {
-            map.move(this, newPos);
-            this.position = newPos;
-        }
+        // There are no situations where move would be illegal
+        // so usage of MapValidator is needless
+        map.move(this, newPos);
+        this.position = newPos;
         energy -= 1;
         lifeTime+=1;
     }
@@ -122,6 +154,11 @@ public class Animal implements Comparable<Animal> {
     private boolean isOutOfBoundsVertical(Vector2d pos, AbstractMap map) {
         int upperYBoundary = map.getCurrentBounds().rightUpperBoundary().getY();
         return pos.getY() < 0 || pos.getY() > upperYBoundary;
+    }
+
+    private boolean isOutOfBoundsHorizontal(Vector2d pos, AbstractMap map) {
+        int upperX = map.getCurrentBounds().rightUpperBoundary().getX();
+        return pos.getX() < 0 || pos.getX() > upperX;
     }
 
     private MapDirection reflectVertical(MapDirection direction) {

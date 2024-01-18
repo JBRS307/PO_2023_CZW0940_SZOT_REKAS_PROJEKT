@@ -47,7 +47,8 @@ public class AppController {
                 Integer.parseInt(breedEnergyCost.getText()),
                 Integer.parseInt(minMutations.getText()),
                 Integer.parseInt(maxMutations.getText()),
-                Integer.parseInt(genomeLength.getText())
+                Integer.parseInt(genomeLength.getText()),
+                false
         );
         System.out.println("Started new simulation with UUID:" + simulation.uuid);
         //OPEN simulation window

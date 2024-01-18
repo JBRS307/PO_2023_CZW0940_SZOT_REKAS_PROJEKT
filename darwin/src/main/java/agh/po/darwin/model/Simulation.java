@@ -16,10 +16,12 @@ public class Simulation {
     public final int minMutations;
     public final int maxMutations;
     public final int genomeLength;
+    public final boolean hell;
+
 
     //Statistics
-    public int animalsCount = 0;
-    public int grassCount = 0;
+    protected int animalsCount = 0;
+    protected int grassCount = 0;
     protected final Map<String, Integer> genomeCount = new HashMap<>();
     protected long day = 0L;
 
@@ -38,7 +40,9 @@ public class Simulation {
     private boolean pause;
 
 
-    public Simulation(int width, int height, int startingGrassAmount, int grassEatingEnergy, int grassGrowthPerDay, int startingAnimalsAmount, int animalsStartEnergy, int fedEnergy, int breedEnergyCost, int minMutations, int maxMutations, int genomeLength) {
+    public Simulation(int width, int height, int startingGrassAmount, int grassEatingEnergy, int grassGrowthPerDay,
+                      int startingAnimalsAmount, int animalsStartEnergy, int fedEnergy, int breedEnergyCost, int minMutations,
+                      int maxMutations, int genomeLength, boolean hell) {
         this.uuid = UUID.randomUUID();
         this.width = width;
         this.height = height;
@@ -52,8 +56,17 @@ public class Simulation {
         this.minMutations = minMutations;
         this.maxMutations = maxMutations;
         this.genomeLength = genomeLength;
+        this.hell = hell;
         initializeSimulation();
 
+    }
+
+    public int getAnimalsCount() {
+        return animalsCount;
+    }
+
+    public int getGrassCount() {
+        return grassCount;
     }
 
     private void initializeSimulation() {

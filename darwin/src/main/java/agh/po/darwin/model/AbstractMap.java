@@ -59,9 +59,9 @@ public abstract class AbstractMap implements WorldMap {
         tiles.get(animal.getPosition()).remove(animal);
     }
 
-    public void killAnimal(Animal animal) {
-        this.tiles.get(animal.getPosition()).remove(animal);
-    }
+//    public void killAnimal(Animal animal) {
+//        this.tiles.get(animal.getPosition()).remove(animal);
+//    }
 
     public Simulation getSimulation() {
         return simulation;
