@@ -10,6 +10,9 @@ public class MapTile {
     private final Vector2d position;
     private final ConcurrentLinkedQueue<Animal> animals = new ConcurrentLinkedQueue<>();
     private boolean isThereGrass = false;
+    private int growCount = 0;
+
+    private boolean grassPreferred = false;
 
     public MapTile(Vector2d position, WorldMap map) {
         this.position = position;
@@ -19,7 +22,15 @@ public class MapTile {
         return position;
     }
 
-
+    public int getGrowCount() {
+        return growCount;
+    }
+    public boolean getGrassPreferred() {
+        return grassPreferred;
+    }
+    public void setGrassPreferred(boolean grassPreferred) {
+        this.grassPreferred = grassPreferred;
+    }
     public boolean isThereGrass() {
         return isThereGrass;
     }
@@ -52,6 +63,7 @@ public class MapTile {
 
     public synchronized void grow() {
         this.setThereGrass(true);
+        this.growCount++;
     }
 
     public void breed(AbstractMap map) {

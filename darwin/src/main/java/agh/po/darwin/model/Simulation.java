@@ -126,6 +126,28 @@ public class Simulation {
         return worldMap;
     }
 
+    public void setGrassPreferredTiles() {
+        List<MapTile> tiles = new ArrayList<>(this.worldMap.getTiles().values());
+        int tilesLength = tiles.size();
+
+//        tiles.sort((t1, t2) -> t2.getGrowCount() - t1.getGrowCount());
+//        long tilesLength = tiles.size();
+//        tilesLength = Math.round(tilesLength * 0.2);
+//        tiles = tiles.subList(0, (int) Math.max(tilesLength-1, 1));
+//        return tiles;
+
+        tiles.sort((t1, t2) -> t2.getGrowCount() - t1.getGrowCount());
+        int preferredTiles = (int) (tilesLength * 0.2);
+
+        for (int i = 0; i < tilesLength; i++) {
+            if (i <= preferredTiles) {
+                tiles.get(i).setGrassPreferred(true);
+            } else {
+                tiles.get(i).setGrassPreferred(false);
+            }
+        }
+    }
+
     public float getSpeed() {
         return speed;
     }
@@ -136,6 +158,10 @@ public class Simulation {
 
     public void setPause(boolean b) {
         this.pause = b;
+    }
+
+    public boolean getPause() {
+        return this.pause;
     }
 
     public long getDay() {
@@ -163,10 +189,10 @@ public class Simulation {
     }
 
     public double getAverageEnergy() {
-        return  animals.stream().filter(animal->animal.getEnergy()>=0).mapToInt(animal->animal.getEnergy()).average().orElse(0);
+        return  animals.stream().filter(animal->animal.getEnergy()>0).mapToInt(animal->animal.getEnergy()).average().orElse(0);
     }
 
     public double getAverageCountOfChildren() {
-        return animals.stream().filter(animal->animal.getEnergy()>=0).mapToInt(animal->animal.getAmountOfChildren()).average().orElse(0);
+        return animals.stream().filter(animal->animal.getEnergy()>0).mapToInt(animal->animal.getAmountOfChildren()).average().orElse(0);
     }
 }

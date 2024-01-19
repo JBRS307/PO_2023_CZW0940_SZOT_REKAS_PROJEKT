@@ -14,6 +14,9 @@ public abstract class AbstractMap implements WorldMap {
     protected AbstractMap(Simulation simulation) {
         this.simulation = simulation;
     }
+    public Map<Vector2d, MapTile> getTiles() {
+        return tiles;
+    }
 
     public void registerSubscriber(MapChangeListener mapChangeListener) {
         subscribers.add(mapChangeListener);
