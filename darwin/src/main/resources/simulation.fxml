@@ -103,7 +103,4 @@
             </BarChart>
         </VBox>
     </center>
-    <bottom>
-
-    </bottom>
 </BorderPane>
