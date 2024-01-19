@@ -17,6 +17,7 @@ public class Simulation {
     public final int maxMutations;
     public final int genomeLength;
     public final boolean hell;
+    public final boolean leftRight;
 
 
     //Statistics
@@ -42,7 +43,7 @@ public class Simulation {
 
     public Simulation(int width, int height, int startingGrassAmount, int grassEatingEnergy, int grassGrowthPerDay,
                       int startingAnimalsAmount, int animalsStartEnergy, int fedEnergy, int breedEnergyCost, int minMutations,
-                      int maxMutations, int genomeLength, boolean hell) {
+                      int maxMutations, int genomeLength, boolean hell, boolean leftRight) {
         this.uuid = UUID.randomUUID();
         this.width = width;
         this.height = height;
@@ -57,6 +58,7 @@ public class Simulation {
         this.maxMutations = maxMutations;
         this.genomeLength = genomeLength;
         this.hell = hell;
+        this.leftRight = leftRight;
         initializeSimulation();
 
     }
@@ -90,7 +92,7 @@ public class Simulation {
                 i--;
                 continue;
             }
-            var animal = new Animal(randomPos, genomeLength, animalsStartEnergy);
+            var animal = new Animal(randomPos, genomeLength, animalsStartEnergy, leftRight);
             worldMap.place(animal);
             addGenome(animal.getGenome().getCode());
             animals.add(animal);

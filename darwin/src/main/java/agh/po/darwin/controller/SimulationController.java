@@ -35,6 +35,7 @@ public class SimulationController implements MapChangeListener {
     public Label tracked_amount_children;
     public Label tracked_grass_eaten;
     public Label tracked_lifespan;
+    public Label tracked_direction;
     public Label avg_lifespan;
     public Label avg_energy;
     public Label avg_children_count;
@@ -174,6 +175,7 @@ public class SimulationController implements MapChangeListener {
         tracked_lifespan.setText(String.valueOf(animal.getLifeTime()));
         tracked_active_genome.setText(animal.getActiveGen());
         tracked_grass_eaten.setText(String.valueOf(animal.getGrassEaten()));
+        tracked_direction.setText(animal.getDirection().toString());
     }
 
     @Override

@@ -5,6 +5,7 @@ import java.util.*;
 public class Animal implements Comparable<Animal> {
     private final UUID uuid;
     private final int genomeLength;
+    private final boolean leftRight;
     private Vector2d position;
     private int energy;
     private Genome genome;
@@ -15,16 +16,21 @@ public class Animal implements Comparable<Animal> {
     private MapDirection direction = MapDirection.NORTH;
 
     private final List<Animal> children = new ArrayList<>();
-
-    public Animal(Vector2d position, int genomeLength, int animalsStartEnergy) {
+    public Animal(Vector2d position, Genome genome, int animalsStartEnergy, boolean leftRight) {
         this.uuid = UUID.randomUUID();
         this.position = position;
-        this.genomeLength = genomeLength;
+        this.genomeLength = genome.getCode().length();
         this.energy = animalsStartEnergy;
         this.lifeTime = 0;
         this.grassEaten = 0;
-        genome = new Genome(genomeLength);
+        this.genome = genome;
+        this.leftRight = leftRight;
     }
+
+    public Animal(Vector2d position, int genomeLength, int animalsStartEnergy, boolean leftRight) {
+        this(position, new Genome(genomeLength, leftRight), animalsStartEnergy, leftRight);
+    }
+
 
     /**
      * Auto Generated Getters and Setters
@@ -33,38 +39,34 @@ public class Animal implements Comparable<Animal> {
     public UUID getUuid() {
         return uuid;
     }
-
+    public MapDirection getDirection() {
+        return direction;
+    }
     public Vector2d getPosition() {
         return position;
     }
-
     public void setPosition(Vector2d position) {
         this.position = position;
     }
-
     public int getEnergy() {
         return energy;
     }
-
     public void setEnergy(int energy) {
         this.energy = energy;
     }
-
     public Genome getGenome() {
         return genome;
     }
-
     public void setGenome(Genome genome) {
         this.genome = genome;
     }
-
     public int getLifeTime() {
         return lifeTime;
     }
 
-    public void setLifeTime(int lifeTime) {
-        this.lifeTime = lifeTime;
-    }
+//    public void setLifeTime(int lifeTime) {
+//        this.lifeTime = lifeTime;
+//    }
 
     public int getAmountOfChildren() {
         return amountOfChildren;
@@ -206,8 +208,8 @@ public class Animal implements Comparable<Animal> {
 
 
     public void breed(Animal other, AbstractMap map) {
-        Animal child = new Animal(new Vector2d(this.position.getX(), this.position.getY()), genomeLength, map.getSimulation().breedEnergyCost * 2);
-        child.setGenome(new Genome(this, other, map.getSimulation()));
+        Animal child = new Animal(new Vector2d(this.position.getX(), this.position.getY()), new Genome(this, other, map.getSimulation()), map.getSimulation().breedEnergyCost * 2, this.leftRight);
+//        child.setGenome(new Genome(this, other, map.getSimulation()));
 
         this.amountOfChildren++;
         other.amountOfChildren++;
