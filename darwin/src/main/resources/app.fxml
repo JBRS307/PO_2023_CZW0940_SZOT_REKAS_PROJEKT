@@ -54,14 +54,23 @@
 
     <!--ANIMAL BEHAVIOR VARIANT-->
     <Label text="Wybór mapy" />
-    <ComboBox fx:id="pickMap" promptText="wybierz">
+    <ComboBox fx:id="pickMap">
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="Mapa domyślna" />
                 <String fx:value="Portal do piekła" />
             </FXCollections>
         </items>
+    </ComboBox>
 
+    <Label text="Wybór zachowania genomu" />
+    <ComboBox fx:id="pickGenome">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Standardowy" />
+                <String fx:value="Lewo-Prawo" />
+            </FXCollections>
+        </items>
     </ComboBox>
 
     <Button text="Start Simulation" fx:id="startBtn"/>

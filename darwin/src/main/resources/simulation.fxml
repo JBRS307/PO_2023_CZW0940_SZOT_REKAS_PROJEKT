@@ -19,7 +19,10 @@
     <left>
         <VBox fillWidth="true">
             <GridPane fx:id="mapGrid"/>
-            <Label fx:id="mapVariant" text="Wariant mapy: "/>
+            <HBox>
+                <Label fx:id="mapVariant" text="Wariant mapy: "/>
+                <Label fx:id="genomeVariant" text="Wariant genomu: " />
+            </HBox>
             <HBox>
                 <Button fx:id="pause" text="pause"/>
                 <Button fx:id="play" text="play"/>

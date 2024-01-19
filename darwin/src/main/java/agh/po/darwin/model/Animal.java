@@ -63,6 +63,9 @@ public class Animal implements Comparable<Animal> {
     public int getLifeTime() {
         return lifeTime;
     }
+    public int getGenomeLength() {
+        return genomeLength;
+    }
 
 //    public void setLifeTime(int lifeTime) {
 //        this.lifeTime = lifeTime;
@@ -125,7 +128,7 @@ public class Animal implements Comparable<Animal> {
         } else {
             energy -= 1;
         }
-        map.moveOnMap(this, newPos);
+        map.moveToNewTile(this, newPos);
         this.position = newPos;
         lifeTime += 1;
     }
@@ -147,7 +150,7 @@ public class Animal implements Comparable<Animal> {
 
         // There are no situations where move would be illegal
         // so usage of MapValidator is needless
-        map.moveOnMap(this, newPos);
+        map.moveToNewTile(this, newPos);
         this.position = newPos;
         energy -= 1;
         lifeTime+=1;

@@ -23,6 +23,7 @@ public class SimulationController implements MapChangeListener {
     public static final int CELL_SIZE = 25;
     public GridPane mapGrid;
     public Label mapVariant;
+    public Label genomeVariant;
     public Button play;
     public Button pause;
     public Slider speed;
@@ -59,9 +60,15 @@ public class SimulationController implements MapChangeListener {
      */
     protected void lateInitialize() {
         if(!simulation.hell) {
-            mapVariant.setText(mapVariant.getText() + "MAPA DOMYŚLNA");
+            mapVariant.setText(mapVariant.getText() + "MAPA DOMYŚLNA, ");
         } else {
-            mapVariant.setText(mapVariant.getText() + "PORTAL DO PIEKŁA");
+            mapVariant.setText(mapVariant.getText() + "PORTAL DO PIEKŁA, ");
+        }
+
+        if(!simulation.leftRight) {
+            genomeVariant.setText(genomeVariant.getText() + "Standardowy");
+        } else {
+            genomeVariant.setText(genomeVariant.getText() + "Lewo-Prawo");
         }
         drawMap();
         speed.valueProperty().addListener(

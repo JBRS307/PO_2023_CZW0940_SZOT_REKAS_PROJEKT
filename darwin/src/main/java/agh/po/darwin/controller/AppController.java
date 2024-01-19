@@ -29,11 +29,12 @@ public class AppController {
     public TextField maxMutations;
     public TextField genomeLength;
     public ComboBox<String> pickMap;
+    public ComboBox<String> pickGenome;
     public Button startBtn;
 
     public void initialize() {
         pickMap.getSelectionModel().selectFirst();
-        System.out.println(pickMap.getItems());
+        pickGenome.getSelectionModel().selectFirst();
         startBtn.setOnAction(event -> {
             SpawnNewSimulation();
         });
@@ -45,6 +46,11 @@ public class AppController {
             case "Portal do piekła" -> true;
             default -> throw new IllegalStateException("Unexpected value: " + pickMap.getValue()); // średnio to potrzebne, bo da się wybrać tylko te wartości, ale na mnie krzyczy
         };                                                                                         // więc niech ma
+        boolean leftRight = switch (pickGenome.getValue()) {
+            case "Standardowy" -> false;
+            case "Lewo-Prawo" -> true;
+            default -> throw new IllegalStateException("Unexpected value: " + pickGenome.getValue());
+        };
         Simulation simulation = new Simulation(
                 Integer.parseInt(width.getText()),
                 Integer.parseInt(height.getText()),
@@ -58,7 +64,8 @@ public class AppController {
                 Integer.parseInt(minMutations.getText()),
                 Integer.parseInt(maxMutations.getText()),
                 Integer.parseInt(genomeLength.getText()),
-                hell
+                hell,
+                leftRight
         );
         System.out.println("Started new simulation with UUID:" + simulation.uuid);
         //OPEN simulation window

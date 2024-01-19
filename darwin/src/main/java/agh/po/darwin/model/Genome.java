@@ -8,16 +8,25 @@ public class Genome {
     private int current;
 
     private final boolean leftRight;
-    private boolean direction = true;
+    private short direction;
     // Orientacja genu podczas ruchów lewo-prawo
-    // true - w prawo, false - w lewo
+    // 1 - w prawo, -1 - w lewo
     Random random = new Random();
 
     public Genome(int length, boolean leftRight) {
         //random genome
         this.code = generateRandomDigits(length);
-        this.current = random.nextInt(0, 8);
+        this.current = random.nextInt(this.code.length());
         this.leftRight = leftRight;
+
+        if(this.leftRight) {
+            boolean directionRandomizer = (random.nextInt(2) != 0);
+            if (directionRandomizer) {
+                this.direction = 1;
+            } else {
+                this.direction = -1;
+            }
+        }
     }
 
     public Genome(Animal dad, Animal mom, Simulation simulation) {
@@ -47,8 +56,17 @@ public class Genome {
             childGenesArray[geneIndexToMutate] = newGene;
         }
         this.code = new String(childGenesArray);
-        this.current = random.nextInt(8);
+        this.current = random.nextInt(this.code.length());
         this.leftRight = simulation.leftRight;
+
+        if (this.leftRight) {
+            boolean directionRandomizer = (random.nextInt(2) != 0);
+            if (directionRandomizer) {
+                this.direction = 1;
+            } else {
+                this.direction = -1;
+            }
+        }
     }
 
 
@@ -80,13 +98,20 @@ public class Genome {
     }
 
     public int nextIntDefault() {
-        int index = Integer.parseInt(String.valueOf(code.charAt((current) % code.length())));
+        int index = Integer.parseInt(String.valueOf(code.charAt(current)));
         current += 1;
+        current %= this.code.length();
         return index;
     }
 
     public int nextIntLeftRight() {
-        return 1;
+        int index = Integer.parseInt(String.valueOf((code.charAt(current))));
+        current += direction;
+        if (current == this.code.length() || current == -1) {
+            direction *= -1;
+            current += direction;
+        }
+        return index;
     }
 
     private String generateRandomDigits(int length) {
