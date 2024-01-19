@@ -78,7 +78,7 @@ public class MapTile {
         var iter = animals.iterator();
         while (iter.hasNext()) {
             var animal = iter.next();
-            animal.move(map);
+            animal.move(map, map.getSimulation().hell);
         }
     }
 
