@@ -7,10 +7,16 @@
 <?import javafx.scene.control.ComboBox?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.layout.HBox?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       minHeight="800.0" minWidth="400.0"
       fx:controller="agh.po.darwin.controller.AppController">
+
+    <Label>Wybierz konfigurację</Label>
+    <ComboBox fx:id="pickConfig" promptText="-" minWidth="400.0">
+
+    </ComboBox>
 
     <Label text="Szerokość Mapy"/>
     <TextField fx:id="width" promptText="Szerokość Mapy" text="30"/>
@@ -73,5 +79,9 @@
         </items>
     </ComboBox>
 
-    <Button text="Start Simulation" fx:id="startBtn"/>
+    <HBox>
+        <Button text="Rozpocznij symulację" fx:id="startBtn" />
+        <Button text="Zapisz konfigurację" fx:id="saveBtn" />
+        <Button text="Wczytaj konfigurację" fx:id="readBtn" />
+    </HBox>
 </VBox>
