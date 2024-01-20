@@ -82,6 +82,5 @@
     <HBox>
         <Button text="Rozpocznij symulację" fx:id="startBtn" />
         <Button text="Zapisz konfigurację" fx:id="saveBtn" />
-        <Button text="Wczytaj konfigurację" fx:id="readBtn" />
     </HBox>
 </VBox>
