@@ -8,6 +8,7 @@
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.CheckBox?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       minHeight="800.0" minWidth="400.0"
@@ -82,5 +83,6 @@
     <HBox>
         <Button text="Rozpocznij symulację" fx:id="startBtn" />
         <Button text="Zapisz konfigurację" fx:id="saveBtn" />
+        <CheckBox text="Eksportuj do pliku csv" fx:id="exportCheckBox" />
     </HBox>
 </VBox>

@@ -207,9 +207,17 @@ public class SimulationController implements MapChangeListener {
                         }
 
                         if (currAnimal.getEnergy() >= simulation.fedEnergy) {
-                            imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalSelected) : new ImageView(fatAnimal);
+                            if (element.getGrassPreferred()) {
+                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalHighlightSelected) : new ImageView(highlightedFatAnimal);
+                            } else {
+                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalSelected) : new ImageView(fatAnimal);
+                            }
                         } else {
-                            imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(animalSelected) : new ImageView(animal);
+                            if (element.getGrassPreferred()) {
+                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(highlightedAnimalSelected) : new ImageView(highlightedAnimal);
+                            } else {
+                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(animalSelected) : new ImageView(animal);
+                            }
                         }
                         break;
                 }

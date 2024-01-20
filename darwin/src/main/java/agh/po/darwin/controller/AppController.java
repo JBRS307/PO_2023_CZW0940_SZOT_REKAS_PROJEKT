@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -44,7 +45,7 @@ public class AppController {
     public ComboBox<String> pickGenome;
     public Button startBtn;
     public Button saveBtn;
-    public Button readBtn;
+    public CheckBox exportCheckBox;
 
     private JSONArray configList;
     private JSONObject currConfig = new JSONObject();
@@ -89,7 +90,8 @@ public class AppController {
                 Integer.parseInt(maxMutations.getText()),
                 Integer.parseInt(genomeLength.getText()),
                 hell,
-                leftRight
+                leftRight,
+                exportCheckBox.isSelected()
         );
         System.out.println("Started new simulation with UUID:" + simulation.uuid);
         //OPEN simulation window
