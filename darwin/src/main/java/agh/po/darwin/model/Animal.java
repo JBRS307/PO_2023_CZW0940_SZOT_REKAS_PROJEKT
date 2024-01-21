@@ -15,6 +15,8 @@ public class Animal implements Comparable<Animal> {
     private String activeGen;
     private MapDirection direction = MapDirection.NORTH;
 
+    private Random randomGenerator = new Random();
+
     private final List<Animal> children = new ArrayList<>();
     public Animal(Vector2d position, Genome genome, int animalsStartEnergy, boolean leftRight) {
         this.uuid = UUID.randomUUID();
@@ -67,10 +69,6 @@ public class Animal implements Comparable<Animal> {
         return genomeLength;
     }
 
-//    public void setLifeTime(int lifeTime) {
-//        this.lifeTime = lifeTime;
-//    }
-
     public int getAmountOfChildren() {
         return amountOfChildren;
     }
@@ -121,9 +119,8 @@ public class Animal implements Comparable<Animal> {
             int upperXBound = map.getCurrentBounds().rightUpperBoundary().getX();
             int upperYBound = map.getCurrentBounds().rightUpperBoundary().getY();
 
-            Random random = new Random();
-            newPos = new Vector2d(random.nextInt(upperXBound+1),
-                                  random.nextInt(upperYBound+1));
+            newPos = new Vector2d(randomGenerator.nextInt(upperXBound+1),
+                                  randomGenerator.nextInt(upperYBound+1));
             energy -= map.getSimulation().breedEnergyCost;
         } else {
             energy -= 1;
@@ -205,7 +202,7 @@ public class Animal implements Comparable<Animal> {
             return Integer.compare(other.amountOfChildren, this.amountOfChildren);
         } else {
             // Random selection among animals
-            return new Random().nextInt(2) == 0 ? -1 : 1;
+            return randomGenerator.nextInt(2) == 0 ? -1 : 1;
         }
     }
 
@@ -240,5 +237,13 @@ public class Animal implements Comparable<Animal> {
 
     public String getActiveGen() {
         return activeGen;
+    }
+
+    public void setDirection(MapDirection direction) { //do testów
+        this.direction = direction;
+    }
+
+    public void setRandomGenerator(Random randomGenerator) {
+        this.randomGenerator = randomGenerator;
     }
 }

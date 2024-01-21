@@ -11,7 +11,7 @@ public class Genome {
     private short direction;
     // Orientacja genu podczas ruchów lewo-prawo
     // 1 - w prawo, -1 - w lewo
-    Random random = new Random();
+    private Random random = new Random();
 
     public Genome(int length, boolean leftRight) {
         //random genome
@@ -116,10 +116,24 @@ public class Genome {
 
     private String generateRandomDigits(int length) {
         StringBuilder sb = new StringBuilder(length);
-        Random random = new Random();
         for (int i = 0; i < length; i++) {
             sb.append(random.nextInt(8)); // Append a random digit (0-7)
         }
         return sb.toString();
+    }
+
+    public int getCurrent() {
+        return this.current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
+    }
+
+    public void setDirection(short direction) {
+        this.direction = direction;
+    }
+    public short getDirection() {
+        return this.direction;
     }
 }

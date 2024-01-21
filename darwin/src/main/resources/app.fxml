@@ -16,7 +16,7 @@
 
     <Label>Wybierz konfigurację</Label>
     <ComboBox fx:id="pickConfig" promptText="-" minWidth="400.0">
-
+        <!-- Wnętrze bloku tworzone jest w kontrolerze -->
     </ComboBox>
 
     <Label text="Szerokość Mapy"/>
