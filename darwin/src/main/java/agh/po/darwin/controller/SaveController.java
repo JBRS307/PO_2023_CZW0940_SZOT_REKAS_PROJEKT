@@ -87,6 +87,7 @@ public class SaveController {
         }
         app.readConfigList();
         app.setConfigurationComboBox();
+        app.pickConfig.getSelectionModel().select(name);
         return true;
 //        System.out.println(configList);
     }
