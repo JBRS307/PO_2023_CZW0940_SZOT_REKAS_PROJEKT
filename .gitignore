@@ -1,7 +1,7 @@
 .idea/
 .gradle/
 build/
-gradlew/
+gradlew
 gradlew.bat
 !**/src/main/**/build/
 !**/src/test/**/build/
