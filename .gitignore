@@ -8,3 +8,4 @@ out/
 !**/src/main/**/out/
 !**/src/main/**/out/
 *.csv
+**/resources/config.json
