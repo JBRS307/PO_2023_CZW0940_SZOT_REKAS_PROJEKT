@@ -49,14 +49,12 @@ public class SaveController {
     }
 
     private int getNameCounter(String name) {
-//        System.out.println(configList);
         int length = configList.length();
         int maxCounter = -1;
         for (int i = 0; i < length; i++) {
-            JSONObject jo = (JSONObject) configList.get(i);
-//            System.out.println(jo);
-            if (jo.get("name").equals(name)) {
-                int counter = Integer.parseInt(jo.get("counter").toString());
+            JSONObject jo = configList.getJSONObject(i);
+            if (jo.getString("name").equals(name)) {
+                int counter = Integer.parseInt(jo.getString("counter"));
                 maxCounter = Math.max(counter, maxCounter);
             }
         }
@@ -69,10 +67,11 @@ public class SaveController {
             return false;
         }
         int counter = getNameCounter(name);
-        currConfig.put("name", name);
-        currConfig.put("counter", counter+"");
+        JSONObject jo = new JSONObject(currConfig.toString());
+        jo.put("name", name);
+        jo.put("counter", counter+"");
 
-        configList.put(currConfig);
+        configList.put(jo);
 
         try {
             File fp = new File("./src/main/resources/config.json");

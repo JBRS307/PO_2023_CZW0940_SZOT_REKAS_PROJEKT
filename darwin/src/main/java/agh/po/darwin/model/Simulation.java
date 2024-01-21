@@ -200,7 +200,7 @@ public class Simulation {
     }
 
     private void writeToCsv() {
-        File fp = new File("./src/main/resources/" + uuid + ".csv");
+        File fp = new File("./src/main/resources/csv/" + uuid + ".csv");
         StringBuilder line = new StringBuilder();
 
         try {

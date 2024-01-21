@@ -83,6 +83,7 @@
     <HBox>
         <Button text="Rozpocznij symulację" fx:id="startBtn" />
         <Button text="Zapisz konfigurację" fx:id="saveBtn" />
+        <Button text="Wyczyść zapisane konfiguracje" fx:id="clearConfigBtn" />
         <CheckBox text="Eksportuj do pliku csv" fx:id="exportCheckBox" />
     </HBox>
 </VBox>

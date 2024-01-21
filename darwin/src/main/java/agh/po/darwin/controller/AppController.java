@@ -22,6 +22,7 @@ import org.json.JSONObject;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +46,7 @@ public class AppController {
     public ComboBox<String> pickGenome;
     public Button startBtn;
     public Button saveBtn;
+    public Button clearConfigBtn;
     public CheckBox exportCheckBox;
 
     private JSONArray configList;
@@ -61,6 +63,11 @@ public class AppController {
         });
         saveBtn.setOnAction(event -> {
             saveConfiguration();
+        });
+        clearConfigBtn.setOnAction(event -> {
+            clearConfigFile();
+            readConfigList();
+            setConfigurationComboBox();
         });
     }
 
@@ -174,6 +181,7 @@ public class AppController {
         int counter = 0;
         if (name.contains("/")) {
             counter = Integer.parseInt(name.substring(name.indexOf('/')+1));
+            name = name.substring(0, name.indexOf('/'));
         }
         for (int i = 0; i < configList.length(); i++) {
             JSONObject jo = configList.getJSONObject(i);
@@ -214,22 +222,24 @@ public class AppController {
         });
     }
 
-    private void currConfigToJSON() {
-        currConfig.clear();
-        currConfig.put("width", width.getText());
-        currConfig.put("height", height.getText());
-        currConfig.put("startingGrassAmount", startingGrassAmount.getText());
-        currConfig.put("grassEatingEnergy", grassEatingEnergy.getText());
-        currConfig.put("grassGrowthPerDay", grassGrowthPerDay.getText());
-        currConfig.put("animalsStartAmount", animalsStartAmount.getText());
-        currConfig.put("animalsStartEnergy", animalsStartEnergy.getText());
-        currConfig.put("fedEnergy", fedEnergy.getText());
-        currConfig.put("breedEnergyCost", breedEnergyCost.getText());
-        currConfig.put("minMutations", minMutations.getText());
-        currConfig.put("maxMutations", maxMutations.getText());
-        currConfig.put("genomeLength", genomeLength.getText());
-        currConfig.put("pickMap", pickMap.getValue());
-        currConfig.put("pickGenome", pickGenome.getValue());
+    private JSONObject currConfigToJSON() {
+        JSONObject jo = new JSONObject(currConfig.toString());
+        jo.clear();
+        jo.put("width", width.getText());
+        jo.put("height", height.getText());
+        jo.put("startingGrassAmount", startingGrassAmount.getText());
+        jo.put("grassEatingEnergy", grassEatingEnergy.getText());
+        jo.put("grassGrowthPerDay", grassGrowthPerDay.getText());
+        jo.put("animalsStartAmount", animalsStartAmount.getText());
+        jo.put("animalsStartEnergy", animalsStartEnergy.getText());
+        jo.put("fedEnergy", fedEnergy.getText());
+        jo.put("breedEnergyCost", breedEnergyCost.getText());
+        jo.put("minMutations", minMutations.getText());
+        jo.put("maxMutations", maxMutations.getText());
+        jo.put("genomeLength", genomeLength.getText());
+        jo.put("pickMap", pickMap.getValue());
+        jo.put("pickGenome", pickGenome.getValue());
+        return jo;
     }
 
     private void saveConfiguration() {
@@ -246,12 +256,24 @@ public class AppController {
             throw new RuntimeException(err);
         }
 
-        currConfigToJSON();
         SaveController saveController = loader.getController();
-        saveController.setCurrConfig(currConfig);
+        saveController.setCurrConfig(currConfigToJSON());
         saveController.setConfigList(configList);
         saveController.setApp(this);
         saveController.initialize();
 
+    }
+
+    private void clearConfigFile() {
+        try {
+            File fp = new File("./src/main/resources/config.json");
+            if(!fp.exists()) return;
+
+            FileWriter fpWriter = new FileWriter(fp);
+            fpWriter.write("[]");
+            fpWriter.close();
+        } catch (IOException err) {
+            throw new RuntimeException(err);
+        }
     }
 }
