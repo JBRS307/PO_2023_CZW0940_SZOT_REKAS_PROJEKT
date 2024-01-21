@@ -76,4 +76,28 @@ public class AnimalTest {
         assertEquals(new Vector2d(4, 4), animal3.getPosition());
     }
 
+    @Test
+    public void defaultMoveTestWithRotation() {
+        when(defaultMapMock.getCurrentBounds()).thenReturn(new Boundary(new Vector2d(0, 0), new Vector2d(10, 10)));
+        when(genomeMock.getCode()).thenReturn("0"); // bez znaczenia co tu jest
+        when(genomeMock.nextInt()).thenReturn(1);
+
+        Animal animal = new Animal(new Vector2d(5, 5), genomeMock, 10, false);
+        animal.setDirection(MapDirection.NORTH);
+        animal.move(defaultMapMock, false);
+
+        assertEquals(new Vector2d(6, 6), animal.getPosition());
+
+        when(genomeMock.nextInt()).thenReturn(7);
+
+        animal.setDirection(MapDirection.NORTH);
+        animal.setPosition(new Vector2d(5, 5));
+        animal.move(defaultMapMock, false);
+
+        assertEquals(new Vector2d(4, 6), animal.getPosition());
+
+
+
+    }
+
 }
