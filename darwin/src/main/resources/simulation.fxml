@@ -49,6 +49,11 @@
                     </HBox>
 
                     <HBox>
+                        <Label>Ilość ruchów: </Label>
+                        <Label fx:id="trackedMoveCount">-</Label>
+                    </HBox>
+
+                    <HBox>
                         <Label>Ile zjadł roślin: </Label>
                         <Label fx:id="tracked_grass_eaten">-</Label>
                     </HBox>

@@ -11,9 +11,11 @@ public class Animal implements Comparable<Animal> {
     private Genome genome;
     private int lifeTime;
     private int grassEaten;
+    private int moveCount = 0;
     private int amountOfChildren;
     private String activeGen;
     private MapDirection direction = MapDirection.NORTH;
+    private boolean moved = false;
 
     private Random randomGenerator = new Random();
 
@@ -98,10 +100,14 @@ public class Animal implements Comparable<Animal> {
     }
 
     public void move(AbstractMap map, boolean hell) {
-        if (hell) {
-            hellMove(map);
-        } else {
-            defaultMove(map);
+        if(!moved) {
+            if (hell) {
+                hellMove(map);
+            } else {
+                defaultMove(map);
+            }
+            moveCount++;
+            moved = true;
         }
     }
 
@@ -237,6 +243,12 @@ public class Animal implements Comparable<Animal> {
 
     }
 
+    public void setMoved(boolean moved) {
+        this.moved = moved;
+    }
+    public int getMoveCount() {
+        return this.moveCount;
+    }
     public int getGrassEaten() {
         return grassEaten;
     }

@@ -23,6 +23,7 @@ public class DefaultMap extends AbstractMap {
                 tiles.put(pos, new MapTile(pos, this));
             }
         }
+        System.out.println(width*height + " " + tiles.size());
     }
 
 //    The simulation of each day consists of the following sequence of steps:
@@ -36,6 +37,7 @@ public class DefaultMap extends AbstractMap {
 
     @Override
     public void update() {
+        performActionOnAllTiles(this::prepareToMove);
         performActionOnAllTiles(this::deleteDead);
         performActionOnAllTiles(this::move);
         performActionOnAllTiles(this::eat);
@@ -96,6 +98,10 @@ public class DefaultMap extends AbstractMap {
 
     private void deleteDead(MapTile mapTile, AbstractMap map) {
         mapTile.deleteDead(map);
+    }
+
+    private void prepareToMove(MapTile mapTile, AbstractMap map) {
+        mapTile.prepareToMove(map);
     }
 
 

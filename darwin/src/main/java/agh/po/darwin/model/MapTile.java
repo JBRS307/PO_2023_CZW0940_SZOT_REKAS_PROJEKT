@@ -66,7 +66,7 @@ public class MapTile {
         this.growCount++;
     }
 
-    public void breed(AbstractMap map) {
+    public synchronized void breed(AbstractMap map) {
 
         List<Animal> toBreed = animals.stream()
                 .filter(animal -> animal.getEnergy() >= map.getSimulation().fedEnergy)
@@ -77,7 +77,7 @@ public class MapTile {
         }
     }
 
-    public void eat(AbstractMap map) {
+    public synchronized void eat(AbstractMap map) {
         if (isThereGrass) animals.stream().max(Comparator.naturalOrder()).ifPresent(animal -> {
             animal.setEnergy(map.getSimulation().grassEatingEnergy + animal.getEnergy());
             animal.setGrassEaten(animal.getGrassEaten()+1);
@@ -86,7 +86,7 @@ public class MapTile {
         });
     }
 
-    public void move(AbstractMap map) {
+    public synchronized void move(AbstractMap map) {
 //        var iter = animals.iterator();
 //        while (iter.hasNext()) {
 //            var animal = iter.next();
@@ -108,7 +108,7 @@ public class MapTile {
 //        }
 //    }
 
-    public void deleteDead(AbstractMap map) {
+    public synchronized void deleteDead(AbstractMap map) {
         var iter = animals.iterator();
         while (iter.hasNext()) {
             var animal = iter.next();
@@ -118,6 +118,12 @@ public class MapTile {
                 map.getSimulation().animalsCount--;
             }
         }
+    }
+
+    public void prepareToMove(AbstractMap map) {
+        animals.forEach(animal -> {
+            animal.setMoved(false);
+        });
     }
 
     public void onClick(Simulation simulation) {
