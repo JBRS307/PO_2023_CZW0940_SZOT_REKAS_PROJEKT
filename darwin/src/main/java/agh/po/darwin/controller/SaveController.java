@@ -67,11 +67,10 @@ public class SaveController {
             return false;
         }
         int counter = getNameCounter(name);
-        JSONObject jo = new JSONObject(currConfig.toString());
-        jo.put("name", name);
-        jo.put("counter", counter+"");
+        currConfig.put("name", name);
+        currConfig.put("counter", counter+"");
 
-        configList.put(jo);
+        configList.put(currConfig);
 
         try {
             File fp = new File("./src/main/resources/config.json");
@@ -87,7 +86,10 @@ public class SaveController {
         }
         app.readConfigList();
         app.setConfigurationComboBox();
-        app.pickConfig.getSelectionModel().select(name);
+        if (counter == 0)
+            app.pickConfig.getSelectionModel().select(name);
+        else
+            app.pickConfig.getSelectionModel().select(name + "/" + counter);
         return true;
 //        System.out.println(configList);
     }
