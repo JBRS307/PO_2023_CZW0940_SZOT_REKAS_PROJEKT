@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Simulation {
@@ -215,7 +217,12 @@ public class Simulation {
     }
 
     private void writeToCsv() {
-        File fp = new File("./src/main/resources/csv/" + uuid + ".csv");
+        try {
+            Files.createDirectories(Paths.get("./csv"));
+        } catch (IOException err) {
+            throw new RuntimeException(err);
+        }
+        File fp = new File("./csv/" + uuid + ".csv");
         StringBuilder line = new StringBuilder();
 
         try {

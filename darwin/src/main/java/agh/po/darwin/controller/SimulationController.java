@@ -37,6 +37,7 @@ public class SimulationController implements MapChangeListener {
     public Label tracked_grass_eaten;
     public Label tracked_lifespan;
     public Label tracked_direction;
+    public Label simDay;
     public Label animalCount;
     public Label grassCount;
     public Label avg_lifespan;
@@ -314,6 +315,7 @@ public class SimulationController implements MapChangeListener {
     }
 
     private void updateSimulationStatistics() {
+        simDay.setText(String.valueOf(simulation.getDay()));
         animalCount.setText(String.valueOf(simulation.getAnimalsCount()));
         grassCount.setText(String.valueOf(simulation.getGrassCount()));
         avg_lifespan.setText(String.valueOf(simulation.getAverageLifeSpan()));

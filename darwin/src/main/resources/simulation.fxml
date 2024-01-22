@@ -76,6 +76,10 @@
                 <VBox>
                     <Label>STATYSTYKI SYMULACJI</Label>
                     <HBox>
+                        <Label>Dzień: </Label>
+                        <Label fx:id="simDay">-</Label>
+                    </HBox>
+                    <HBox>
                         <Label>Liczba zwierzaków: </Label>
                         <Label fx:id="animalCount">-</Label>
                     </HBox>
