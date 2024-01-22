@@ -1,5 +1,9 @@
 package agh.po.darwin.model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class Simulation {
@@ -17,6 +21,8 @@ public class Simulation {
     public final int maxMutations;
     public final int genomeLength;
     public final boolean hell;
+    public final boolean leftRight;
+    public final boolean csvExport;
 
 
     //Statistics
@@ -27,10 +33,6 @@ public class Simulation {
 
 
     protected final List<Animal> animals = new LinkedList<Animal>();
-    private int averageLifeSpan;
-    private int averageEnergy;
-    private int averageCountOfChildren;
-
     protected float speed = 2;
     protected Animal trackedAnimal;
 
@@ -42,7 +44,7 @@ public class Simulation {
 
     public Simulation(int width, int height, int startingGrassAmount, int grassEatingEnergy, int grassGrowthPerDay,
                       int startingAnimalsAmount, int animalsStartEnergy, int fedEnergy, int breedEnergyCost, int minMutations,
-                      int maxMutations, int genomeLength, boolean hell) {
+                      int maxMutations, int genomeLength, boolean hell, boolean leftRight, boolean csvExport) {
         this.uuid = UUID.randomUUID();
         this.width = width;
         this.height = height;
@@ -57,6 +59,8 @@ public class Simulation {
         this.maxMutations = maxMutations;
         this.genomeLength = genomeLength;
         this.hell = hell;
+        this.leftRight = leftRight;
+        this.csvExport = csvExport;
         initializeSimulation();
 
     }
@@ -90,7 +94,7 @@ public class Simulation {
                 i--;
                 continue;
             }
-            var animal = new Animal(randomPos, genomeLength, animalsStartEnergy);
+            var animal = new Animal(randomPos, genomeLength, animalsStartEnergy, leftRight);
             worldMap.place(animal);
             addGenome(animal.getGenome().getCode());
             animals.add(animal);
@@ -112,6 +116,7 @@ public class Simulation {
     }
 
     public synchronized void update() {
+        if(csvExport) writeToCsv();
         worldMap.update();
         day += 1;
     }
@@ -124,6 +129,28 @@ public class Simulation {
         return worldMap;
     }
 
+    public void setGrassPreferredTiles() {
+        List<MapTile> tiles = new ArrayList<>(this.worldMap.getTiles().values());
+        int tilesLength = tiles.size();
+
+//        tiles.sort((t1, t2) -> t2.getGrowCount() - t1.getGrowCount());
+//        long tilesLength = tiles.size();
+//        tilesLength = Math.round(tilesLength * 0.2);
+//        tiles = tiles.subList(0, (int) Math.max(tilesLength-1, 1));
+//        return tiles;
+
+        tiles.sort((t1, t2) -> t2.getGrowCount() - t1.getGrowCount());
+        int preferredTiles = (int) (tilesLength * 0.2);
+
+        for (int i = 0; i < tilesLength; i++) {
+            if (i <= preferredTiles) {
+                tiles.get(i).setGrassPreferred(true);
+            } else {
+                tiles.get(i).setGrassPreferred(false);
+            }
+        }
+    }
+
     public float getSpeed() {
         return speed;
     }
@@ -134,6 +161,10 @@ public class Simulation {
 
     public void setPause(boolean b) {
         this.pause = b;
+    }
+
+    public boolean getPause() {
+        return this.pause;
     }
 
     public long getDay() {
@@ -161,10 +192,37 @@ public class Simulation {
     }
 
     public double getAverageEnergy() {
-        return  animals.stream().filter(animal->animal.getEnergy()>=0).mapToInt(animal->animal.getEnergy()).average().orElse(0);
+        return  animals.stream().filter(animal->animal.getEnergy()>0).mapToInt(animal->animal.getEnergy()).average().orElse(0);
     }
 
     public double getAverageCountOfChildren() {
-        return animals.stream().filter(animal->animal.getEnergy()>=0).mapToInt(animal->animal.getAmountOfChildren()).average().orElse(0);
+        return animals.stream().filter(animal->animal.getEnergy()>0).mapToInt(animal->animal.getAmountOfChildren()).average().orElse(0);
+    }
+
+    private void writeToCsv() {
+        File fp = new File("./src/main/resources/csv/" + uuid + ".csv");
+        StringBuilder line = new StringBuilder();
+
+        try {
+            if(!fp.exists()) fp.createNewFile();
+            FileWriter fpWriter = new FileWriter(fp, true);
+            BufferedWriter bpWriter = new BufferedWriter(fpWriter);
+            if(day == 0) {
+                line.append("dzień, liczba zwierzaków, liczba roślin, średnia energia, średnia długość życia, średnia liczba dzieci\n");
+            }
+
+            line.append(day).append(", ")
+                .append(animalsCount).append(", ")
+                .append(grassCount).append(", ")
+                .append(getAverageEnergy()).append(", ")
+                .append(getAverageLifeSpan()).append(", ")
+                .append(getAverageCountOfChildren()).append("\n");
+
+            bpWriter.write(line.toString());
+            bpWriter.close();
+            fpWriter.close();
+        } catch (IOException err) {
+            throw new RuntimeException(err);
+        }
     }
 }

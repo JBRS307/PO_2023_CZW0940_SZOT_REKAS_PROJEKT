@@ -82,16 +82,29 @@ public enum MapDirection {
         };
     }
 
+//    public int toInt() {
+//        return switch (this) {
+//            case EAST -> 1;
+//            case WEST -> 2;
+//            case NORTH -> 3;
+//            case SOUTH -> 4;
+//            case NORTH_EAST -> 5;
+//            case SOUTH_EAST -> 6;
+//            case NORTH_WEST -> 7;
+//            case SOUTH_WEST -> 8;
+//        };
+//    }
+
     public int toInt() {
         return switch (this) {
-            case EAST -> 1;
-            case WEST -> 2;
-            case NORTH -> 3;
+            case NORTH -> 0;
+            case NORTH_EAST -> 1;
+            case EAST -> 2;
+            case SOUTH_EAST -> 3;
             case SOUTH -> 4;
-            case NORTH_EAST -> 5;
-            case SOUTH_EAST -> 6;
+            case SOUTH_WEST -> 5;
+            case WEST -> 6;
             case NORTH_WEST -> 7;
-            case SOUTH_WEST -> 8;
         };
     }
 

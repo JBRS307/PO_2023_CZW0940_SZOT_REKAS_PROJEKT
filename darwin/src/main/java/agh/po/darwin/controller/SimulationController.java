@@ -23,6 +23,7 @@ public class SimulationController implements MapChangeListener {
     public static final int CELL_SIZE = 25;
     public GridPane mapGrid;
     public Label mapVariant;
+    public Label genomeVariant;
     public Button play;
     public Button pause;
     public Slider speed;
@@ -35,6 +36,7 @@ public class SimulationController implements MapChangeListener {
     public Label tracked_amount_children;
     public Label tracked_grass_eaten;
     public Label tracked_lifespan;
+    public Label tracked_direction;
     public Label avg_lifespan;
     public Label avg_energy;
     public Label avg_children_count;
@@ -58,9 +60,15 @@ public class SimulationController implements MapChangeListener {
      */
     protected void lateInitialize() {
         if(!simulation.hell) {
-            mapVariant.setText(mapVariant.getText() + "MAPA DOMYŚLNA");
+            mapVariant.setText(mapVariant.getText() + "MAPA DOMYŚLNA, ");
         } else {
-            mapVariant.setText(mapVariant.getText() + "PORTAL DO PIEKŁA");
+            mapVariant.setText(mapVariant.getText() + "PORTAL DO PIEKŁA, ");
+        }
+
+        if(!simulation.leftRight) {
+            genomeVariant.setText(genomeVariant.getText() + "Standardowy");
+        } else {
+            genomeVariant.setText(genomeVariant.getText() + "Lewo-Prawo");
         }
         drawMap();
         speed.valueProperty().addListener(
@@ -75,6 +83,8 @@ public class SimulationController implements MapChangeListener {
         pause.setOnAction(event -> {
             drawBarChartOfGenomes();
             simulation.setPause(true);
+            simulation.setGrassPreferredTiles();
+            drawWithHighlights();
         });
         play.setOnAction(event -> {
             simulation.setPause(false);
@@ -114,6 +124,10 @@ public class SimulationController implements MapChangeListener {
         Image grass = new Image(Objects.requireNonNull(getClass().getResource("/grass.png")).toExternalForm(), 100, 100, false, false);
         Image animal = new Image(Objects.requireNonNull(getClass().getResource("/animal.png")).toExternalForm(), 100, 100, false, false);
         Image fatAnimal = new Image(Objects.requireNonNull(getClass().getResource("/fat_animal.png")).toExternalForm(), 100, 100, false, false);
+        Image animalSelected = new Image(Objects.requireNonNull(getClass().getResource("/animalSelected.png")).toExternalForm(), 100, 100, false, false);
+        Image fatAnimalSelected = new Image(Objects.requireNonNull(getClass().getResource("/fat_animalSelected.png")).toExternalForm(), 100, 100, false, false);
+
+
 
         for (int row = 0; row < getSimulation().height; row++) {
             for (int col = 0; col < getSimulation().width; col++) {
@@ -123,10 +137,89 @@ public class SimulationController implements MapChangeListener {
 
                 if (element.toString().equals("grass")) imageView = new ImageView(grass);
                 if (element.toString().equals("animal")) {
-                    imageView = new ImageView(animal);
-                    if(element.getAnimals().peek().getEnergy() >= getSimulation().fedEnergy){
-                    imageView = new ImageView(fatAnimal);
+                    Animal currAnimal;
+                    if (element.getAnimals().contains(simulation.getTrackedAnimal())) {
+                        currAnimal = simulation.getTrackedAnimal();
+                    } else {
+                        currAnimal = element.getAnimals().peek();
                     }
+
+                    if (currAnimal.getEnergy() >= simulation.fedEnergy) {
+                        imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalSelected) : new ImageView(fatAnimal);
+                    } else {
+                        imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(animalSelected) : new ImageView(animal);
+                    }
+                }
+
+                imageView.setOnMouseClicked(event -> {
+                    element.onClick(simulation);
+                });
+
+                imageView.setFitWidth(750 / simulation.width);
+                imageView.setFitHeight(500 / simulation.height);
+                GridPane.setRowIndex(imageView, row);
+                GridPane.setColumnIndex(imageView, col);
+                mapGrid.getChildren().add(imageView);
+
+            }
+        }
+    }
+
+    private synchronized void drawWithHighlights() {
+        for (int i = 0; i < getSimulation().width; i++) {
+            mapGrid.addColumn(i);
+        }
+        for (int i = 0; i < getSimulation().height; i++) {
+            mapGrid.addRow(i);
+        }
+
+        Image dirt = new Image(Objects.requireNonNull(getClass().getResource("/bg.png")).toExternalForm(), 100, 100, false, false);
+        Image grass = new Image(Objects.requireNonNull(getClass().getResource("/grass.png")).toExternalForm(), 100, 100, false, false);
+        Image animal = new Image(Objects.requireNonNull(getClass().getResource("/animal.png")).toExternalForm(), 100, 100, false, false);
+        Image fatAnimal = new Image(Objects.requireNonNull(getClass().getResource("/fat_animal.png")).toExternalForm(), 100, 100, false, false);
+        Image highlightedDirt = new Image(Objects.requireNonNull(getClass().getResource("/BgHighlight.png")).toExternalForm(), 100, 100, false, false);
+        Image highlightedGrass = new Image(Objects.requireNonNull(getClass().getResource("/grassHighlight.png")).toExternalForm(), 100, 100, false, false);
+        Image highlightedAnimal = new Image(Objects.requireNonNull(getClass().getResource("/animalHighlight.png")).toExternalForm(), 100, 100, false, false);
+        Image highlightedFatAnimal = new Image(Objects.requireNonNull(getClass().getResource("/fat_animalHighlight.png")).toExternalForm(), 100, 100, false, false);
+        Image animalSelected = new Image(Objects.requireNonNull(getClass().getResource("/animalSelected.png")).toExternalForm(), 100, 100, false, false);
+        Image fatAnimalSelected = new Image(Objects.requireNonNull(getClass().getResource("/fat_animalSelected.png")).toExternalForm(), 100, 100, false, false);
+        Image highlightedAnimalSelected = new Image(Objects.requireNonNull(getClass().getResource("/animalHighlightSelected.png")).toExternalForm(), 100, 100, false, false);
+        Image fatAnimalHighlightSelected = new Image(Objects.requireNonNull(getClass().getResource("/fat_animalHighlightSelected.png")).toExternalForm(), 100, 100, false, false);
+
+        for (int row = 0; row < getSimulation().height; row++) {
+            for (int col = 0; col < getSimulation().width; col++) {
+                ImageView imageView = new ImageView(dirt);
+                MapTile element = (getSimulation().getWorldMap().at(new Vector2d(col, row)));
+
+                switch (element.toString()) {
+                    case "dirt":
+                        imageView = element.getGrassPreferred() ? new ImageView(highlightedDirt) : new ImageView(dirt);
+                        break;
+                    case "grass":
+                        imageView = element.getGrassPreferred() ? new ImageView(highlightedGrass) : new ImageView(grass);
+                        break;
+                    case "animal":
+                        Animal currAnimal;
+                        if (element.getAnimals().contains(simulation.getTrackedAnimal())) {
+                            currAnimal = simulation.getTrackedAnimal();
+                        } else {
+                            currAnimal = element.getAnimals().peek();
+                        }
+
+                        if (currAnimal.getEnergy() >= simulation.fedEnergy) {
+                            if (element.getGrassPreferred()) {
+                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalHighlightSelected) : new ImageView(highlightedFatAnimal);
+                            } else {
+                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalSelected) : new ImageView(fatAnimal);
+                            }
+                        } else {
+                            if (element.getGrassPreferred()) {
+                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(highlightedAnimalSelected) : new ImageView(highlightedAnimal);
+                            } else {
+                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(animalSelected) : new ImageView(animal);
+                            }
+                        }
+                        break;
                 }
 
                 imageView.setOnMouseClicked(event -> {
@@ -174,6 +267,7 @@ public class SimulationController implements MapChangeListener {
         tracked_lifespan.setText(String.valueOf(animal.getLifeTime()));
         tracked_active_genome.setText(animal.getActiveGen());
         tracked_grass_eaten.setText(String.valueOf(animal.getGrassEaten()));
+        tracked_direction.setText(animal.getDirection().toString());
     }
 
     @Override
@@ -182,7 +276,11 @@ public class SimulationController implements MapChangeListener {
             clearGrid();
             updateTrackedAnimalStatistics();
             updateSimulationStatistics();
-            drawMap();
+            if (simulation.getPause()) {
+                drawWithHighlights();
+            } else {
+                drawMap();
+            }
             animalSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.getAnimalsCount()));
             grassSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.getGrassCount()));
         }

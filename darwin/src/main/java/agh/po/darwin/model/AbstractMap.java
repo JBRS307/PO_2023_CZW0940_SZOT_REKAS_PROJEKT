@@ -14,6 +14,9 @@ public abstract class AbstractMap implements WorldMap {
     protected AbstractMap(Simulation simulation) {
         this.simulation = simulation;
     }
+    public Map<Vector2d, MapTile> getTiles() {
+        return tiles;
+    }
 
     public void registerSubscriber(MapChangeListener mapChangeListener) {
         subscribers.add(mapChangeListener);
@@ -54,14 +57,10 @@ public abstract class AbstractMap implements WorldMap {
     }
 
 
-    public synchronized void moveOnMap(Animal animal, Vector2d newPos) {
+    public synchronized void moveToNewTile(Animal animal, Vector2d newPos) {
         tiles.get(newPos).put(animal);
         tiles.get(animal.getPosition()).remove(animal);
     }
-
-//    public void killAnimal(Animal animal) {
-//        this.tiles.get(animal.getPosition()).remove(animal);
-//    }
 
     public Simulation getSimulation() {
         return simulation;

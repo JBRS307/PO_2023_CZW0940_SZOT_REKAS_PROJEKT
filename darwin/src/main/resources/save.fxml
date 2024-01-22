@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.Button?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      minHeight="100.0" minWidth="400.0"
+      fx:controller="agh.po.darwin.controller.SaveController">
+
+    <Label>Podaj nazwę konfiguracji</Label>
+    <TextField fx:id="configName" text="konfiguracja użytkownika" promptText="Podaj nazwę konfiguracji" />
+    <HBox>
+        <Button text="zapisz" fx:id="saveBtn" />
+        <Button text="anuluj" fx:id="cancelBtn" />
+    </HBox>
+    <Label fx:id="forbiddenChar" text="Niedozwolony znak /" visible="false" />
+</VBox>

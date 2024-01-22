@@ -1,10 +1,13 @@
 .idea/
 .gradle/
 build/
+gradlew
+gradlew.bat
 !**/src/main/**/build/
 !**/src/test/**/build/
 .vscode/
 out/
 !**/src/main/**/out/
 !**/src/main/**/out/
-
+*.csv
+**/resources/config.json

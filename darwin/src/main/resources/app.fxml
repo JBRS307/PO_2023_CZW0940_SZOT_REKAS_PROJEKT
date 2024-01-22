@@ -7,10 +7,17 @@
 <?import javafx.scene.control.ComboBox?>
 <?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.CheckBox?>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
       minHeight="800.0" minWidth="400.0"
       fx:controller="agh.po.darwin.controller.AppController">
+
+    <Label>Wybierz konfigurację</Label>
+    <ComboBox fx:id="pickConfig" promptText="-" minWidth="400.0">
+        <!-- Wnętrze bloku tworzone jest w kontrolerze -->
+    </ComboBox>
 
     <Label text="Szerokość Mapy"/>
     <TextField fx:id="width" promptText="Szerokość Mapy" text="30"/>
@@ -54,15 +61,29 @@
 
     <!--ANIMAL BEHAVIOR VARIANT-->
     <Label text="Wybór mapy" />
-    <ComboBox fx:id="pickMap" promptText="wybierz">
+    <ComboBox fx:id="pickMap">
         <items>
             <FXCollections fx:factory="observableArrayList">
                 <String fx:value="Mapa domyślna" />
                 <String fx:value="Portal do piekła" />
             </FXCollections>
         </items>
-
     </ComboBox>
 
-    <Button text="Start Simulation" fx:id="startBtn"/>
+    <Label text="Wybór zachowania genomu" />
+    <ComboBox fx:id="pickGenome">
+        <items>
+            <FXCollections fx:factory="observableArrayList">
+                <String fx:value="Standardowy" />
+                <String fx:value="Lewo-Prawo" />
+            </FXCollections>
+        </items>
+    </ComboBox>
+
+    <HBox>
+        <Button text="Rozpocznij symulację" fx:id="startBtn" />
+        <Button text="Zapisz konfigurację" fx:id="saveBtn" />
+        <Button text="Wyczyść zapisane konfiguracje" fx:id="clearConfigBtn" />
+        <CheckBox text="Eksportuj do pliku csv" fx:id="exportCheckBox" />
+    </HBox>
 </VBox>

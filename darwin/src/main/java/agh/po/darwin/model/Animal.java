@@ -5,6 +5,7 @@ import java.util.*;
 public class Animal implements Comparable<Animal> {
     private final UUID uuid;
     private final int genomeLength;
+    private final boolean leftRight;
     private Vector2d position;
     private int energy;
     private Genome genome;
@@ -14,17 +15,24 @@ public class Animal implements Comparable<Animal> {
     private String activeGen;
     private MapDirection direction = MapDirection.NORTH;
 
-    private final List<Animal> children = new ArrayList<>();
+    private Random randomGenerator = new Random();
 
-    public Animal(Vector2d position, int genomeLength, int animalsStartEnergy) {
+    private final List<Animal> children = new ArrayList<>();
+    public Animal(Vector2d position, Genome genome, int animalsStartEnergy, boolean leftRight) {
         this.uuid = UUID.randomUUID();
         this.position = position;
-        this.genomeLength = genomeLength;
+        this.genomeLength = genome.getCode().length();
         this.energy = animalsStartEnergy;
         this.lifeTime = 0;
         this.grassEaten = 0;
-        genome = new Genome(genomeLength);
+        this.genome = genome;
+        this.leftRight = leftRight;
     }
+
+    public Animal(Vector2d position, int genomeLength, int animalsStartEnergy, boolean leftRight) {
+        this(position, new Genome(genomeLength, leftRight), animalsStartEnergy, leftRight);
+    }
+
 
     /**
      * Auto Generated Getters and Setters
@@ -33,37 +41,32 @@ public class Animal implements Comparable<Animal> {
     public UUID getUuid() {
         return uuid;
     }
-
+    public MapDirection getDirection() {
+        return direction;
+    }
     public Vector2d getPosition() {
         return position;
     }
-
     public void setPosition(Vector2d position) {
         this.position = position;
     }
-
     public int getEnergy() {
         return energy;
     }
-
     public void setEnergy(int energy) {
         this.energy = energy;
     }
-
     public Genome getGenome() {
         return genome;
     }
-
     public void setGenome(Genome genome) {
         this.genome = genome;
     }
-
     public int getLifeTime() {
         return lifeTime;
     }
-
-    public void setLifeTime(int lifeTime) {
-        this.lifeTime = lifeTime;
+    public int getGenomeLength() {
+        return genomeLength;
     }
 
     public int getAmountOfChildren() {
@@ -116,14 +119,13 @@ public class Animal implements Comparable<Animal> {
             int upperXBound = map.getCurrentBounds().rightUpperBoundary().getX();
             int upperYBound = map.getCurrentBounds().rightUpperBoundary().getY();
 
-            Random random = new Random();
-            newPos = new Vector2d(random.nextInt(upperXBound+1),
-                                  random.nextInt(upperYBound+1));
+            newPos = new Vector2d(randomGenerator.nextInt(upperXBound+1),
+                                  randomGenerator.nextInt(upperYBound+1));
             energy -= map.getSimulation().breedEnergyCost;
         } else {
             energy -= 1;
         }
-        map.moveOnMap(this, newPos);
+        map.moveToNewTile(this, newPos);
         this.position = newPos;
         lifeTime += 1;
     }
@@ -145,7 +147,7 @@ public class Animal implements Comparable<Animal> {
 
         // There are no situations where move would be illegal
         // so usage of MapValidator is needless
-        map.moveOnMap(this, newPos);
+        map.moveToNewTile(this, newPos);
         this.position = newPos;
         energy -= 1;
         lifeTime+=1;
@@ -200,14 +202,14 @@ public class Animal implements Comparable<Animal> {
             return Integer.compare(other.amountOfChildren, this.amountOfChildren);
         } else {
             // Random selection among animals
-            return new Random().nextInt(2) == 0 ? -1 : 1;
+            return randomGenerator.nextInt(2) == 0 ? -1 : 1;
         }
     }
 
 
     public void breed(Animal other, AbstractMap map) {
-        Animal child = new Animal(new Vector2d(this.position.getX(), this.position.getY()), genomeLength, map.getSimulation().breedEnergyCost * 2);
-        child.setGenome(new Genome(this, other, map.getSimulation()));
+        Animal child = new Animal(new Vector2d(this.position.getX(), this.position.getY()), new Genome(this, other, map.getSimulation()), map.getSimulation().breedEnergyCost * 2, this.leftRight);
+//        child.setGenome(new Genome(this, other, map.getSimulation()));
 
         this.amountOfChildren++;
         other.amountOfChildren++;
@@ -235,5 +237,13 @@ public class Animal implements Comparable<Animal> {
 
     public String getActiveGen() {
         return activeGen;
+    }
+
+    public void setDirection(MapDirection direction) { //do testów
+        this.direction = direction;
+    }
+
+    public void setRandomGenerator(Random randomGenerator) {
+        this.randomGenerator = randomGenerator;
     }
 }

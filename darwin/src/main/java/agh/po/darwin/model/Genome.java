@@ -6,12 +6,27 @@ import java.util.Random;
 public class Genome {
     private String code;
     private int current;
-    Random random = new Random();
 
-    public Genome(int length) {
+    private final boolean leftRight;
+    private short direction;
+    // Orientacja genu podczas ruchów lewo-prawo
+    // 1 - w prawo, -1 - w lewo
+    private Random random = new Random();
+
+    public Genome(int length, boolean leftRight) {
         //random genome
         this.code = generateRandomDigits(length);
-        this.current = random.nextInt(0, 8);
+        this.current = random.nextInt(this.code.length());
+        this.leftRight = leftRight;
+
+        if(this.leftRight) {
+            boolean directionRandomizer = (random.nextInt(2) != 0);
+            if (directionRandomizer) {
+                this.direction = 1;
+            } else {
+                this.direction = -1;
+            }
+        }
     }
 
     public Genome(Animal dad, Animal mom, Simulation simulation) {
@@ -37,11 +52,21 @@ public class Genome {
         char[] childGenesArray = childGenes.toCharArray();
         for (int i = 0; i < genesToMutate; i++) {
             int geneIndexToMutate = random.nextInt(childGenesArray.length);
-            char newGene = ("" + random.nextInt(0, 8)).charAt(0);
+            char newGene = ("" + random.nextInt(8)).charAt(0);
             childGenesArray[geneIndexToMutate] = newGene;
         }
         this.code = new String(childGenesArray);
-        this.current = random.nextInt(0, 8);
+        this.current = random.nextInt(this.code.length());
+        this.leftRight = simulation.leftRight;
+
+        if (this.leftRight) {
+            boolean directionRandomizer = (random.nextInt(2) != 0);
+            if (directionRandomizer) {
+                this.direction = 1;
+            } else {
+                this.direction = -1;
+            }
+        }
     }
 
 
@@ -65,17 +90,50 @@ public class Genome {
 //    }
 
     public int nextInt() {
-        int index = Integer.parseInt(String.valueOf(code.charAt((current) % code.length())));
+        if (!this.leftRight) {
+            return nextIntDefault();
+        } else {
+            return nextIntLeftRight();
+        }
+    }
+
+    public int nextIntDefault() {
+        int index = Integer.parseInt(String.valueOf(code.charAt(current)));
         current += 1;
+        current %= this.code.length();
+        return index;
+    }
+
+    public int nextIntLeftRight() {
+        int index = Integer.parseInt(String.valueOf((code.charAt(current))));
+        current += direction;
+        if (current == this.code.length() || current == -1) {
+            direction *= -1;
+            current += direction;
+        }
         return index;
     }
 
     private String generateRandomDigits(int length) {
         StringBuilder sb = new StringBuilder(length);
-        Random random = new Random();
         for (int i = 0; i < length; i++) {
-            sb.append(random.nextInt(0, 8)); // Append a random digit (0-7)
+            sb.append(random.nextInt(8)); // Append a random digit (0-7)
         }
         return sb.toString();
+    }
+
+    public int getCurrent() {
+        return this.current;
+    }
+
+    public void setCurrent(int current) {
+        this.current = current;
+    }
+
+    public void setDirection(short direction) {
+        this.direction = direction;
+    }
+    public short getDirection() {
+        return this.direction;
     }
 }

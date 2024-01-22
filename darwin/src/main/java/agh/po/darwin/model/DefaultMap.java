@@ -98,6 +98,7 @@ public class DefaultMap extends AbstractMap {
         mapTile.deleteDead(map);
     }
 
+
     private void performActionOnAllTiles(TileAction action) {
         var iter = tiles.entrySet().iterator();
         while (iter.hasNext()) {
