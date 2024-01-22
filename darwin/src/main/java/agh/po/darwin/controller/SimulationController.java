@@ -62,9 +62,9 @@ public class SimulationController implements MapChangeListener {
      */
     protected void lateInitialize() {
         if(!simulation.hell) {
-            mapVariant.setText(mapVariant.getText() + "Mapa domyślna, ");
+            mapVariant.setText(mapVariant.getText() + "MAPA DOMYŚLNA, ");
         } else {
-            mapVariant.setText(mapVariant.getText() + "Portal do piekła, ");
+            mapVariant.setText(mapVariant.getText() + "PORTAL DO PIEKŁA, ");
         }
 
         if(!simulation.leftRight) {
