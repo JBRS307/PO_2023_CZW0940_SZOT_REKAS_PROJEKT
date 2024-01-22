@@ -68,8 +68,6 @@ public class Genome {
             }
         }
     }
-
-
     public String getCode() {
         return code;
     }
