@@ -232,7 +232,7 @@ public class Animal implements Comparable<Animal> {
         map.getSimulation().addGenome(child.genome.getCode());
         map.getSimulation().animals.add(child);
 
-        children.add(child);
+        this.children.add(child);
         other.children.add(child);
 
     }
