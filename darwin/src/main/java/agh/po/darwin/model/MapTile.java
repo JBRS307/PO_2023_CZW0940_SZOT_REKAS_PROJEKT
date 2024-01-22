@@ -94,12 +94,24 @@ public class MapTile {
         }
     }
 
+//    public void deleteDead(AbstractMap map) {
+//        var iter = animals.iterator();
+//        while (iter.hasNext()) {
+//            var animal = iter.next();
+//            if (animal.getEnergy() <= 0) {
+//                remove(animal);
+//                map.getSimulation().animalsCount--;
+//            }
+//        }
+//    }
+
     public void deleteDead(AbstractMap map) {
         var iter = animals.iterator();
         while (iter.hasNext()) {
             var animal = iter.next();
             if (animal.getEnergy() <= 0) {
                 remove(animal);
+                map.getSimulation().removeGenome(animal.getGenome().getCode());
                 map.getSimulation().animalsCount--;
             }
         }

@@ -173,6 +173,10 @@ public class Simulation {
         genomeCount.put(genome, genomeCount.getOrDefault(genome, 0)+1);
     }
 
+    public void removeGenome(String genome) {
+        genomeCount.put(genome, genomeCount.getOrDefault(genome, 1)-1);
+    }
+
     public Animal getTrackedAnimal() {
         return trackedAnimal;
     }
