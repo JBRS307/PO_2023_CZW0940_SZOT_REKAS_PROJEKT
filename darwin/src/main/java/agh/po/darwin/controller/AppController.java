@@ -171,7 +171,7 @@ public class AppController {
                 fpScanner.close();
             }
         } catch (IOException err) {
-//            throw new RuntimeException(err);
+            throw new RuntimeException(err);
         }
         if (fileContent.isEmpty()) fileContent = "[]";
         configList = new JSONArray(fileContent);
