@@ -76,6 +76,14 @@
                 <VBox>
                     <Label>STATYSTYKI SYMULACJI</Label>
                     <HBox>
+                        <Label>Liczba zwierzaków: </Label>
+                        <Label fx:id="animalCount">-</Label>
+                    </HBox>
+                    <HBox>
+                        <Label>Ilość trawy: </Label>
+                        <Label fx:id="grassCount">-</Label>
+                    </HBox>
+                    <HBox>
                         <Label>Srednia dlugosc zycia: </Label>
                         <Label fx:id="avg_lifespan">-</Label>
                     </HBox>
