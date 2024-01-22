@@ -302,13 +302,13 @@ public class SimulationController implements MapChangeListener {
     public synchronized void mapChanged(WorldMap worldMap, String message) {
         if (worldMap != null) {
             clearGrid();
-            updateTrackedAnimalStatistics();
-            updateSimulationStatistics();
             if (simulation.getPause()) {
                 drawWithHighlights();
             } else {
                 drawMap();
             }
+            updateTrackedAnimalStatistics();
+            updateSimulationStatistics();
             animalSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.getAnimalsCount()));
             grassSeries.getData().add(new XYChart.Data<>(simulation.getDay(), simulation.getGrassCount()));
         }
