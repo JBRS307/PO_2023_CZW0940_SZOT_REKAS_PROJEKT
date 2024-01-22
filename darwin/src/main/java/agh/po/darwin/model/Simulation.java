@@ -133,12 +133,6 @@ public class Simulation {
         List<MapTile> tiles = new ArrayList<>(this.worldMap.getTiles().values());
         int tilesLength = tiles.size();
 
-//        tiles.sort((t1, t2) -> t2.getGrowCount() - t1.getGrowCount());
-//        long tilesLength = tiles.size();
-//        tilesLength = Math.round(tilesLength * 0.2);
-//        tiles = tiles.subList(0, (int) Math.max(tilesLength-1, 1));
-//        return tiles;
-
         tiles.sort((t1, t2) -> t2.getGrowCount() - t1.getGrowCount());
         int preferredTiles = (int) (tilesLength * 0.2);
 

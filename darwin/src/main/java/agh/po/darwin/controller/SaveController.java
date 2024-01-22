@@ -73,7 +73,7 @@ public class SaveController {
         configList.put(currConfig);
 
         try {
-            File fp = new File("./src/main/resources/config.json");
+            File fp = new File("./config.json");
             if(!fp.exists()) fp.createNewFile();
 
             FileWriter fpWriter = new FileWriter(fp);

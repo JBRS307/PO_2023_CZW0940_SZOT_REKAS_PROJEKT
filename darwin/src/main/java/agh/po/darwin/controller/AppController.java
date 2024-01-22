@@ -158,7 +158,7 @@ public class AppController {
     }
 
     public void readConfigList() {
-        File fp = new File("./src/main/resources/config.json");
+        File fp = new File("./config.json");
         String fileContent = "";
         StringBuilder contentBuilder = new StringBuilder();
         try {
@@ -266,7 +266,7 @@ public class AppController {
 
     private void clearConfigFile() {
         try {
-            File fp = new File("./src/main/resources/config.json");
+            File fp = new File("./config.json");
             if(!fp.exists()) return;
 
             FileWriter fpWriter = new FileWriter(fp);
