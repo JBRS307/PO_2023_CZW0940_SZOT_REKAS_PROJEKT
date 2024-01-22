@@ -46,7 +46,7 @@ public class AnimalTest {
 
         assertEquals(new Vector2d(5, 6), animal1.getPosition());
         assertEquals(new Vector2d(0, 10), animal2.getPosition());
-        assertEquals(new Vector2d(10, 9), animal3.getPosition());
+        assertEquals(new Vector2d(10, 10), animal3.getPosition());
     }
 
     @Test

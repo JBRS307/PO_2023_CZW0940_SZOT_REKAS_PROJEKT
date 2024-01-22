@@ -141,7 +141,7 @@ public class Animal implements Comparable<Animal> {
         // Handling boundary conditions
         if (isOutOfBoundsVertical(newPos, map)) {
             this.direction = reflectVertical(this.direction);
-            newPos = this.position.add(this.direction.toUnitVector());
+            newPos = adjustVerticalBoundary(newPos, map);
         }
         newPos = adjustHorizontalBoundary(newPos, map);
 
@@ -173,6 +173,16 @@ public class Animal implements Comparable<Animal> {
             return new Vector2d(upperXBoundary, pos.getY());
         } else if (pos.getX() > upperXBoundary) {
             return new Vector2d(0, pos.getY());
+        }
+        return pos;
+    }
+
+    private Vector2d adjustVerticalBoundary(Vector2d pos, AbstractMap map) {
+        int upperYBoundary = map.getCurrentBounds().rightUpperBoundary().getY();
+        if (pos.getY() > upperYBoundary) {
+            return new Vector2d(pos.getX(), upperYBoundary);
+        } else if (pos.getY() < 0) {
+            return new Vector2d(pos.getY(), 0);
         }
         return pos;
     }

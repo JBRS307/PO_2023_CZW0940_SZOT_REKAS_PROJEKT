@@ -56,7 +56,7 @@ public class MapTileTest {
         tile.move(mapMock);
 
         assertEquals(new Vector2d(6, 4), animal1.getPosition());
-        assertEquals(new Vector2d(10, 1), animal2.getPosition());
+        assertEquals(new Vector2d(10, 0), animal2.getPosition());
 
     }
 
