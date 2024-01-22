@@ -8,6 +8,8 @@ public class Genome {
     private int current;
 
     private final boolean leftRight;
+
+    private boolean dominantGenome = false;
     private short direction;
     // Orientacja genu podczas ruchów lewo-prawo
     // 1 - w prawo, -1 - w lewo
@@ -76,16 +78,14 @@ public class Genome {
         this.code = code;
     }
 
+    public boolean getDominantGenome() {
+        return this.dominantGenome;
+    }
 
-//    public boolean hasNext() {
-//        return true;
-//    }
+    public void setDominantGenome(boolean dominantGenome) {
+        this.dominantGenome = dominantGenome;
+    }
 
-//    public MapDirection nextDirection() {
-//        int index = Integer.parseInt(String.valueOf(code.charAt((current) % code.length())));
-//        current += 1;
-//        return MapDirection.fromInt(index);
-//    }
 
     public int nextInt() {
         if (!this.leftRight) {

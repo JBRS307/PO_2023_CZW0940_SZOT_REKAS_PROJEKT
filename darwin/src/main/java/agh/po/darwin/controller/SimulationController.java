@@ -86,6 +86,7 @@ public class SimulationController implements MapChangeListener {
             drawBarChartOfGenomes();
             simulation.setPause(true);
             simulation.setGrassPreferredTiles();
+            simulation.setTopGenomes();
             drawWithHighlights();
         });
         play.setOnAction(event -> {
@@ -187,6 +188,14 @@ public class SimulationController implements MapChangeListener {
         Image fatAnimalSelected = new Image(Objects.requireNonNull(getClass().getResource("/fat_animalSelected.png")).toExternalForm(), 100, 100, false, false);
         Image highlightedAnimalSelected = new Image(Objects.requireNonNull(getClass().getResource("/animalHighlightSelected.png")).toExternalForm(), 100, 100, false, false);
         Image fatAnimalHighlightSelected = new Image(Objects.requireNonNull(getClass().getResource("/fat_animalHighlightSelected.png")).toExternalForm(), 100, 100, false, false);
+        Image animalDominant = new Image(Objects.requireNonNull(getClass().getResource("/animalDominant.png")).toExternalForm(), 100, 100, false, false);
+        Image fatAnimalDominant = new Image(Objects.requireNonNull(getClass().getResource("/fat_animalDominant.png")).toExternalForm(), 100, 100, false, false);
+        Image animalSelectedDominant = new Image(Objects.requireNonNull(getClass().getResource("/animalSelectedDominant.png")).toExternalForm(), 100, 100, false, false);
+        Image fatAnimalSelectedDominant = new Image(Objects.requireNonNull(getClass().getResource("/fat_animalSelectedDominant.png")).toExternalForm(), 100, 100, false, false);
+        Image animalHighlightedDominant = new Image(Objects.requireNonNull(getClass().getResource("/animalHighlightDominant.png")).toExternalForm(), 100, 100, false, false);
+        Image fatAnimalHighlightedDominant = new Image(Objects.requireNonNull(getClass().getResource("/fat_animalHighlightDominant.png")).toExternalForm(), 100, 100, false, false);
+        Image animalHighlightedSelectedDominant = new Image(Objects.requireNonNull(getClass().getResource("/animalHighlightSelectedDominant.png")).toExternalForm(), 100, 100, false, false);
+        Image fatAnimalHighlightedSelectedDominant = new Image(Objects.requireNonNull(getClass().getResource("/fat_animalHighlightSelectedDominant.png")).toExternalForm(), 100, 100, false, false);
 
         for (int row = 0; row < getSimulation().height; row++) {
             for (int col = 0; col < getSimulation().width; col++) {
@@ -210,15 +219,31 @@ public class SimulationController implements MapChangeListener {
 
                         if (currAnimal.getEnergy() >= simulation.fedEnergy) {
                             if (element.getGrassPreferred()) {
-                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalHighlightSelected) : new ImageView(highlightedFatAnimal);
+                                if (currAnimal.getGenome().getDominantGenome()){
+                                    imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalHighlightedSelectedDominant) : new ImageView(fatAnimalHighlightedDominant);
+                                } else {
+                                    imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalHighlightSelected) : new ImageView(highlightedFatAnimal);
+                                }
                             } else {
-                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalSelected) : new ImageView(fatAnimal);
+                                if (currAnimal.getGenome().getDominantGenome()) {
+                                    imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalSelectedDominant) : new ImageView(fatAnimalDominant);
+                                } else {
+                                    imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalSelected) : new ImageView(fatAnimal);
+                                }
                             }
                         } else {
                             if (element.getGrassPreferred()) {
-                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(highlightedAnimalSelected) : new ImageView(highlightedAnimal);
+                                if (currAnimal.getGenome().getDominantGenome()) {
+                                    imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(animalHighlightedSelectedDominant) : new ImageView(animalHighlightedDominant);
+                                } else {
+                                    imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(highlightedAnimalSelected) : new ImageView(highlightedAnimal);
+                                }
                             } else {
-                                imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(animalSelected) : new ImageView(animal);
+                                if (currAnimal.getGenome().getDominantGenome()) {
+                                    imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(animalSelectedDominant) : new ImageView(animalDominant);
+                                } else {
+                                    imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(animalSelected) : new ImageView(animal);
+                                }
                             }
                         }
                         break;

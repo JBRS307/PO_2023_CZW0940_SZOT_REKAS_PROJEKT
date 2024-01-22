@@ -193,6 +193,23 @@ public class Simulation {
         return animals.stream().filter(animal->animal.getEnergy()>0).mapToInt(animal->animal.getAmountOfChildren()).average().orElse(0);
     }
 
+    public void setTopGenomes() {
+        int topCounter = Collections.max(genomeCount.values());
+
+        List<String> topGenomes = genomeCount.entrySet().stream()
+                .filter(elem -> elem.getValue() == topCounter)
+                .map(Map.Entry::getKey)
+                .toList();
+
+        animals.forEach(animal -> {
+            if (topGenomes.contains(animal.getGenome().getCode())) {
+                animal.getGenome().setDominantGenome(true);
+            } else {
+                animal.getGenome().setDominantGenome(false);
+            }
+        });
+    }
+
     private void writeToCsv() {
         File fp = new File("./src/main/resources/csv/" + uuid + ".csv");
         StringBuilder line = new StringBuilder();
