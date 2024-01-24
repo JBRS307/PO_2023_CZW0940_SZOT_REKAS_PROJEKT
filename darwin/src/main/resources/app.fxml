@@ -86,4 +86,6 @@
         <Button text="Wyczyść zapisane konfiguracje" fx:id="clearConfigBtn" />
         <CheckBox text="Eksportuj do pliku csv" fx:id="exportCheckBox" />
     </HBox>
+
+    <Label fx:id="errMsg" visible="false" />
 </VBox>

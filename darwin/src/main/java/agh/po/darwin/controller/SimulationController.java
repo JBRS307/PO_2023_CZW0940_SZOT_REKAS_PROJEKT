@@ -149,6 +149,8 @@ public class SimulationController implements MapChangeListener {
                         currAnimal = element.getAnimals().peek();
                     }
 
+                    if (currAnimal == null) continue;
+
                     if (currAnimal.getEnergy() >= simulation.fedEnergy) {
                         imageView = currAnimal.equals(simulation.getTrackedAnimal()) ? new ImageView(fatAnimalSelected) : new ImageView(fatAnimal);
                     } else {
@@ -218,6 +220,8 @@ public class SimulationController implements MapChangeListener {
                         } else {
                             currAnimal = element.getAnimals().peek();
                         }
+
+                        if (currAnimal == null) continue;
 
                         if (currAnimal.getEnergy() >= simulation.fedEnergy) {
                             if (element.getGrassPreferred()) {

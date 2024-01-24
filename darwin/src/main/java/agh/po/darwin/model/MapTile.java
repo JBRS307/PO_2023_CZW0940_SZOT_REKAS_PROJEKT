@@ -87,14 +87,11 @@ public class MapTile {
     }
 
     public synchronized void move(AbstractMap map) {
-//        var iter = animals.iterator();
-//        while (iter.hasNext()) {
-//            var animal = iter.next();
-//            animal.move(map, map.getSimulation().hell);
-//        }
-        animals.forEach(animal -> {
+        var iter = animals.iterator();
+        while (iter.hasNext()) {
+            var animal = iter.next();
             animal.move(map, map.getSimulation().hell);
-        });
+        }
     }
 
 //    public void deleteDead(AbstractMap map) {
@@ -121,9 +118,11 @@ public class MapTile {
     }
 
     public void prepareToMove(AbstractMap map) {
-        animals.forEach(animal -> {
+        var iter = animals.iterator();
+        while (iter.hasNext()) {
+            var animal = iter.next();
             animal.setMoved(false);
-        });
+        }
     }
 
     public void onClick(Simulation simulation) {

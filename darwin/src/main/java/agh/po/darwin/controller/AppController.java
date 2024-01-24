@@ -11,10 +11,7 @@ import javafx.event.EventType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.json.JSONArray;
@@ -48,6 +45,7 @@ public class AppController {
     public Button saveBtn;
     public Button clearConfigBtn;
     public CheckBox exportCheckBox;
+    public Label errMsg;
 
     private JSONArray configList;
     private JSONObject currConfig = new JSONObject();
@@ -71,8 +69,122 @@ public class AppController {
         });
     }
 
+    private boolean inputValidation() {
+        String width = this.width.getText();
+        String height = this.height.getText();
+        String startingGrassAmount = this.startingGrassAmount.getText();
+        String grassEatingEnergy = this.grassEatingEnergy.getText();
+        String grassGrowthPerDay = this.grassGrowthPerDay.getText();
+        String animalsStartAmount = this.animalsStartAmount.getText();
+        String animalsStartEnergy = this.animalsStartEnergy.getText();
+        String fedEnergy = this.fedEnergy.getText();
+        String breedCostEnergy = this.breedEnergyCost.getText();
+        String minMutations = this.minMutations.getText();
+        String maxMutations = this.maxMutations.getText();
+        String genomeLength = this.genomeLength.getText();
+
+        if (width.isEmpty() || height.isEmpty() || startingGrassAmount.isEmpty() ||
+            grassEatingEnergy.isEmpty() || grassGrowthPerDay.isEmpty() || animalsStartAmount.isEmpty() ||
+            animalsStartEnergy.isEmpty() || fedEnergy.isEmpty() || breedCostEnergy.isEmpty() || minMutations.isEmpty() ||
+            maxMutations.isEmpty() || genomeLength.isEmpty()) {
+            errMsg.setText("Żadne pole nie może być puste");
+            errMsg.setVisible(true);
+            return false;
+        }
+
+        try {
+            Integer.parseInt(this.width.getText());
+            Integer.parseInt(this.height.getText());
+            Integer.parseInt(this.startingGrassAmount.getText());
+            Integer.parseInt(this.grassEatingEnergy.getText());
+            Integer.parseInt(this.grassGrowthPerDay.getText());
+            Integer.parseInt(this.animalsStartAmount.getText());
+            Integer.parseInt(this.animalsStartEnergy.getText());
+            Integer.parseInt(this.fedEnergy.getText());
+            Integer.parseInt(this.breedEnergyCost.getText());
+            Integer.parseInt(this.minMutations.getText());
+            Integer.parseInt(this.maxMutations.getText());
+            Integer.parseInt(this.genomeLength.getText());
+
+        } catch (NumberFormatException ignored){
+            errMsg.setText("Wartości muszą być liczbami całkowitymi");
+            errMsg.setVisible(true);
+            return false;
+        }
+        return true;
+
+    }
+
+    private boolean dataValidation() {
+        int width = Integer.parseInt(this.width.getText());
+        int height = Integer.parseInt(this.height.getText());
+        int startingGrassAmount = Integer.parseInt(this.startingGrassAmount.getText());
+        int grassEatingEnergy = Integer.parseInt(this.grassEatingEnergy.getText());
+        int grassGrowthPerDay = Integer.parseInt(this.grassGrowthPerDay.getText());
+        int animalsStartAmount = Integer.parseInt(this.animalsStartAmount.getText());
+        int animalsStartEnergy = Integer.parseInt(this.animalsStartEnergy.getText());
+        int fedEnergy = Integer.parseInt(this.fedEnergy.getText());
+        int breedEnergyCost = Integer.parseInt(this.breedEnergyCost.getText());
+        int minMutations = Integer.parseInt(this.minMutations.getText());
+        int maxMutations = Integer.parseInt(this.maxMutations.getText());
+        int genomeLength = Integer.parseInt(this.genomeLength.getText());
+
+        if (width <= 0 || height <= 0 || fedEnergy <= 0 || genomeLength <= 0) {
+            errMsg.setText("Wysokość, szerokość, energia potrzebna do roznmożenia oraz długość genomu muszą być większe od 0");
+            errMsg.setVisible(true);
+            return false;
+        }
+
+        if (startingGrassAmount < 0 || grassGrowthPerDay < 0 || animalsStartAmount < 0 ||
+            animalsStartEnergy < 0 || minMutations < 0 || maxMutations < 0) {
+            errMsg.setText("Tylko energia za zjedzenie trawy oraz koszt rozmnożenia mogą być mniejsze niż 0");
+            errMsg.setVisible(true);
+            return false;
+        }
+
+        if (animalsStartAmount + startingGrassAmount > width*height) {
+            errMsg.setText("Sumaryczna startowa ilość trawy i zwierząt musi być mniejsza niż ilość pól");
+            errMsg.setVisible(true);
+            return false;
+        }
+
+        if (grassGrowthPerDay > width*height) {
+            errMsg.setText("Dzienny przyrost trawy nie może być większy niż liczba pól");
+            errMsg.setVisible(true);
+            return false;
+        }
+
+        if (minMutations > maxMutations) {
+            errMsg.setText("Minimalna liczba mutacji nie może być większa niż maksymalna liczba mutacji");
+            errMsg.setVisible(true);
+            return false;
+        }
+
+        if (width*height > 2000) {
+            errMsg.setText("Maksymalna ilość pól to 3000");
+            errMsg.setVisible(true);
+            return false;
+        }
+
+        if (width > 700) {
+            errMsg.setText("Maksymalna szerokość to 700");
+            errMsg.setVisible(true);
+            return false;
+        }
+
+        if (height > 500) {
+            errMsg.setText("Maksymalna wysokość to 500");
+            errMsg.setVisible(true);
+            return false;
+        }
+
+        errMsg.setVisible(false);
+        return true;
+    }
 
     private void SpawnNewSimulation() {
+        if (!inputValidation()) return;
+        if (!dataValidation()) return;
         boolean hell = switch (pickMap.getValue()) {
             case "Mapa domyślna" -> false;
             case "Portal do piekła" -> true;

@@ -106,9 +106,11 @@ public class DefaultMap extends AbstractMap {
 
 
     private void performActionOnAllTiles(TileAction action) {
-        tiles.forEach((pos, tile) -> {
+        var iter = tiles.entrySet().iterator();
+        while (iter.hasNext()) {
+            var tile = iter.next().getValue();
             action.perform(tile, this);
-        });
+        }
     }
 
     private interface TileAction {

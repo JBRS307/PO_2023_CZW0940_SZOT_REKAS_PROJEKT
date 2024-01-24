@@ -187,15 +187,15 @@ public class Simulation {
         this.trackedAnimal = trackedAnimal;
     }
 
-    public double getAverageLifeSpan() {
+    public synchronized double getAverageLifeSpan() {
         return  animals.stream().filter(animal->animal.getEnergy()<=0).mapToInt(animal->animal.getLifeTime()).average().orElse(0);
     }
 
-    public double getAverageEnergy() {
+    public synchronized double getAverageEnergy() {
         return  animals.stream().filter(animal->animal.getEnergy()>0).mapToInt(animal->animal.getEnergy()).average().orElse(0);
     }
 
-    public double getAverageCountOfChildren() {
+    public synchronized double getAverageCountOfChildren() {
         return animals.stream().filter(animal->animal.getEnergy()>0).mapToInt(animal->animal.getAmountOfChildren()).average().orElse(0);
     }
 
@@ -207,13 +207,15 @@ public class Simulation {
                 .map(Map.Entry::getKey)
                 .toList();
 
-        animals.forEach(animal -> {
+        var iter = animals.iterator();
+        while(iter.hasNext()) {
+            var animal = iter.next();
             if (topGenomes.contains(animal.getGenome().getCode())) {
                 animal.getGenome().setDominantGenome(true);
             } else {
                 animal.getGenome().setDominantGenome(false);
             }
-        });
+        }
     }
 
     private void writeToCsv() {
