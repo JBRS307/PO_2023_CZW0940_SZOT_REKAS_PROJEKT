@@ -324,8 +324,8 @@ public class SimulationController implements MapChangeListener {
         simDay.setText(String.valueOf(simulation.getDay()));
         animalCount.setText(String.valueOf(simulation.getAnimalsCount()));
         grassCount.setText(String.valueOf(simulation.getGrassCount()));
-        avg_lifespan.setText(String.valueOf(simulation.getAverageLifeSpan()));
-        avg_energy.setText(String.valueOf(simulation.getAverageEnergy()));
-        avg_children_count.setText(String.valueOf(simulation.getAverageCountOfChildren()));
+        avg_lifespan.setText(String.valueOf(Math.round(100*simulation.getAverageLifeSpan())/100.0));
+        avg_energy.setText(String.valueOf(Math.round(100*simulation.getAverageEnergy())/100.0));
+        avg_children_count.setText(String.valueOf(Math.round(100*simulation.getAverageCountOfChildren())/100.0));
     }
 }

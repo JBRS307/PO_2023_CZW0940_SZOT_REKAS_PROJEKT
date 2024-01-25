@@ -29,14 +29,14 @@ public enum MapDirection {
     @Override
     public String toString() {
         return switch (this) {
-            case EAST -> "Wschód";
-            case WEST -> "Zachód";
-            case NORTH -> "Północ";
-            case SOUTH -> "Południe";
-            case NORTH_EAST -> "Północny-Wschód";
-            case SOUTH_EAST -> "Południowy-Wschód";
-            case NORTH_WEST -> "Północny-Zachód";
-            case SOUTH_WEST -> "Południowy-Zachód";
+            case EAST -> "Wschod";
+            case WEST -> "Zachod";
+            case NORTH -> "Polnoc";
+            case SOUTH -> "Poludnie";
+            case NORTH_EAST -> "Polnocny-Wschod";
+            case SOUTH_EAST -> "Poludniowy-Wschod";
+            case NORTH_WEST -> "Polnocny-Zachod";
+            case SOUTH_WEST -> "Poludniowy-Zachod";
         };
     }
     public static MapDirection fromVector(Vector2d vector) {

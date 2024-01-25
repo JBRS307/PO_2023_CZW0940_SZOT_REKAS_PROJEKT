@@ -87,7 +87,7 @@ public class AppController {
             grassEatingEnergy.isEmpty() || grassGrowthPerDay.isEmpty() || animalsStartAmount.isEmpty() ||
             animalsStartEnergy.isEmpty() || fedEnergy.isEmpty() || breedCostEnergy.isEmpty() || minMutations.isEmpty() ||
             maxMutations.isEmpty() || genomeLength.isEmpty()) {
-            errMsg.setText("Żadne pole nie może być puste");
+            errMsg.setText("Zadne pole nie moze być puste");
             errMsg.setVisible(true);
             return false;
         }
@@ -107,7 +107,7 @@ public class AppController {
             Integer.parseInt(this.genomeLength.getText());
 
         } catch (NumberFormatException ignored){
-            errMsg.setText("Wartości muszą być liczbami całkowitymi");
+            errMsg.setText("Wartosci musza byc liczbami całkowitymi");
             errMsg.setVisible(true);
             return false;
         }
@@ -130,50 +130,50 @@ public class AppController {
         int genomeLength = Integer.parseInt(this.genomeLength.getText());
 
         if (width <= 0 || height <= 0 || fedEnergy <= 0 || genomeLength <= 0) {
-            errMsg.setText("Wysokość, szerokość, energia potrzebna do roznmożenia oraz długość genomu muszą być większe od 0");
+            errMsg.setText("Wysokosc, szerokosc, energia potrzebna do roznmozenia oraz dlugosc genomu musza byc wieksze od 0");
             errMsg.setVisible(true);
             return false;
         }
 
         if (startingGrassAmount < 0 || grassGrowthPerDay < 0 || animalsStartAmount < 0 ||
             animalsStartEnergy < 0 || minMutations < 0 || maxMutations < 0) {
-            errMsg.setText("Tylko energia za zjedzenie trawy oraz koszt rozmnożenia mogą być mniejsze niż 0");
+            errMsg.setText("Tylko energia za zjedzenie trawy oraz koszt rozmnozenia moga być mniejsze niż 0");
             errMsg.setVisible(true);
             return false;
         }
 
         if (animalsStartAmount + startingGrassAmount > width*height) {
-            errMsg.setText("Sumaryczna startowa ilość trawy i zwierząt musi być mniejsza niż ilość pól");
+            errMsg.setText("Sumaryczna startowa ilość trawy i zwierzat musi być mniejsza niż ilosc pol");
             errMsg.setVisible(true);
             return false;
         }
 
         if (grassGrowthPerDay > width*height) {
-            errMsg.setText("Dzienny przyrost trawy nie może być większy niż liczba pól");
+            errMsg.setText("Dzienny przyrost trawy nie może być wiekszy niż liczba pol");
             errMsg.setVisible(true);
             return false;
         }
 
         if (minMutations > maxMutations) {
-            errMsg.setText("Minimalna liczba mutacji nie może być większa niż maksymalna liczba mutacji");
+            errMsg.setText("Minimalna liczba mutacji nie może być wieksza niż maksymalna liczba mutacji");
             errMsg.setVisible(true);
             return false;
         }
 
         if (width*height > 2000) {
-            errMsg.setText("Maksymalna ilość pól to 3000");
+            errMsg.setText("Maksymalna ilosc pól to 3000");
             errMsg.setVisible(true);
             return false;
         }
 
         if (width > 700) {
-            errMsg.setText("Maksymalna szerokość to 700");
+            errMsg.setText("Maksymalna szerokosc to 700");
             errMsg.setVisible(true);
             return false;
         }
 
         if (height > 500) {
-            errMsg.setText("Maksymalna wysokość to 500");
+            errMsg.setText("Maksymalna wysokosc to 500");
             errMsg.setVisible(true);
             return false;
         }
