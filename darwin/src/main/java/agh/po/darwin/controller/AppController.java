@@ -186,8 +186,8 @@ public class AppController {
         if (!inputValidation()) return;
         if (!dataValidation()) return;
         boolean hell = switch (pickMap.getValue()) {
-            case "Mapa domyślna" -> false;
-            case "Portal do piekła" -> true;
+            case "Mapa domyslna" -> false;
+            case "Portal do piekla" -> true;
             default -> throw new IllegalStateException("Unexpected value: " + pickMap.getValue()); // średnio to potrzebne, bo da się wybrać tylko te wartości, ale na mnie krzyczy
         };                                                                                         // więc niech ma
         boolean leftRight = switch (pickGenome.getValue()) {

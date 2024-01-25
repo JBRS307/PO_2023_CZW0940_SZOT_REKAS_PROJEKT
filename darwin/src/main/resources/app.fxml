@@ -64,8 +64,8 @@
     <ComboBox fx:id="pickMap">
         <items>
             <FXCollections fx:factory="observableArrayList">
-                <String fx:value="Mapa domyślna" />
-                <String fx:value="Portal do piekła" />
+                <String fx:value="Mapa domyslna" />
+                <String fx:value="Portal do piekla" />
             </FXCollections>
         </items>
     </ComboBox>
